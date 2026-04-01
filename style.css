@@ -53,3 +53,16 @@ body {
 .delta.down { color: #d63031; } /* Czerwony dla spadku */
 .chart-item { padding: 20px; border: 1px solid #f0f0f0; border-radius: 10px; }
 h2 { text-align: center; color: #333; margin-bottom: 30px; }
+
+#status-dot {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e74c3c;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    z-index: 1000;
+}

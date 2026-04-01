@@ -1,85 +1,117 @@
-async function init() {
-    try {
+const Dashboard = (() => {
+    async function loadData() {
         const res = await fetch('dashboard_data.json');
-        const data = await res.json();
-        const cur = data.current;
+        return res.json();
+    }
 
-        // 1. Dane liczbowe
-        if(document.getElementById('total-val'))
-            document.getElementById('total-val').innerText = cur.total_value.toLocaleString() + ' PLN';
+    function renderKPIs(cur, deltaWow) {
+        const set = (id, text) => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = text;
+        };
 
-        if(document.getElementById('win-rate'))
-            document.getElementById('win-rate').innerText = cur.win_rate + '%';
+        set('total-val', cur.total_value.toLocaleString() + ' PLN');
+        set('win-rate', cur.win_rate + '%');
+        set('pipe-count', cur.pipeline_count);
+        set('median-days', cur.median_days + ' dni');
+        set('mrr-val', cur.mrr_total.toLocaleString() + ' PLN');
 
-        if(document.getElementById('pipe-count'))
-            document.getElementById('pipe-count').innerText = cur.pipeline_count;
-
-        if(document.getElementById('median-days'))
-            document.getElementById('median-days').innerText = cur.median_days + ' dni';
-
-        if(document.getElementById('mrr-val'))
-            document.getElementById('mrr-val').innerText = cur.mrr_total.toLocaleString() + ' PLN';
-
-        // 2. Obsługa wskaźnika WoW
         const deltaContainer = document.getElementById('value-delta');
-        if (deltaContainer && data.delta_wow_value !== undefined) {
-            if (data.delta_wow_value > 0) {
-                deltaContainer.innerHTML = `<span class="delta up">▲ +${data.delta_wow_value.toLocaleString()} PLN</span>`;
-            } else if (data.delta_wow_value < 0) {
-                deltaContainer.innerHTML = `<span class="delta down">▼ ${data.delta_wow_value.toLocaleString()} PLN</span>`;
+        if (deltaContainer && deltaWow !== undefined) {
+            if (deltaWow > 0) {
+                deltaContainer.innerHTML = `<span class="delta up">▲ +${deltaWow.toLocaleString()} PLN</span>`;
+            } else if (deltaWow < 0) {
+                deltaContainer.innerHTML = `<span class="delta down">▼ ${deltaWow.toLocaleString()} PLN</span>`;
             }
         }
-
-        // 3. Wykresy
-        this.renderCharts(cur);
-
-    } catch (error) {
-        console.error("Błąd ładowania danych dashboardu:", error);
     }
-}
 
-function renderCharts(cur) {
-    // Trend Chart
-    new Chart(document.getElementById('trendChart'), {
-        type: 'line',
-        data: {
-            labels: Object.keys(cur.trend),
-            datasets: [{
-                label: 'Liczba nowych deali',
-                data: Object.values(cur.trend),
-                borderColor: '#0055ff',
-                backgroundColor: 'rgba(0, 85, 255, 0.1)',
-                fill: true,
-                tension: 0.3
-            }]
+    function renderCharts(cur) {
+        new Chart(document.getElementById('trendChart'), {
+            type: 'line',
+            data: {
+                labels: Object.keys(cur.trend),
+                datasets: [{
+                    label: 'Liczba nowych deali',
+                    data: Object.values(cur.trend),
+                    borderColor: '#0055ff',
+                    backgroundColor: 'rgba(0, 85, 255, 0.1)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('partnerChart'), {
+            type: 'pie',
+            data: {
+                labels: Object.keys(cur.partners),
+                datasets: [{
+                    data: Object.values(cur.partners),
+                    backgroundColor: ['#0055ff', '#00d4ff', '#a29bfe']
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('industryChart'), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(cur.industries),
+                datasets: [{
+                    label: 'Wartość (PLN)',
+                    data: Object.values(cur.industries),
+                    backgroundColor: '#4bc0c0'
+                }]
+            },
+            options: { indexAxis: 'y' }
+        });
+    }
+
+    async function init() {
+        try {
+            const data = await loadData();
+            renderKPIs(data.current, data.delta_wow_value);
+            renderCharts(data.current);
+        } catch (error) {
+            console.error("Błąd ładowania danych dashboardu:", error);
         }
-    });
+    }
 
-    // Partner Chart
-    new Chart(document.getElementById('partnerChart'), {
-        type: 'pie',
-        data: {
-            labels: Object.keys(cur.partners),
-            datasets: [{
-                data: Object.values(cur.partners),
-                backgroundColor: ['#0055ff', '#00d4ff', '#a29bfe']
-            }]
-        }
-    });
+    return { init };
+})();
 
-    // Industry Chart
-    new Chart(document.getElementById('industryChart'), {
-        type: 'bar',
-        data: {
-            labels: Object.keys(cur.industries),
-            datasets: [{
-                label: 'Wartość (PLN)',
-                data: Object.values(cur.industries),
-                backgroundColor: '#4bc0c0'
-            }]
-        },
-        options: { indexAxis: 'y' }
-    });
-}
+const StatusDot = (() => {
+    function randomColor() {
+        return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, '0');
+    }
 
-init();
+    function init() {
+        const dot = document.getElementById('status-dot');
+        if (!dot) return;
+
+        let baseColor = '#e74c3c';
+        dot.style.backgroundColor = baseColor;
+
+        dot.addEventListener('mouseenter', () => {
+            dot.style.backgroundColor = '#27ae60';
+        });
+
+        dot.addEventListener('mouseleave', () => {
+            dot.style.backgroundColor = baseColor;
+        });
+
+        dot.addEventListener('mousedown', () => {
+            dot.style.backgroundColor = '#f1c40f';
+        });
+
+        dot.addEventListener('mouseup', () => {
+            baseColor = randomColor();
+            dot.style.backgroundColor = baseColor;
+        });
+    }
+
+    return { init };
+})();
+
+Dashboard.init();
+StatusDot.init();

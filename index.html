@@ -2,23 +2,43 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Raport Branżowy - Dashboard</title>
+    <title>Kadro - Sales Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 </head>
 <body>
-    <h1>Dashboard Analizy Danych</h1>
-    <div class="dashboard">
-        <div class="chart-container">
-            <h2>Udział wg Miast (City)</h2>
-            <canvas id="cityChart"></canvas>
+    <header>
+        <h1>Sales Funnel Dashboard - Grupa Pracuj</h1>
+        <div class="tabs">
+            <button onclick="showView('director')">Executive (Director)</button>
+            <button onclick="showView('manager')">Operacyjny (Manager)</button>
         </div>
-        <div class="chart-container">
-            <h2>Udział wg Branży (Company industry)</h2>
-            <canvas id="industryChart"></canvas>
-        </div>
-    </div>
+    </header>
+
+    <main id="main-content">
+        <section id="director-view" class="view">
+            <div class="kpi-grid">
+                <div class="card"><h3>Total Campaign Value</h3><p id="total-value">0 PLN</p></div>
+                <div class="card"><h3>Global Win Rate</h3><p id="win-rate">0%</p></div>
+                <div class="card"><h3>MRR Growth</h3><p id="mrr-stat">0 PLN</p></div>
+            </div>
+            <div class="charts-row">
+                <div class="chart-box"><h3>Partner Split</h3><canvas id="partnerChart"></canvas></div>
+                <div class="chart-box"><h3>Revenue per Industry</h3><canvas id="industryChart"></canvas></div>
+            </div>
+        </section>
+
+        <section id="manager-view" class="view" style="display:none;">
+            <div class="kpi-grid">
+                <div class="card"><h3>Pipeline Size</h3><p id="pipe-count">0</p></div>
+                <div class="card"><h3>Median Sales Cycle</h3><p id="median-days">0 dni</p></div>
+            </div>
+            <div class="chart-box full-width">
+                <h3>Monthly Deal Intake (WoW/MoM Analysis)</h3>
+                <canvas id="trendChart"></canvas>
+            </div>
+        </section>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>

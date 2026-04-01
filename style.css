@@ -1,23 +1,127 @@
+/* Podstawowe ustawienia i kolory (inspirowane biznesowym lookiem) */
+:root {
+    --primary-blue: #0055ff;
+    --dark-blue: #0033aa;
+    --bg-gray: #f4f7f9;
+    --text-dark: #2d3436;
+    --white: #ffffff;
+    --success: #27ae60;
+    --danger: #d63031;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    text-align: center;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-gray);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 0;
 }
 
-.dashboard {
+header {
+    background: var(--white);
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #ddd;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
 }
 
-.chart-container {
-    background: white;
-    padding: 20px;
+h1 { margin: 0; font-size: 1.4rem; color: var(--dark-blue); }
+
+/* Nawigacja między widokami */
+.tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.tabs button {
+    padding: 10px 20px;
+    border: none;
+    background: #e1e8ed;
+    color: var(--text-dark);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.tabs button:hover { background: #d1d9e0; }
+
+.tabs button.active {
+    background: var(--primary-blue);
+    color: var(--white);
+}
+
+/* Siatka KPI (Karty liczbowe) */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 2rem;
+}
+
+.card {
+    background: var(--white);
+    padding: 1.5rem;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    width: 450px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    border-top: 4px solid var(--primary-blue);
 }
 
-h2 { color: #333; }
+.card h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #636e72;
+    text-transform: uppercase;
+}
+
+.card p {
+    margin: 10px 0 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--dark-blue);
+}
+
+/* Sekcja z wykresami */
+.charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    padding: 0 2rem 2rem;
+}
+
+.chart-box {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+.chart-box h3 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.full-width { grid-column: 1 / -1; }
+
+/* Dynamiczne wskaźniki zmiany (WoW/MoM) */
+.delta {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.delta.up { color: var(--success); }
+.delta.down { color: var(--danger); }
+
+/* Responsywność dla mniejszych ekranów */
+@media (max-width: 768px) {
+    .charts-row { grid-template-columns: 1fr; }
+    header { flex-direction: column; gap: 15px; }
+}

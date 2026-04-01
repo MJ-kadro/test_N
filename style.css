@@ -21,8 +21,8 @@ body {
 
 .kpi-row {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
     margin-bottom: 30px;
 }
 
@@ -42,6 +42,14 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 30px;
 }
+.delta {
+    display: block;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    font-weight: 600;
+}
 
+.delta.up { color: #27ae60; }   /* Zielony dla wzrostu */
+.delta.down { color: #d63031; } /* Czerwony dla spadku */
 .chart-item { padding: 20px; border: 1px solid #f0f0f0; border-radius: 10px; }
 h2 { text-align: center; color: #333; margin-bottom: 30px; }

@@ -1,25 +1,54 @@
-<div class="dashboard-container">
-    <h2>Raport Executive - Grupa Pracuj</h2>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Kadro Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Raport Executive - Grupa Pracuj</h2>
 
-    <div class="kpi-row">
-        <div class="kpi-card"><h4>Suma Deal Value</h4><p id="total-val">-</p></div>
-        <div class="kpi-card"><h4>Global Win Rate</h4><p id="win-rate">-</p></div>
-        <div class="kpi-card"><h4>Deale w lejku</h4><p id="pipe-count">-</p></div>
-        <div class="kpi-card"><h4>Cykl sprzedaży (mediana)</h4><p id="median-days">-</p></div>
-    </div>
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <h4>Suma Deal Value</h4>
+                <p id="total-val">-</p>
+                <div id="value-delta"></div>
+            </div>
+            <div class="kpi-card">
+                <h4>Global Win Rate</h4>
+                <p id="win-rate">-</p>
+            </div>
+            <div class="kpi-card">
+                <h4>MRR (Suma)</h4>
+                <p id="mrr-val">-</p>
+            </div>
+            <div class="kpi-card">
+                <h4>Deale w lejku</h4>
+                <p id="pipe-count">-</p>
+            </div>
+            <div class="kpi-card">
+                <h4>Cykl sprzedaży (mediana)</h4>
+                <p id="median-days">-</p>
+            </div>
+        </div>
 
-    <div class="charts-grid">
-        <div class="chart-item">
-            <h3>Podział na Partnerów</h3>
-            <canvas id="partnerChart"></canvas>
-        </div>
-        <div class="chart-item">
-            <h3>Przychody wg Branży</h3>
-            <canvas id="industryChart"></canvas>
-        </div>
-        <div class="chart-item" style="grid-column: span 2;">
-            <h3>Trend Pozyskiwania Leadów (Miesięcznie)</h3>
-            <canvas id="trendChart"></canvas>
+        <div class="charts-grid">
+            <div class="chart-item">
+                <h3>Podział na Partnerów</h3>
+                <canvas id="partnerChart"></canvas>
+            </div>
+            <div class="chart-item">
+                <h3>Przychody wg Branży</h3>
+                <canvas id="industryChart"></canvas>
+            </div>
+            <div class="chart-item" style="grid-column: span 2;">
+                <h3>Trend Pozyskiwania Leadów (Miesięcznie)</h3>
+                <canvas id="trendChart"></canvas>
+            </div>
         </div>
     </div>
-</div>
+    <script src="script.js"></script>
+</body>
+</html>

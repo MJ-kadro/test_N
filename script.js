@@ -1,34 +1,45 @@
 async function init() {
-    // 1. Pobieranie danych
-    const res = await fetch('dashboard_data.json');
-    const data = await res.json();
-    const cur = data.current;
+    try {
+        const res = await fetch('dashboard_data.json');
+        const data = await res.json();
+        const cur = data.current;
 
-    // 2. Obsługa danych liczbowych (KPI)
-    // Punkt 2: Suma Deal Value
-    document.getElementById('total-val').innerText = cur.total_value.toLocaleString() + ' PLN';
+        // 1. Dane liczbowe
+        if(document.getElementById('total-val'))
+            document.getElementById('total-val').innerText = cur.total_value.toLocaleString() + ' PLN';
 
-    // Punkt 3: MRR (z dodaniem wskaźnika zmiany pod spodem, jeśli masz deltę w JSON)
-    document.getElementById('mrr-val').innerText = cur.mrr_total.toLocaleString() + ' PLN';
+        if(document.getElementById('win-rate'))
+            document.getElementById('win-rate').innerText = cur.win_rate + '%';
 
-    // Punkt 4: Global Win Rate
-    document.getElementById('win-rate').innerText = cur.win_rate + '%';
+        if(document.getElementById('pipe-count'))
+            document.getElementById('pipe-count').innerText = cur.pipeline_count;
 
-    // Punkt 8: Liczba deali w lejku
-    document.getElementById('pipe-count').innerText = cur.pipeline_count;
+        if(document.getElementById('median-days'))
+            document.getElementById('median-days').innerText = cur.median_days + ' dni';
 
-    // Punkt 7: Mediana czasu zamknięcia
-    document.getElementById('median-days').innerText = cur.median_days + ' dni';
+        if(document.getElementById('mrr-val'))
+            document.getElementById('mrr-val').innerText = cur.mrr_total.toLocaleString() + ' PLN';
 
-    // Obsługa wskaźnika zmiany (WoW) dla Total Value (Twój wymóg przepływu danych)
-    const deltaContainer = document.getElementById('value-delta');
-    if (data.delta_wow_value > 0) {
-        deltaContainer.innerHTML = `<span class="delta up">▲ +${data.delta_wow_value.toLocaleString()} PLN vs ost. tydzień</span>`;
-    } else if (data.delta_wow_value < 0) {
-        deltaContainer.innerHTML = `<span class="delta down">▼ ${data.delta_wow_value.toLocaleString()} PLN vs ost. tydzień</span>`;
+        // 2. Obsługa wskaźnika WoW
+        const deltaContainer = document.getElementById('value-delta');
+        if (deltaContainer && data.delta_wow_value !== undefined) {
+            if (data.delta_wow_value > 0) {
+                deltaContainer.innerHTML = `<span class="delta up">▲ +${data.delta_wow_value.toLocaleString()} PLN</span>`;
+            } else if (data.delta_wow_value < 0) {
+                deltaContainer.innerHTML = `<span class="delta down">▼ ${data.delta_wow_value.toLocaleString()} PLN</span>`;
+            }
+        }
+
+        // 3. Wykresy
+        this.renderCharts(cur);
+
+    } catch (error) {
+        console.error("Błąd ładowania danych dashboardu:", error);
     }
+}
 
-    // 3. Wykres Trendu (Punkt 1: Ilość pozyskanych deali)
+function renderCharts(cur) {
+    // Trend Chart
     new Chart(document.getElementById('trendChart'), {
         type: 'line',
         data: {
@@ -41,24 +52,10 @@ async function init() {
                 fill: true,
                 tension: 0.3
             }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: { display: true, text: 'Trend pozyskiwania deali (Miesięcznie)' },
-                tooltip: {
-                    callbacks: {
-                        // Tutaj można dopisać logikę obliczania % zmiany w tooltipie
-                        label: function(context) {
-                            return `Ilość: ${context.raw}`;
-                        }
-                    }
-                }
-            }
         }
     });
 
-    // 4. Wykres Partnerów (Punkt 5)
+    // Partner Chart
     new Chart(document.getElementById('partnerChart'), {
         type: 'pie',
         data: {
@@ -67,31 +64,21 @@ async function init() {
                 data: Object.values(cur.partners),
                 backgroundColor: ['#0055ff', '#00d4ff', '#a29bfe']
             }]
-        },
-        options: {
-            plugins: {
-                title: { display: true, text: 'Udział Partnerów (eRecruiter vs Pracuj.pl)' }
-            }
         }
     });
 
-    // 5. Wykres Branż (Punkt 6: Revenue per Industry)
+    // Industry Chart
     new Chart(document.getElementById('industryChart'), {
         type: 'bar',
         data: {
             labels: Object.keys(cur.industries),
             datasets: [{
-                label: 'Wartość deali (PLN)',
+                label: 'Wartość (PLN)',
                 data: Object.values(cur.industries),
                 backgroundColor: '#4bc0c0'
             }]
         },
-        options: {
-            indexAxis: 'y', // Wykres poziomy lepiej wygląda dla branż
-            plugins: {
-                title: { display: true, text: 'Przychody według Branży' }
-            }
-        }
+        options: { indexAxis: 'y' }
     });
 }
 

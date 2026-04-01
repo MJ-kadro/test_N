@@ -1,44 +1,25 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>Kadro - Sales Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <header>
-        <h1>Sales Funnel Dashboard - Grupa Pracuj</h1>
-        <div class="tabs">
-            <button onclick="showView('director')">Executive (Director)</button>
-            <button onclick="showView('manager')">Operacyjny (Manager)</button>
+<div class="dashboard-container">
+    <h2>Raport Executive - Grupa Pracuj</h2>
+
+    <div class="kpi-row">
+        <div class="kpi-card"><h4>Suma Deal Value</h4><p id="total-val">-</p></div>
+        <div class="kpi-card"><h4>Global Win Rate</h4><p id="win-rate">-</p></div>
+        <div class="kpi-card"><h4>Deale w lejku</h4><p id="pipe-count">-</p></div>
+        <div class="kpi-card"><h4>Cykl sprzedaży (mediana)</h4><p id="median-days">-</p></div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-item">
+            <h3>Podział na Partnerów</h3>
+            <canvas id="partnerChart"></canvas>
         </div>
-    </header>
-
-    <main id="main-content">
-        <section id="director-view" class="view">
-            <div class="kpi-grid">
-                <div class="card"><h3>Total Campaign Value</h3><p id="total-value">0 PLN</p></div>
-                <div class="card"><h3>Global Win Rate</h3><p id="win-rate">0%</p></div>
-                <div class="card"><h3>MRR Growth</h3><p id="mrr-stat">0 PLN</p></div>
-            </div>
-            <div class="charts-row">
-                <div class="chart-box"><h3>Partner Split</h3><canvas id="partnerChart"></canvas></div>
-                <div class="chart-box"><h3>Revenue per Industry</h3><canvas id="industryChart"></canvas></div>
-            </div>
-        </section>
-
-        <section id="manager-view" class="view" style="display:none;">
-            <div class="kpi-grid">
-                <div class="card"><h3>Pipeline Size</h3><p id="pipe-count">0</p></div>
-                <div class="card"><h3>Median Sales Cycle</h3><p id="median-days">0 dni</p></div>
-            </div>
-            <div class="chart-box full-width">
-                <h3>Monthly Deal Intake (WoW/MoM Analysis)</h3>
-                <canvas id="trendChart"></canvas>
-            </div>
-        </section>
-    </main>
-    <script src="script.js"></script>
-</body>
-</html>
+        <div class="chart-item">
+            <h3>Przychody wg Branży</h3>
+            <canvas id="industryChart"></canvas>
+        </div>
+        <div class="chart-item" style="grid-column: span 2;">
+            <h3>Trend Pozyskiwania Leadów (Miesięcznie)</h3>
+            <canvas id="trendChart"></canvas>
+        </div>
+    </div>
+</div>

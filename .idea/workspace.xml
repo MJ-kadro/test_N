@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="386a553a-ec28-463c-ae50-c47106008c92" name="Changes" comment="first dashbaord">
+    <list default="true" id="386a553a-ec28-463c-ae50-c47106008c92" name="Changes" comment="First dashboard">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard_data.json" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard_data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/basic_data0504.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/basic_data_0504.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/process_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/process_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/process_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
@@ -65,6 +67,9 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/data" />
+    </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -113,12 +118,21 @@
       <option name="project" value="LOCAL" />
       <updated>1775031331632</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="First dashboard">
+      <option name="closed" value="true" />
+      <created>1775034914831</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1775034914831</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="firts commit" />
     <MESSAGE value="first dashbaord" />
-    <option name="LAST_COMMIT_MESSAGE" value="first dashbaord" />
+    <MESSAGE value="First dashboard" />
+    <option name="LAST_COMMIT_MESSAGE" value="First dashboard" />
   </component>
 </project>

@@ -1,55 +1,115 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>Kadro Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kadromierz × Pracuj — Pipeline Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
-    <div id="status-dot"></div>
-    <div class="dashboard-container">
-        <h2>Raport Executive - Grupa Pracuj</h2>
 
-        <div class="kpi-row">
-            <div class="kpi-card">
-                <h4>Suma Deal Value</h4>
-                <p id="total-val">-</p>
-                <div id="value-delta"></div>
-            </div>
-            <div class="kpi-card">
-                <h4>Global Win Rate</h4>
-                <p id="win-rate">-</p>
-            </div>
-            <div class="kpi-card">
-                <h4>MRR (Suma)</h4>
-                <p id="mrr-val">-</p>
-            </div>
-            <div class="kpi-card">
-                <h4>Deale w lejku</h4>
-                <p id="pipe-count">-</p>
-            </div>
-            <div class="kpi-card">
-                <h4>Cykl sprzedaży (mediana)</h4>
-                <p id="median-days">-</p>
-            </div>
-        </div>
-
-        <div class="charts-grid">
-            <div class="chart-item">
-                <h3>Podział na Partnerów</h3>
-                <canvas id="partnerChart"></canvas>
-            </div>
-            <div class="chart-item">
-                <h3>Przychody wg Branży</h3>
-                <canvas id="industryChart"></canvas>
-            </div>
-            <div class="chart-item" style="grid-column: span 2;">
-                <h3>Trend Pozyskiwania Leadów (Miesięcznie)</h3>
-                <canvas id="trendChart"></canvas>
-            </div>
-        </div>
+  <header class="header">
+    <div class="header-brand">
+      <span class="brand-name">Kadromierz × Pracuj</span>
+      <span class="brand-sub">Pipeline Dashboard</span>
     </div>
-    <script src="script.js"></script>
+    <div class="header-tabs">
+      <button class="tab-btn active" data-tab="director">Sales Director</button>
+      <button class="tab-btn" data-tab="manager">Sales Manager</button>
+    </div>
+    <div class="header-upload">
+      <input type="file" id="file-input" accept=".json" multiple style="display:none">
+      <div class="upload-zone" id="upload-zone">
+        <button class="upload-btn" onclick="document.getElementById('file-input').click()">
+          &#128193; Wgraj raport JSON
+        </button>
+        <span id="file-info" class="file-info"></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="sticky-filter">
+    <span class="filter-label">Partner:</span>
+    <div class="filter-pills">
+      <button class="pill active" data-partner="all">Wszyscy</button>
+      <button class="pill pill--pracuj" data-partner="Pracuj.pl">Pracuj.pl</button>
+      <button class="pill pill--erecruiter" data-partner="eRecruiter">eRecruiter</button>
+    </div>
+    <span id="report-meta" class="report-meta"></span>
+  </div>
+
+  <!-- ===== DIRECTOR VIEW ===== -->
+  <div id="view-director" class="view active">
+    <div class="container">
+
+      <div class="callout" id="callout-box"></div>
+
+      <div class="kpi-strip" id="kpi-strip"></div>
+
+      <div class="section-title">Trendy</div>
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-card-title">Nowe deale miesięcznie</div>
+          <canvas id="chart-monthly" height="260"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Skumulowane deale</div>
+          <canvas id="chart-cumulative" height="260"></canvas>
+        </div>
+      </div>
+
+      <div class="charts-row charts-row--donuts">
+        <div class="chart-card chart-card--donut">
+          <div class="chart-card-title">Podział wg Partnera</div>
+          <canvas id="chart-partner-split" height="220"></canvas>
+        </div>
+        <div class="chart-card chart-card--donut">
+          <div class="chart-card-title">Status dealów</div>
+          <canvas id="chart-status-split" height="220"></canvas>
+        </div>
+      </div>
+
+      <div id="delta-section"></div>
+
+    </div>
+  </div>
+
+  <!-- ===== MANAGER VIEW ===== -->
+  <div id="view-manager" class="view">
+    <div class="container">
+
+      <div class="section-title">Lejek sprzedażowy</div>
+      <div class="card" id="funnel-container"></div>
+
+      <div class="section-title">&#9888;&#65039; Wymagają uwagi</div>
+      <div id="alerts-container"></div>
+
+      <div class="section-title">Wszystkie deale</div>
+      <div class="card">
+        <div class="table-controls">
+          <input type="text" id="deal-search" class="search-input" placeholder="Szukaj po nazwie firmy...">
+          <label class="toggle-label">
+            <input type="checkbox" id="show-all-toggle">
+            Pokaż wszystkie (z Won/Lost)
+          </label>
+        </div>
+        <div id="deals-table-container"></div>
+      </div>
+
+      <div class="section-title">Analiza Lost</div>
+      <div class="lost-grid">
+        <div class="chart-card">
+          <div class="chart-card-title">Lost wg etapu zamknięcia</div>
+          <canvas id="chart-lost-stage" height="220"></canvas>
+        </div>
+        <div class="card" id="lost-mrr-kpi"></div>
+      </div>
+      <div class="card" id="lost-table-container"></div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

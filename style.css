@@ -1,26 +1,23 @@
-/* Układamy kwadraty obok siebie */
-.container {
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    text-align: center;
+}
+
+.dashboard {
     display: flex;
-    gap: 20px;
-    padding: 50px;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 40px;
+    padding: 20px;
 }
 
-/* Podstawowy wygląd kwadratu */
-.square {
-    width: 100px;
-    height: 100px;
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Płynna zmiana koloru */
+.chart-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    width: 450px;
 }
 
-/* Kolory początkowe */
-.red { background-color: #ff4d4d; }
-.blue { background-color: #4d94ff; }
-.green { background-color: #4dff88; }
-.yellow { background-color: #ffdb4d; }
-
-/* Efekt po najechaniu myszką */
-.square:hover {
-    background-color: black;
-}
+h2 { color: #333; }

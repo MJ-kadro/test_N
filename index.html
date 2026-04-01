@@ -2,16 +2,23 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moje Kolorowe Kwadraty</title>
+    <title>Raport Branżowy - Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="square red"></div>
-        <div class="square blue"></div>
-        <div class="square green"></div>
-        <div class="square yellow"></div>
+    <h1>Dashboard Analizy Danych</h1>
+    <div class="dashboard">
+        <div class="chart-container">
+            <h2>Udział wg Miast (City)</h2>
+            <canvas id="cityChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <h2>Udział wg Branży (Company industry)</h2>
+            <canvas id="industryChart"></canvas>
+        </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>

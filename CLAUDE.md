@@ -8,7 +8,7 @@ Sales dashboard for **Kadromierz × Grupa Pracuj** lead program. It visualizes t
 
 **Two audiences, two tabs:**
 - **Sales Director tab** — executive KPIs, MRR, win rate, monthly trends, partner split
-- **Sales Manager tab** — operational pipeline: funnel, full deal table, lost analysis
+- **Sales Manager tab** — operational pipeline: funnel with stage conversion rates, lost analysis, full deal table
 
 Python processes CSV exports from Pipedrive into `dashboard_data.json`; a static HTML/CSS/JS frontend renders it using Chart.js.
 
@@ -19,14 +19,11 @@ Python processes CSV exports from Pipedrive into `dashboard_data.json`; a static
 ### Data Processing (Python)
 
 ```bash
-# Activate virtualenv
 source .venv/bin/activate
-
-# Regenerate dashboard_data.json from the latest CSV
 python process_data.py
 ```
 
-The script picks up the most recent file matching `data/basic_data_*.csv` (sorted by filename date suffix, e.g. `basic_data_0504.csv`).
+The script picks up the most recent file matching `data/basic_data_*.csv` (sorted by filename date suffix, e.g. `basic_data_1304.csv` = 13 April).
 
 ### Serve Frontend Locally
 
@@ -42,13 +39,11 @@ Chart.js is loaded from CDN — no build step needed for the frontend.
 ## Architecture
 
 ```
-data/basic_data_DDMM.csv
-data/grade_data.csv          →  process_data.py  →  dashboard_data.json  →  script.js  →  index.html
-data/basic_data_DDMM_prev.csv (optional, for WoW delta)
+data/basic_data_DDMM.csv  →  process_data.py  →  dashboard_data.json  →  script.js  →  index.html
 ```
 
-1. `process_data.py` reads the latest `data/basic_data_*.csv` (and optionally the previous week's file for delta), computes all KPI metrics, and writes `dashboard_data.json`.
-2. `script.js` fetches `dashboard_data.json` on page load, renders both dashboard tabs.
+1. `process_data.py` reads the latest `data/basic_data_*.csv`, computes all KPI metrics, and writes `dashboard_data.json`.
+2. `script.js` fetches `dashboard_data.json` on page load and renders both dashboard tabs.
 3. `index.html` + `style.css` define the two-tab layout (Polish-language UI).
 
 `dashboard_data.json` must be regenerated whenever source CSV files change.
@@ -62,135 +57,128 @@ data/basic_data_DDMM_prev.csv (optional, for WoW delta)
 | Column | Type | Notes |
 |---|---|---|
 | `Deal - ID` | int | Unique deal identifier |
+| `Deal - Value` | float | Deal value — used as MRR (both potential and Won). Null/0 = no pricing yet |
+| `Organization - MRR` | float | MRR at organization level (secondary, not used for KPI sums) |
 | `Deal - Title` | string | Company / deal name |
-| `Deal - MRR` | int | Monthly recurring revenue (0 or null = no pricing yet) |
-| `Deal - Value` | float | Total deal value |
-| `Organization - MRR` | float | MRR at organization level |
 | `Deal - Deal created` | date | Date added to pipeline |
 | `Deal - Deal closed on` | date | Date closed (won or lost) |
 | `Deal - Stage` | string | Funnel stage — see ordered list below |
 | `Deal - Status` | string | `"open"`, `"won"`, `"lost"` |
-| `Deal - Next activity date` | date/null | Next scheduled task in Pipedrive |
 | `Deal - Won time` | date/null | Timestamp of won |
 | `Deal - Lost time` | date/null | Timestamp of lost |
 | `Deal - Total activities` | int | Total logged activities on deal |
 | `Deal - Organization` | string | Legal entity name |
 | `Organization - Status konta` | string | Account status |
-| `Organization - Pakiet` | string | Subscription package |
-| `Organization - Liczba userów` | float | Number of users |
-| `Organization - Branża` | string | Industry (may be null → display as "—") |
 | `Deal - Nazwa Partnera` | string | `"Pracuj.pl"` or `"eRecruiter"` |
+| `Deal - Lost reason` | string/null | Reason for loss — see values below |
 
-**Funnel stage order** (`Deal - Stage`):
-1. Lead
-2. Prospect
+**Columns removed vs previous version (do not reference):**
+`Deal - MRR`, `Deal - Next activity date`, `Organization - Branża`, `Organization - Pakiet`, `Organization - Liczba userów`, `Organization - Spaceship link`
+
+### MRR source — important
+**All MRR calculations (Won MRR, Pipeline MRR Potential) must use `Deal - Value`, not any MRR column.**
+- `Deal - Value` null or 0 → exclude from MRR sums, display as "—"
+
+### Funnel stage order (`Deal - Stage`) — Sales Manager funnel
+Only deals where `Deal - Status == "open"` appear in the funnel. Order:
+
+1. Prospect
+2. Lead
 3. Follow up
-4. Consideration
-5. Demo/Meeting
-6. Blocked ← special status: deal is stalled
-7. Contract negotiation
-8. Won (status = won)
-9. Lost (status = lost)
+4. Demo/Meeting
+5. Blocked
+6. Consideration
+7. Trial
+8. Contract negotiation
 
-**Note on Blocked:** Treat `Blocked` as a separate funnel category. A deal tagged Blocked is stalled regardless of its previous stage.
+### Rejected deals (odrzucone) — special category
+A **rejected deal** is defined as:
+- `Deal - Stage == "Prospect"` AND
+- `Deal - Status == "lost"` AND
+- `Deal - Lost reason == "Już w kontakcie"`
+
+These deals are NOT in the current CSV (they exist in the full Pipedrive database but are filtered out of the export). Their **count must be tracked separately** and displayed as a distinct metric. The count is provided as a manually maintained value or derived from a secondary source — do not attempt to compute it from the current CSV alone. Expose it as a configurable field in `dashboard_data.json` (`"rejected_deals_count"`).
+
+### Known `Deal - Lost reason` values
+- `"Już w kontakcie"` — already a customer / in contact (= rejected deal, see above)
+- Other free-text reasons from Pipedrive (e.g. "Pozostał przy obecnym rozwiązaniu", "Brak funkcjonalności", "Brak kontaktu", "Osoba nie jest decyzyjna")
 
 ---
 
 ## process_data.py — Required Output (dashboard_data.json)
 
-The script must compute and output the following structure:
-
 ```json
 {
-  "generated_at": "2026-04-05T12:00:00",
-  "report_date": "2026-04-04",
-  "previous_report_date": "2026-03-28",
+  "generated_at": "2026-04-13T12:00:00",
+  "report_date": "2026-04-13",
+  "rejected_deals_count": 12,
 
   "director": {
     "kpis": {
-      "mrr_won": 700,
-      "mrr_won_delta": 0,
-      "pipeline_mrr_potential": 29820,
-      "pipeline_mrr_potential_delta": 5000,
+      "mrr_won": 700.0,
+      "mrr_won_delta": 0.0,
+      "pipeline_mrr_potential": 29820.0,
+      "pipeline_mrr_potential_delta": 5000.0,
       "win_rate": 9.1,
       "win_rate_delta": 0.5,
       "open_deals": 26,
-      "open_deals_delta": 8
+      "open_deals_delta": 1,
+      "rejected_deals_count": 12
     },
     "monthly_new_deals": [
-      { "month": "2025-06", "pracuj": 1, "erecruiter": 0 },
-      { "month": "2025-07", "pracuj": 4, "erecruiter": 0 }
+      { "month": "2025-06", "pracuj": 1, "erecruiter": 0 }
     ],
     "cumulative_deals": [
-      { "month": "2025-06", "total": 1 },
-      { "month": "2025-07", "total": 5 }
+      { "month": "2025-06", "total_created": 1, "total_won": 0, "total_lost": 0 }
     ],
     "partner_split": { "pracuj": 25, "erecruiter": 13 },
-    "status_split": { "open": 26, "won": 1, "lost": 10 },
-    "delta_new_deals": [
-      { "id": 123, "title": "Circle K Polska", "partner": "Pracuj.pl", "stage": "Follow up", "created": "2026-03-17" }
-    ],
-    "delta_closed_deals": [
-      { "id": 99, "title": "Eneris", "partner": "Pracuj.pl", "status": "lost", "mrr": 5000, "closed": "2026-03-11" }
-    ]
+    "status_split": { "open": 26, "won": 1, "lost": 10 }
   },
 
   "manager": {
     "funnel_stages": [
-      { "stage": "Lead", "count": 1 },
       { "stage": "Prospect", "count": 2 },
+      { "stage": "Lead", "count": 1 },
       { "stage": "Follow up", "count": 7 },
-      { "stage": "Consideration", "count": 4 },
       { "stage": "Demo/Meeting", "count": 6 },
       { "stage": "Blocked", "count": 5 },
+      { "stage": "Consideration", "count": 4 },
+      { "stage": "Trial", "count": 0 },
       { "stage": "Contract negotiation", "count": 1 }
     ],
-    "blocked_deals": [
-      {
-        "id": 45,
-        "title": "Destigo Hotels",
-        "partner": "Pracuj.pl",
-        "mrr": 10000,
-        "days_in_pipeline": 87,
-        "next_activity_date": null,
-        "total_activities": 6,
-        "industry": "Hotele"
-      }
+    "funnel_conversions": [
+      { "from": "Prospect", "to": "Lead", "rate": 0.72 },
+      { "from": "Lead", "to": "Follow up", "rate": 0.65 }
     ],
-    "stale_deals": [
-      {
-        "id": 67,
-        "title": "Sky Bowling",
-        "partner": "Pracuj.pl",
-        "stage": "Blocked",
-        "mrr": 1600,
-        "days_since_activity": 45,
-        "next_activity_date": null
-      }
-    ],
-    "hot_deals": [
+    "all_open_deals": [
       {
         "id": 88,
         "title": "Dla Spania",
         "partner": "Pracuj.pl",
         "stage": "Demo/Meeting",
-        "mrr": 5000,
-        "next_activity_date": "2026-04-07",
-        "total_activities": 9
+        "status": "open",
+        "value": 5000.0,
+        "created": "2026-01-15",
+        "total_activities": 9,
+        "organization": "Dla Spania sieć sklepów"
       }
     ],
-    "all_open_deals": [ ],
     "lost_deals": [
       {
         "id": 12,
         "title": "Eneris",
         "partner": "Pracuj.pl",
-        "mrr": 5000,
+        "value": 5000.0,
         "lost_date": "2026-03-11",
-        "stage_at_close": "Follow up"
+        "stage_at_close": "Follow up",
+        "lost_reason": "Pozostał przy obecnym rozwiązaniu"
       }
     ],
-    "lost_mrr_total": 23224,
+    "lost_reasons_summary": [
+      { "reason": "Pozostał przy obecnym rozwiązaniu", "count": 4 },
+      { "reason": "Już w kontakcie", "count": 12 },
+      { "reason": "Brak funkcjonalności", "count": 2 }
+    ],
     "total_activities_all": 156,
     "avg_activities_per_deal": 5.2
   }
@@ -203,37 +191,80 @@ The script must compute and output the following structure:
 
 | Metric | Formula |
 |---|---|
-| `mrr_won` | `SUM(Deal - MRR)` where `Deal - Status == "won"` |
-| `pipeline_mrr_potential` | `SUM(Deal - MRR)` where `Deal - Status == "open"` AND `Deal - MRR > 0` |
+| `mrr_won` | `SUM(Deal - Value)` where `Deal - Status == "won"` |
+| `pipeline_mrr_potential` | `SUM(Deal - Value)` where `Deal - Status == "open"` AND `Deal - Value > 0` |
 | `win_rate` | `COUNT(won) / (COUNT(won) + COUNT(lost)) * 100` |
 | `open_deals` | `COUNT` where `Deal - Status == "open"` |
-| `days_in_pipeline` | `today - Deal - Deal created` (in days) |
-| `days_since_activity` | today minus last known activity date; if `Next activity date` is null and no activity logged → flag as stale |
-| **Stale threshold** | No next activity date OR next activity date < today |
-| **Delta fields** | Compare current CSV vs previous week's CSV (previous file = `data/basic_data_*` sorted by date, second most recent) |
+| `rejected_deals_count` | Manually set in JSON — not computable from current CSV export |
+| `cumulative_won` | Running total of `COUNT(won)` by month of `Deal - Won time` |
+| `cumulative_lost` | Running total of `COUNT(lost)` by month of `Deal - Lost time` |
+| `cumulative_created` | Running total of `COUNT(all deals)` by month of `Deal - Deal created` |
+| `funnel_conversions` | For each consecutive stage pair: `COUNT(stage N+1) / COUNT(stage N)` — computed from all-time deal data, not just current open |
 
 ---
 
-## Frontend — Tab Structure
+## Frontend — Tab 1: Sales Director
 
-### Tab 1: Sales Director
+### Layout (top to bottom)
 
 1. **Global partner filter** (sticky): All | Pracuj.pl | eRecruiter — filters all charts and tables on both tabs
-2. **KPI strip** (4 cards): MRR Won | Pipeline MRR Potential | Win Rate | Open Deals — each with WoW delta badge
-3. **Charts row 1**: Monthly new deals stacked bar (Pracuj.pl + eRecruiter) | Cumulative deals line chart
-4. **Charts row 2**: Partner split donut | Won/Lost/Open status donut
-5. **Delta section** (visible only if previous week data exists): new deals table + closed deals table
-6. **Auto-generated callout text** summarizing the period
 
-### Tab 2: Sales Manager
+2. **KPI strip** — 5 cards:
+   - MRR Won (`mrr_won`) + WoW delta badge
+   - Pipeline MRR Potential (`pipeline_mrr_potential`) + WoW delta badge
+   - Win Rate % (`win_rate`) + WoW delta badge
+   - Open Deals (`open_deals`) + WoW delta badge
+   - Rejected Deals / Odrzucone (`rejected_deals_count`) — amber/warning color, tooltip explaining definition
 
-1. **Visual funnel** — horizontal bars per stage, clickable → filters deal table below
-2. **Alert panels** (priority order):
-   - 🟡 **Blocked deals** — sorted by days in pipeline descending; show: company, partner, MRR, days blocked, next activity
-   - 🔴 **Stale deals** — no next activity / overdue; show: company, stage, partner, days without activity
-   - 🟢 **Hot deals** — Demo/Meeting + Contract negotiation; show: company, stage, MRR, next activity date
-3. **Full deal table** — all open deals, sortable by any column, searchable by company name; toggle to show Won/Lost too; row color coding: Blocked=amber, stale=red tint, Won=green tint
-4. **Lost analysis**: horizontal bar chart of lost reasons (if field available) + lost MRR total + lost deals table
+3. **Charts row 1:**
+   - Monthly new deals — stacked bar: Pracuj.pl (blue `#1a4a8a`) + eRecruiter (purple `#6b21a8`)
+   - Partner split — donut: Pracuj.pl vs eRecruiter
+
+4. **Charts row 2 — Cumulative deals (single chart, 3 lines):**
+   - Line 1: Total deals created (all statuses) — dark/neutral color
+   - Line 2: Cumulative Won — green `#1a7a4a`
+   - Line 3: Cumulative Lost — red `#c0392b`
+   - X axis: months; Y axis: count; legend visible
+
+5. **Won / Lost / Open status donut**
+
+---
+
+## Frontend — Tab 2: Sales Manager
+
+### Layout (top to bottom)
+
+1. **Funnel — open deals only** (`Deal - Status == "open"`)
+   - Horizontal bar chart (Chart.js, `indexAxis: 'y'`)
+   - Stages in order: Prospect | Lead | Follow up | Demo/Meeting | Blocked | Consideration | Trial | Contract negotiation
+   - Each bar shows deal count
+   - Below each bar (or as annotation): conversion rate to next stage (from `funnel_conversions`)
+   - Blocked stage bar: amber color `#b86b00`
+
+2. **All open deals table** — "Wszystkie aktywne deale"
+   - Source: `all_open_deals` (Status == "open" only)
+   - Columns: Firma | Etap | Partner | Wartość (Deal - Value) | Data dodania | Liczba aktywności
+   - **No Spaceship column**
+   - Sortable by any column
+   - Search/filter by company name
+   - Row color coding: Blocked = amber tint, default = white
+
+3. **Lost analysis** — "Analiza Lost"
+   - Horizontal bar chart: lost reasons by count (from `lost_reasons_summary`)
+   - Includes `"Już w kontakcie"` as a bar — label it "Odrzucone (już w kontakcie)"
+   - **No lost MRR / utracony potencjał section** — removed
+   - Section header: "Analiza Lost"
+
+4. **Lost deals table** — "Lista Lost"
+   - Source: `lost_deals`
+   - Columns: Firma | Partner | Etap zamknięcia | Powód utraty | Data zamknięcia | Wartość
+   - All lost deals, no filtering by default
+   - Section header: "Lista Lost"
+
+### Removed from Sales Manager tab (do not implement)
+- "Wymagają Uwagi" section (Blocked alerts, Stale deals, Hot deals) — **out of scope**
+- Spaceship column in any table
+- Utracony potencjał MRR block
 
 ---
 
@@ -246,8 +277,9 @@ The script must compute and output the following structure:
 | Won / positive | `#1a7a4a` |
 | Lost / negative | `#c0392b` |
 | Blocked / warning | `#b86b00` |
+| Rejected / odrzucone | `#b86b00` (amber, same as warning) |
 | Open / neutral | `#1a4a8a` |
-| Primary UI | `#0055ff` (existing) |
+| Primary UI | `#0055ff` |
 
 ---
 
@@ -261,7 +293,7 @@ The script must compute and output the following structure:
 ### Friday update workflow
 ```bash
 # 1. Drop new CSV into data/
-cp ~/Downloads/basic_data_0504.csv data/
+cp ~/Downloads/basic_data_1304.csv data/
 
 # 2. Regenerate JSON
 source .venv/bin/activate
@@ -269,7 +301,7 @@ python process_data.py
 
 # 3. Commit and push → Netlify auto-deploys
 git add data/ dashboard_data.json
-git commit -m "data: update week 2026-04-04"
+git commit -m "data: update 2026-04-13"
 git push
 ```
 
@@ -283,6 +315,6 @@ git push
 - All UI content in Polish
 - Chart.js loaded from CDN (`cdnjs.cloudflare.com`)
 - No backend — `dashboard_data.json` is the only data contract between Python and JS
-- `Deal - MRR` null or 0 → exclude from all MRR sums, display as "—"
-- `Organization - Branża` null → display as "—"
-- `Deal - Next activity date` null → display as "Brak zadania" with red alert indicator
+- `Deal - Value` null or 0 → exclude from MRR sums, display as "—"
+- `Organization - Status konta` null → display as "—"
+- Report switching between weeks — **out of scope for v1**, will be added in next iteration

@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="386a553a-ec28-463c-ae50-c47106008c92" name="Changes" comment="Secound _dashboard margins" />
+    <list default="true" id="386a553a-ec28-463c-ae50-c47106008c92" name="Changes" comment="Secound _dashboard margins fixes">
+      <change afterPath="$PROJECT_DIR$/data/basic_data_1304.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard_data.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/basic_data_0504.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/basic_data_0504.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/basic_data_2003.csv" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,10 +29,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "MJ-kadro"
-  }
+  "lastFilter": {}
 }]]></component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
@@ -52,11 +56,12 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/mateuszjastrzebski/PycharmProjects/netlify"
+    "last_opened_file_path": "/Users/mateuszjastrzebski/PycharmProjects/netlify/data"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/data" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -126,14 +131,66 @@
       <option name="project" value="LOCAL" />
       <updated>1775035440325</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1775035982682</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1775035982682</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="firts commit" />
     <MESSAGE value="first dashbaord" />
     <MESSAGE value="First dashboard" />
     <MESSAGE value="Secound _dashboard margins" />
-    <option name="LAST_COMMIT_MESSAGE" value="Secound _dashboard margins" />
+    <MESSAGE value="Secound _dashboard margins fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Secound _dashboard margins fixes" />
   </component>
 </project>

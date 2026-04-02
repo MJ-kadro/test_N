@@ -21,39 +21,6 @@ const state = {
   rejectedCount:  0,
 };
 
-// ---- SAMPLE DATA (20 dealów) ----
-const SAMPLE_DATA = [
-  // WON
-  { "Deal - ID":"1001","Deal - Title":"Hotel Europejski Kraków","Deal - Value":"30000","Deal - Stage":"Won","Deal - Status":"Won","Deal - Nazwa Partnera":"Pracuj.pl","Deal - Deal created":"2025-01-15 09:00:00","Deal - Won time":"2025-02-28 14:00:00","Deal - Lost time":"","Deal - Total activities":"12","Deal - Organization":"Hotel Europejski Kraków","Deal - Lost reason":"" },
-  { "Deal - ID":"1002","Deal - Title":"Medicover Polska","Deal - Value":"57600","Deal - Stage":"Won","Deal - Status":"Won","Deal - Nazwa Partnera":"eRecruiter","Deal - Deal created":"2025-01-20 10:00:00","Deal - Won time":"2025-03-10 11:00:00","Deal - Lost time":"","Deal - Total activities":"15","Deal - Organization":"Medicover Polska","Deal - Lost reason":"" },
-  { "Deal - ID":"1003","Deal - Title":"Frisco.pl","Deal - Value":"21600","Deal - Stage":"Won","Deal - Status":"Won","Deal - Nazwa Partnera":"Pracuj.pl","Deal - Deal created":"2025-02-01 08:30:00","Deal - Won time":"2025-03-25 16:00:00","Deal - Lost time":"","Deal - Total activities":"9","Deal - Organization":"Frisco.pl","Deal - Lost reason":"" },
-  // LOST
-  { "Deal - ID":"1004","Deal - Title":"Orbis Hotels","Deal - Value":"38400","Deal - Stage":"Consideration","Deal - Status":"Lost","Deal - Nazwa Partnera":"Pracuj.pl","Deal - Deal created":"2024-12-05 10:00:00","Deal - Won time":"","Deal - Lost time":"2025-02-15 09:00:00","Deal - Total activities":"7","Deal - Organization":"Orbis Hotels","Deal - Lost reason":"Pozostał przy obecnym rozwiązaniu" },
-  { "Deal - ID":"1005","Deal - Title":"CCC Group","Deal - Value":"0","Deal - Stage":"Prospect","Deal - Status":"Lost","Deal - Nazwa Partnera":"eRecruiter","Deal - Deal created":"2025-01-08 11:00:00","Deal - Won time":"","Deal - Lost time":"2025-02-20 14:00:00","Deal - Total activities":"3","Deal - Organization":"CCC Group","Deal - Lost reason":"Już w kontakcie" },
-  { "Deal - ID":"1006","Deal - Title":"Alior Bank SA","Deal - Value":"26400","Deal - Stage":"Demo/Meeting","Deal - Status":"Lost","Deal - Nazwa Partnera":"Pracuj.pl","Deal - Deal created":"2025-02-10 09:30:00","Deal - Won time":"","Deal - Lost time":"2025-03-30 15:00:00","Deal - Total activities":"6","Deal - Organization":"Alior Bank SA","Deal - Lost reason":"Brak funkcjonalności" },
-  { "Deal - ID":"1007","Deal - Title":"KGHM Polska Miedź","Deal - Value":"66000","Deal - Stage":"Contract negotiation","Deal - Status":"Lost","Deal - Nazwa Partnera":"eRecruiter","Deal - Deal created":"2024-11-20 08:00:00","Deal - Won time":"","Deal - Lost time":"2025-01-31 10:00:00","Deal - Total activities":"18","Deal - Organization":"KGHM Polska Miedź","Deal - Lost reason":"Pozostał przy obecnym rozwiązaniu" },
-  // OPEN — Blocked
-  { "Deal - ID":"1008","Deal - Title":"Grupa Eurocash","Deal - Value":"45600","Deal - Stage":"Blocked","Deal - Status":"Open","Deal - Nazwa Partnera":"Pracuj.pl","Deal - Deal created":"2024-10-15 09:00:00","Deal - Won time":"","Deal - Lost time":"","Deal - Total activities":"5","Deal - Organization":"Grupa Eurocash","Deal - Lost reason":"" },
-  { "Deal - ID":"1009","Deal - Title":"Żabka Polska","Deal - Value":"34800","Deal - Stage":"Blocked","Deal - Status":"Open","Deal - Nazwa Partnera":"eRecruiter","Deal - Deal created":"2025-01-05 10:00:00","Deal - Won time":"","Deal - Lost time":"","Deal - Total activities":"4","Deal - Organization":"Żabka Polska","Deal - Lost reason":"" },
-  // OPEN — Contract negotiation
-  { "Deal - ID":"1010","Deal - Title":"InPost SA","Deal - Value":"50400","Deal - Stage":"Contract negotiation","Deal - Status":"Open","Deal - Nazwa Partnera":"Pracuj.pl","Deal - Deal created":"2025-02-20 08:00:00","Deal - Won time":"","Deal - Lost time":"","Deal - Total activities":"11","Deal - Organization":"InPost SA","Deal - Lost reason":"" },
-  // OPEN — Demo/Meeting
-  { "Deal - ID":"1011","Deal - Title":"Allegro.eu","Deal - Value":"69600","Deal - Stage":"Demo/Meeting","Deal - Status":"Open","Deal - Nazwa Partnera":"eRecruiter","Deal - Deal created":"2025-03-01 09:00:00","Deal - Won time":"","Deal - Lost time":"","Deal - Total activities":"7","Deal - Organization":"Allegro.eu","Deal - Lost reason":"" },
-  { "Deal - ID":"1012","Deal - Title":"Comarch SA","Deal - Value":"37200","Deal - Stage":"Demo/Meeting","Deal - Status":"Open","Deal - Nazwa Partnera":"Pracuj.pl","Deal - Deal created":"2025-03-10 11:00:00","Deal - Won time":"","Deal - Lost time":"","Deal - Total activities":"5","Deal - Organization":"Comarch SA","Deal - Lost reason":"" },
-  // OPEN — Consideration
-  { "Deal - ID":"1013","Deal - Title":"mBank SA","Deal - Value":"32400","Deal - Stage":"Consideration","Deal - Status":"Open","Deal - Nazwa Partnera":"eRecruiter","Deal - Deal created":"2025-03-15 10:30:00","Deal - Won time":"","Deal - Lost time":"","Deal - Total activities":"4","Deal - Organization":"mBank SA","Deal - Lost reason":"" },
-  // OPEN — Follow up
-  { "Deal - ID":"1014","Deal - Title":"Nespresso Polska","Deal - Value":"18000","Deal - Stage":"Follow up","Deal - Status":"Open","Deal - Nazwa Partnera":"Pracuj.pl","Deal - Deal created":"2025-03-20 09:00:00","Deal - Won time":"","Deal - Lost time":"","Deal - Total activities":"2","Deal - Organization":"Nespresso Polska","Deal - Lost reason":"" },
-  { "Deal - ID":"1015","Deal - Title":"Leroy Merlin Polska","Deal - Value":"25200","Deal - Stage":"Follow up","Deal - Status":"Open","Deal - Nazwa Partnera":"eRecruiter","Deal - Deal created":"2025-03-25 14:00:00","Deal - Won time":"","Deal - Lost time":"","Deal - Total activities":"3","Deal - Organization":"Leroy Merlin Polska","Deal - Lost reason":"" },
-  // OPEN — Prospect
-  { "Deal - ID":"1016","Deal - Title":"Decathlon Polska","Deal - Value":"0","Deal - Stage":"Prospect","Deal - Status":"Open","Deal - Nazwa Partnera":"Pracuj.pl","Deal - Deal created":"2025-12-01 08:00:00","Deal - Won time":"","Deal - Lost time":"","Deal - Total activities":"1","Deal - Organization":"Decathlon Polska","Deal - Lost reason":"" },
-  { "Deal - ID":"1017","Deal - Title":"Polpharma SA","Deal - Value":"22800","Deal - Stage":"Prospect","Deal - Status":"Open","Deal - Nazwa Partnera":"eRecruiter","Deal - Deal created":"2026-01-10 10:00:00","Deal - Won time":"","Deal - Lost time":"","Deal - Total activities":"1","Deal - Organization":"Polpharma SA","Deal - Lost reason":"" },
-  // OPEN — Lead (new)
-  { "Deal - ID":"1018","Deal - Title":"Budimex SA","Deal - Value":"28800","Deal - Stage":"Lead","Deal - Status":"Open","Deal - Nazwa Partnera":"Pracuj.pl","Deal - Deal created":"2026-03-28 09:30:00","Deal - Won time":"","Deal - Lost time":"","Deal - Total activities":"0","Deal - Organization":"Budimex SA","Deal - Lost reason":"" },
-  { "Deal - ID":"1019","Deal - Title":"PKN Orlen SA","Deal - Value":"0","Deal - Stage":"Lead","Deal - Status":"Open","Deal - Nazwa Partnera":"eRecruiter","Deal - Deal created":"2026-03-30 11:00:00","Deal - Won time":"","Deal - Lost time":"","Deal - Total activities":"0","Deal - Organization":"PKN Orlen SA","Deal - Lost reason":"" },
-  // OPEN — Consideration
-  { "Deal - ID":"1020","Deal - Title":"Raben Group","Deal - Value":"20400","Deal - Stage":"Consideration","Deal - Status":"Open","Deal - Nazwa Partnera":"Pracuj.pl","Deal - Deal created":"2025-02-15 10:00:00","Deal - Won time":"","Deal - Lost time":"","Deal - Total activities":"6","Deal - Organization":"Raben Group","Deal - Lost reason":"" },
-];
 
 // ---- UTILS ----
 function norm(s)       { return (s || '').toLowerCase(); }
@@ -132,12 +99,21 @@ function getMonthlyData(deals) {
   });
 
   const sorted = Object.entries(m).sort(([a], [b]) => a.localeCompare(b));
-  let cumCreated = 0, cumWon = 0, cumLost = 0;
+  // Cumulative open: count deals by created month that are still Open
+  deals.forEach(d => {
+    if (norm(d['Deal - Status']) === 'open') {
+      const dt = parseDate(d['Deal - Deal created']);
+      if (dt) { const k = dt.toISOString().slice(0, 7); addMonth(k); m[k].openCreated = (m[k].openCreated || 0) + 1; }
+    }
+  });
+
+  let cumCreated = 0, cumWon = 0, cumLost = 0, cumOpen = 0;
   return sorted.map(([month, v]) => ({
     month, ...v,
     cumulative_created: cumCreated += v.total,
     cumulative_won:     cumWon     += v.won,
     cumulative_lost:    cumLost    += v.lost,
+    cumulative_open:    cumOpen    += (v.openCreated || 0),
   }));
 }
 
@@ -205,6 +181,7 @@ function renderCumulativeChart(md) {
       labels: md.map(m => m.month),
       datasets: [
         { label: 'Wszystkie (created)', data: md.map(m => m.cumulative_created), ...lineOpts('#475569') },
+        { label: 'Open',                data: md.map(m => m.cumulative_open),    ...lineOpts('#1a4a8a') },
         { label: 'Won',                 data: md.map(m => m.cumulative_won),     ...lineOpts('#1a7a4a') },
         { label: 'Lost',                data: md.map(m => m.cumulative_lost),    ...lineOpts('#c0392b') },
       ],
@@ -655,13 +632,44 @@ function setupEvents() {
   });
 }
 
+// ---- AUTO-LOAD FROM data/manifest.json ----
+async function loadDefaultData() {
+  try {
+    const res = await fetch('data/manifest.json');
+    if (!res.ok) throw new Error('manifest.json niedostępny');
+    const manifest = await res.json();
+    const files = (manifest.files || []).slice().sort((a, b) => a.date.localeCompare(b.date));
+    if (files.length === 0) throw new Error('Brak plików w manifeście');
+
+    const curr = files[files.length - 1];
+    const prev = files.length > 1 ? files[files.length - 2] : null;
+
+    const currRes = await fetch(`data/${curr.name}`);
+    if (!currRes.ok) throw new Error(`Nie można załadować: ${curr.name}`);
+    state.current = await currRes.json();
+
+    if (prev) {
+      const prevRes = await fetch(`data/${prev.name}`);
+      if (prevRes.ok) state.prev = await prevRes.json();
+    }
+
+    const meta = document.getElementById('report-meta');
+    if (meta) meta.textContent = `Raport: ${curr.name}${prev ? ` | Poprzedni: ${prev.name}` : ''}`;
+
+    renderAll();
+  } catch (err) {
+    console.warn('Auto-load nieudany:', err.message);
+    const el = document.getElementById('callout-box');
+    if (el) el.innerHTML = '<div class="callout-content" style="background:#fef3c7;border-color:#fcd34d;color:#92400e">⚠️ Brak danych. Uruchom <code>python convert.py</code> i odśwież stronę, lub wgraj raport JSON ręcznie.</div>';
+    const meta = document.getElementById('report-meta');
+    if (meta) meta.textContent = 'Brak danych — wgraj raport JSON';
+  }
+}
+
 // ---- INIT ----
 function init() {
-  state.current = SAMPLE_DATA;
   setupEvents();
-  renderAll();
-  const meta = document.getElementById('report-meta');
-  if (meta) meta.textContent = 'Dane: przykładowy zestaw — wgraj raport JSON aby zaktualizować';
+  loadDefaultData();
 }
 
 document.addEventListener('DOMContentLoaded', init);

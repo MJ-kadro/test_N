@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="386a553a-ec28-463c-ae50-c47106008c92" name="Changes" comment="Secound _dashboard margins fixes">
-      <change afterPath="$PROJECT_DIR$/data/basic_data_1304.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard_data.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/basic_data_0504.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/basic_data_0504.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/basic_data_2003.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +47,7 @@
   "keyToString": {
     "DefaultHtmlFileTemplate": "HTML File",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.convert.executor": "Run",
     "Python.process_data.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -139,7 +135,23 @@
       <option name="project" value="LOCAL" />
       <updated>1775035982682</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1775134473986</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1775134473986</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1775134496856</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1775134496856</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

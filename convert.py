@@ -44,11 +44,19 @@ def convert_all():
         json_path = os.path.join('data', json_name)
 
         df = pd.read_csv(csv_path)
-        # Zamień NaN na None (serializable jako null)
-        records = df.where(pd.notna(df), None).to_dict(orient='records')
+        # Zamień NaN/NaT na None (json.dump nie obsługuje float('nan'))
+        df = df.where(pd.notna(df), None)
+        records = df.to_dict(orient='records')
+        # Drugi pass: upewnij się że żadna wartość float NaN nie prześlizgnęła się
+        import math
+        def clean(v):
+            if isinstance(v, float) and math.isnan(v):
+                return None
+            return v
+        records = [{k: clean(v) for k, v in row.items()} for row in records]
 
         with open(json_path, 'w', encoding='utf-8') as f:
-            json.dump(records, f, ensure_ascii=False, indent=2, default=str)
+            json.dump(records, f, ensure_ascii=False, indent=2)
 
         manifest_entries.append({'name': json_name, 'date': date_str})
         print(f'  {basename}  →  {json_name}  ({len(records)} dealów)')

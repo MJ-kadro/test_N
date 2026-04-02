@@ -267,7 +267,7 @@ function renderKPIs(metrics, prevMetrics) {
   ];
   const rejCard = `
     <div class="kpi-card kpi-card--amber">
-      <div class="kpi-label">Odrzucone deale <span class="kpi-tooltip" title="Deale odrzucone na etapie Prospect z powodem 'Już w kontakcie' — nie są widoczne w eksporcie CSV">ⓘ</span></div>
+      <div class="kpi-label">Odrzucone deale <span class="kpi-tooltip" title="Deale które są już procesowane przed poleceniem przez partnera">ⓘ</span></div>
       <div class="kpi-value kpi-value--amber">${state.rejectedCount}</div>
     </div>`;
   el.innerHTML = cards.map(k => `
@@ -338,18 +338,45 @@ function renderFunnel(deals) {
     },
   });
 
-  // Conversion badges below chart
-  const convEl = document.getElementById('funnel-conversions');
-  if (convEl) {
-    const convs = calcFunnelConversions(state.current);
-    if (convs.length > 0) {
-      convEl.innerHTML = '<div class="funnel-conversions">'
-        + convs.map(c => `<span class="funnel-conv-badge">${esc(c.from)} → ${esc(c.to)}: <strong>${(c.rate * 100).toFixed(0)}%</strong></span>`).join('')
-        + '</div>';
-    } else {
-      convEl.innerHTML = '';
-    }
-  }
+}
+
+// ---- FUNNEL FLOW ----
+function renderFunnelFlow(deals) {
+  destroyChart('funnel-flow');
+  const ctx = document.getElementById('chart-funnel-flow');
+  if (!ctx) return;
+
+  // Count ALL deals (any status) by stage — shows how many reached each stage historically
+  const counts = FUNNEL_STAGES.map(stage => deals.filter(d => d['Deal - Stage'] === stage).length);
+  const colors = FUNNEL_STAGES.map(s => s === 'Blocked' ? '#b86b0044' : '#1a4a8a44');
+  const borders = FUNNEL_STAGES.map(s => s === 'Blocked' ? '#b86b00' : '#1a4a8a');
+
+  state.charts['funnel-flow'] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: FUNNEL_STAGES,
+      datasets: [{
+        label: 'Liczba dealów',
+        data: counts,
+        backgroundColor: colors,
+        borderColor: borders,
+        borderWidth: 2,
+        borderRadius: 4,
+      }],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => `${c.parsed.x} dealów` } },
+      },
+      scales: {
+        x: { beginAtZero: true, ticks: { stepSize: 1 } },
+        y: { ticks: { font: { size: 13 } } },
+      },
+    },
+  });
 }
 
 // ---- ALERTS ----
@@ -531,6 +558,7 @@ function renderDirector() {
 function renderManager() {
   const deals = filtered(state.current);
   renderFunnel(deals);
+  renderFunnelFlow(deals);
   renderDealsTable(deals);
   renderLostAnalysis(deals);
 }

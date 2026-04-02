@@ -80,10 +80,10 @@
     <div class="container">
 
       <div class="section-title">Lejek sprzedażowy</div>
-      <div class="card" id="funnel-container"></div>
-
-      <div class="section-title">&#9888;&#65039; Wymagają uwagi</div>
-      <div id="alerts-container"></div>
+      <div class="card" id="funnel-container">
+        <canvas id="chart-funnel" height="300"></canvas>
+        <div id="funnel-conversions"></div>
+      </div>
 
       <div class="section-title">Wszystkie deale</div>
       <div class="card">
@@ -98,13 +98,11 @@
       </div>
 
       <div class="section-title">Analiza Lost</div>
-      <div class="lost-grid">
-        <div class="chart-card">
-          <div class="chart-card-title">Lost wg etapu zamknięcia</div>
-          <canvas id="chart-lost-stage" height="220"></canvas>
-        </div>
-        <div class="card" id="lost-mrr-kpi"></div>
+      <div class="chart-card">
+        <div class="chart-card-title">Lost wg powodu utraty</div>
+        <canvas id="chart-lost-stage" height="220"></canvas>
       </div>
+      <div class="section-title">Lista Lost</div>
       <div class="card" id="lost-table-container"></div>
 
     </div>

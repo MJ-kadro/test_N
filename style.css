@@ -238,6 +238,15 @@ a { color: inherit; }
 .delta-card--stage h4 { color: var(--pracuj); }
 
 /* ---- LOST SECTION ---- */
-.lost-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 16px; }
-#lost-mrr-kpi { display: flex; flex-direction: column; justify-content: center; }
-#lost-table-container { margin-top: 0; }
+/* ---- KPI AMBER (odrzucone) ---- */
+.kpi-card--amber .kpi-value { color: var(--blocked); }
+.kpi-value--amber { color: var(--blocked); }
+.kpi-tooltip { cursor: help; font-size: 0.75rem; color: var(--muted); margin-left: 3px; }
+
+/* ---- FUNNEL CONVERSIONS ---- */
+.funnel-conversions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.funnel-conv-badge {
+  font-size: 0.78rem; padding: 3px 10px; border-radius: 12px;
+  background: #f1f5f9; color: var(--muted); border: 1px solid var(--border);
+}
+.funnel-conv-badge strong { color: var(--text); }

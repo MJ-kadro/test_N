@@ -18,15 +18,7 @@
       <button class="tab-btn active" data-tab="director">Sales Director</button>
       <button class="tab-btn" data-tab="manager">Sales Manager</button>
     </div>
-    <div class="header-upload">
-      <input type="file" id="file-input" accept=".json" multiple style="display:none">
-      <div class="upload-zone" id="upload-zone">
-        <button class="upload-btn" onclick="document.getElementById('file-input').click()">
-          &#128193; Wgraj raport JSON
-        </button>
-        <span id="file-info" class="file-info"></span>
-      </div>
-    </div>
+    <input type="file" id="file-input" accept=".json" multiple style="display:none">
   </header>
 
   <div class="sticky-filter">
@@ -91,25 +83,26 @@
         <div id="deals-table-container"></div>
       </div>
 
-      <div class="section-title">Deale per miesiąc</div>
-      <div class="chart-card">
-        <canvas id="chart-manager-monthly" height="160"></canvas>
-      </div>
-
-      <div class="section-title">Lejek sprzedażowy</div>
-      <div class="card" id="funnel-container">
-        <canvas id="chart-funnel" height="220"></canvas>
+      <div class="section-title">Wykresy</div>
+      <div class="charts-row charts-row--thirds">
+        <div class="chart-card">
+          <div class="chart-card-title">Deale per miesiąc</div>
+          <canvas id="chart-manager-monthly" height="220"></canvas>
+        </div>
+        <div class="chart-card" id="funnel-container">
+          <div class="chart-card-title">Lejek sprzedażowy</div>
+          <canvas id="chart-funnel" height="220"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Lost wg powodu utraty</div>
+          <canvas id="chart-lost-stage" height="220"></canvas>
+        </div>
       </div>
 
       <div id="funnel-flow-container" style="display:none">
         <canvas id="chart-funnel-flow"></canvas>
       </div>
 
-      <div class="section-title">Analiza Lost</div>
-      <div class="chart-card">
-        <div class="chart-card-title">Lost wg powodu utraty</div>
-        <canvas id="chart-lost-stage" height="160"></canvas>
-      </div>
       <div class="section-title">Lista Lost</div>
       <div class="card" id="lost-table-container"></div>
 

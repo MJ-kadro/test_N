@@ -6,6 +6,17 @@
 const PARTNER_COLORS = { 'Pracuj.pl': '#1a4a8a', 'eRecruiter': '#6b21a8' };
 const STATUS_COLORS  = { won: '#1a7a4a', lost: '#c0392b', open: '#1a4a8a', blocked: '#b86b00' };
 const FUNNEL_STAGES  = ['Prospect', 'Lead', 'Follow up', 'Demo/Meeting', 'Blocked', 'Consideration', 'Trial', 'Contract negotiation'];
+const FUNNEL_DESC = {
+  'Prospect':             'Firmy z którymi chcemy nawiązać relacje, ale nie mieliśmy jeszcze z nimi kontaktu',
+  'Lead':                 'Nawiązaliśmy kontakt z daną firmą. Wstępnie wyraziła zainteresowanie rozmowami',
+  'Follow up':            'Potrzebujemy ponowić działania mające na celu zaangażowanie tej firmy w dalszy etap procesu sprzedażowego',
+  'Demo/Meeting':         'Deals z którymi mamy już umówiony konkretny termin na spotkanie',
+  'Blocked':              'Deals które z różnego powodu wstrzymały proces sprzedaży',
+  'Consideration':        'Deals, które po przeprowadzonym spotkaniu i/lub zapoznaniu się z naszym Value Proposition potrzebują czasu i/lub organizują wewnętrznie uruchomienie testowego okresu',
+  'Trial':                'Deals wśród których uruchomiliśmy okres testowy',
+  'Contract negotiation': 'Deals, które są w trakcie lub po okresie testowym, ale wyraziły chęć zakupu i trwają obecne negocjacje umowy i/lub warunków współpracy',
+  'Success':              'Jesteśmy pewni, że dana firma wykupi subskrypcję Kadromierz',
+};
 
 // ---- STATE ----
 const state = {
@@ -324,13 +335,34 @@ function renderFunnel(deals) {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: (c) => `${c.parsed.x} dealów`,
+            title: (items) => items[0]?.label || '',
+            label: (c) => `  ${c.parsed.x} dealów`,
+            afterLabel: (c) => {
+              const stage = fd[c.dataIndex]?.stage;
+              const desc = FUNNEL_DESC[stage];
+              if (!desc) return '';
+              // Wrap long text into ~50-char lines for readability
+              const words = desc.split(' ');
+              const lines = [];
+              let line = '';
+              for (const w of words) {
+                if ((line + ' ' + w).trim().length > 52) { lines.push('  ' + line.trim()); line = w; }
+                else line = (line + ' ' + w).trim();
+              }
+              if (line) lines.push('  ' + line);
+              return lines;
+            },
           },
+          bodyColor: '#94a3b8',
+          titleColor: '#1e293b',
+          titleFont: { weight: 'bold' },
+          padding: 10,
+          boxPadding: 4,
         },
       },
       scales: {
         x: { beginAtZero: true, ticks: { stepSize: 1 } },
-        y: { ticks: { font: { size: 13 } } },
+        y: { ticks: { font: { size: 12 } } },
       },
     },
   });

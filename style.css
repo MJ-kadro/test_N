@@ -115,6 +115,7 @@ a { color: inherit; }
 /* ---- CHARTS ---- */
 .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
 .charts-row--donuts { grid-template-columns: 1fr 1fr; }
+.charts-row--thirds { grid-template-columns: 1fr 1fr 1fr; }
 .chart-card {
   background: var(--card); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 12px 16px;

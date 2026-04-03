@@ -125,7 +125,11 @@ function calcMetrics(deals) {
   return {
     mrrWon:         won.reduce((s, d) => s + parseMRR(d['Deal - Value']), 0),
     mrrPipeline:    open.filter(d => parseMRR(d['Deal - Value']) > 0).reduce((s, d) => s + parseMRR(d['Deal - Value']), 0),
-    winRate:        (won.length + lost.length > 0) ? ((won.length / (won.length + lost.length)) * 100).toFixed(1) : '0.0',
+    winRate:        (() => {
+      const lostQualified = lost.filter(d => (d['Deal - Lost reason'] || '').trim() !== 'Już w kontakcie');
+      const denom = won.length + lostQualified.length;
+      return denom > 0 ? ((won.length / denom) * 100).toFixed(1) : '0.0';
+    })(),
     activePipeline: open.length,
     avgDaysToClose,
     won, lost, open,

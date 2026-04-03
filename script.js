@@ -333,32 +333,7 @@ function renderFunnel(deals) {
       responsive: true,
       plugins: {
         legend: { display: false },
-        tooltip: {
-          callbacks: {
-            title: (items) => items[0]?.label || '',
-            label: (c) => `  ${c.parsed.x} dealów`,
-            afterLabel: (c) => {
-              const stage = fd[c.dataIndex]?.stage;
-              const desc = FUNNEL_DESC[stage];
-              if (!desc) return '';
-              // Wrap long text into ~50-char lines for readability
-              const words = desc.split(' ');
-              const lines = [];
-              let line = '';
-              for (const w of words) {
-                if ((line + ' ' + w).trim().length > 52) { lines.push('  ' + line.trim()); line = w; }
-                else line = (line + ' ' + w).trim();
-              }
-              if (line) lines.push('  ' + line);
-              return lines;
-            },
-          },
-          bodyColor: '#94a3b8',
-          titleColor: '#1e293b',
-          titleFont: { weight: 'bold' },
-          padding: 10,
-          boxPadding: 4,
-        },
+        tooltip: { callbacks: { label: (c) => `${c.parsed.x} dealów` } },
       },
       scales: {
         x: { beginAtZero: true, ticks: { stepSize: 1 } },
@@ -367,6 +342,13 @@ function renderFunnel(deals) {
     },
   });
 
+  // Populate info icon popup with all stage definitions
+  const popup = document.getElementById('funnel-info-popup');
+  if (popup) {
+    popup.innerHTML = Object.entries(FUNNEL_DESC)
+      .map(([stage, desc]) => `<div class="stage-info-row"><strong>${esc(stage)}</strong><span>${esc(desc)}</span></div>`)
+      .join('');
+  }
 }
 
 // ---- FUNNEL FLOW ----
@@ -589,6 +571,132 @@ function renderDeltaSection(delta) {
     </div>`;
 }
 
+// ---- WON TABLE ----
+function renderWonTable(deals) {
+  const el = document.getElementById('won-table-container');
+  if (!el) return;
+  const won = deals.filter(d => norm(d['Deal - Status']) === 'won')
+    .sort((a, b) => (parseDate(b['Deal - Won time']) || 0) - (parseDate(a['Deal - Won time']) || 0));
+
+  const rows = won.map(d => {
+    const created = parseDate(d['Deal - Deal created']);
+    const wonTime = parseDate(d['Deal - Won time'] || d['Deal - Deal closed on']);
+    const days = (created && wonTime) ? Math.floor((wonTime - created) / 86400000) : null;
+    return `<tr class="row--won">
+      <td><strong>${dealName(d)}</strong></td>
+      <td>${partnerBadge(d)}</td>
+      <td><span class="stage-badge">${esc(d['Deal - Stage'] || '—')}</span></td>
+      <td>${fmtDate(d['Deal - Won time'] || d['Deal - Deal closed on'])}</td>
+      <td>${fmtMRR(d['Deal - Value'])}</td>
+      <td>${days !== null ? days + ' dni' : '—'}</td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML = `<table class="data-table">
+    <thead><tr><th>Firma</th><th>Partner</th><th>Etap zamknięcia</th><th>Data zamknięcia</th><th>Wartość</th><th>Czas pozyskania</th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="6" class="empty-state">Brak wygranych dealów</td></tr>'}</tbody>
+  </table>`;
+}
+
+// ---- AI SUMMARY ----
+function renderAISummaryDirector(deals, metrics, md) {
+  const el = document.getElementById('ai-summary-director');
+  if (!el) return;
+
+  const total = deals.length;
+  const wonCount = metrics.won.length;
+  const lostCount = metrics.lost.length;
+  const openCount = metrics.open.length;
+  const wonPct = total > 0 ? ((wonCount / total) * 100).toFixed(0) : 0;
+  const lostPct = total > 0 ? ((lostCount / total) * 100).toFixed(0) : 0;
+
+  const funnelData = getFunnelData(deals);
+  const topStage = funnelData.reduce((a, b) => b.count > a.count ? b : a, { stage: '', count: 0 });
+
+  const lastMonths = md.slice(-3);
+  const recentAvg = lastMonths.length > 0
+    ? Math.round(lastMonths.reduce((s, m) => s + m.total, 0) / lastMonths.length)
+    : 0;
+
+  let text = `Pipeline aktualnie obejmuje <strong>${openCount} aktywnych dealów</strong>`;
+  if (metrics.mrrPipeline > 0) text += ` o potencjale MRR wynoszącym <strong>${fmtMRR(metrics.mrrPipeline)}</strong>`;
+  text += `. `;
+
+  if (topStage.count > 0) {
+    text += `Największa koncentracja otwartych dealów znajduje się na etapie <strong>${esc(topStage.stage)}</strong> (${topStage.count} dealów). `;
+  }
+
+  text += `Spośród wszystkich ${total} dealów historycznie: <strong>${wonPct}% zostało wygranych</strong> (${wonCount}), ${lostPct}% przegranych (${lostCount}), pozostałe aktywne. `;
+
+  if (parseFloat(metrics.winRate) < 15) {
+    text += `Win rate na poziomie <strong>${metrics.winRate}%</strong> wskazuje na przestrzeń do optymalizacji kwalifikacji lub zamykania dealów. `;
+  } else {
+    text += `Win rate wynosi <strong>${metrics.winRate}%</strong>. `;
+  }
+
+  if (recentAvg > 0) {
+    text += `Średni napływ nowych dealów w ostatnich ${lastMonths.length} miesiącach: <strong>${recentAvg} dealów/miesiąc</strong>.`;
+  }
+
+  el.innerHTML = `<div class="ai-summary-card">
+    <div class="ai-summary-label">✦ Podsumowanie AI</div>
+    <div class="ai-summary-text">${text}</div>
+  </div>`;
+}
+
+function renderAISummaryManager(deals) {
+  const el = document.getElementById('ai-summary-manager');
+  if (!el) return;
+
+  const lost = deals.filter(d => norm(d['Deal - Status']) === 'lost');
+  const open = deals.filter(d => norm(d['Deal - Status']) === 'open');
+
+  const reasons = {};
+  lost.forEach(d => {
+    const r = (d['Deal - Lost reason'] || '').trim() || 'Nie podano';
+    reasons[r] = (reasons[r] || 0) + 1;
+  });
+  const topReasons = Object.entries(reasons).sort(([, a], [, b]) => b - a).slice(0, 2);
+
+  const funnelData = getFunnelData(deals);
+  const topStage = funnelData.reduce((a, b) => b.count > a.count ? b : a, { stage: '', count: 0 });
+  const blocked = funnelData.find(f => f.stage === 'Blocked');
+
+  let text = '';
+
+  if (topStage.count > 0) {
+    text += `Lejek koncentruje się głównie na etapie <strong>${esc(topStage.stage)}</strong> (${topStage.count} otwartych dealów). `;
+  }
+
+  if (blocked && blocked.count > 0) {
+    const blockedPct = open.length > 0 ? ((blocked.count / open.length) * 100).toFixed(0) : 0;
+    text += `⚠️ <strong>${blocked.count} dealów jest Blocked</strong> (${blockedPct}% aktywnego pipeline) — wymagają działania lub decyzji o zamknięciu. `;
+  }
+
+  if (topReasons.length > 0) {
+    const [topReason, topCount] = topReasons[0];
+    const pct = lost.length > 0 ? ((topCount / lost.length) * 100).toFixed(0) : 0;
+    const label = topReason === 'Już w kontakcie' ? 'Odrzucone (już w kontakcie)' : topReason;
+    text += `Dominujący powód utraty: <strong>"${esc(label)}"</strong> — ${topCount} dealów (${pct}% wszystkich strat). `;
+    if (topReasons.length > 1) {
+      const [r2, c2] = topReasons[1];
+      const label2 = r2 === 'Już w kontakcie' ? 'Odrzucone (już w kontakcie)' : r2;
+      text += `Drugi w kolejności: <strong>"${esc(label2)}"</strong> (${c2} dealów). `;
+    }
+  }
+
+  if (lost.length > 0 && open.length > 0) {
+    const ratio = (open.length / lost.length).toFixed(1);
+    text += `Na każdy utracony deal przypada ${ratio} aktywnych — `;
+    text += parseFloat(ratio) < 2 ? `stosunek wymaga uwagi.` : `stosunek wskazuje na zdrowy pipeline.`;
+  }
+
+  el.innerHTML = `<div class="ai-summary-card">
+    <div class="ai-summary-label">✦ Podsumowanie AI</div>
+    <div class="ai-summary-text">${text}</div>
+  </div>`;
+}
+
 // ---- DIRECTOR VIEW ----
 function renderDirector() {
   const deals = filtered(state.current);
@@ -604,6 +712,7 @@ function renderDirector() {
   renderPartnerSplitChart(deals);
   renderStatusSplitChart(metrics);
   renderDeltaSection(delta);
+  renderAISummaryDirector(deals, metrics, md);
 }
 
 // ---- MANAGER VIEW ----
@@ -614,6 +723,8 @@ function renderManager() {
   renderFunnel(deals);
   renderFunnelFlow(deals);
   renderLostAnalysis(deals);
+  renderWonTable(deals);
+  renderAISummaryManager(deals);
 }
 
 function renderAll() {

@@ -64,6 +64,8 @@
 
       <div id="delta-section"></div>
 
+      <div id="ai-summary-director"></div>
+
     </div>
   </div>
 
@@ -90,7 +92,10 @@
           <canvas id="chart-manager-monthly" height="220"></canvas>
         </div>
         <div class="chart-card" id="funnel-container">
-          <div class="chart-card-title">Lejek sprzedażowy</div>
+          <div class="chart-card-title funnel-title-row">
+            Lejek sprzedażowy
+            <span class="stage-info-icon" id="funnel-info-icon">ⓘ<div class="stage-info-popup" id="funnel-info-popup"></div></span>
+          </div>
           <canvas id="chart-funnel" height="220"></canvas>
         </div>
         <div class="chart-card">
@@ -105,6 +110,11 @@
 
       <div class="section-title">Lista Lost</div>
       <div class="card" id="lost-table-container"></div>
+
+      <div class="section-title">Wygrane deale</div>
+      <div class="card" id="won-table-container"></div>
+
+      <div id="ai-summary-manager"></div>
 
     </div>
   </div>

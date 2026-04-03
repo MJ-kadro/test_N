@@ -772,8 +772,7 @@ function renderCumulativeFunnelChart(deals) {
     return val;
   });
 
-  const colors = FUNNEL_STAGES.map(s => s === 'Blocked' ? '#b86b0066' : '#1a4a8a66');
-  const borders = FUNNEL_STAGES.map(s => s === 'Blocked' ? '#b86b00' : '#1a4a8a');
+  const colors = FUNNEL_STAGES.map(s => s === 'Blocked' ? '#b86b00' : '#1a4a8a');
 
   state.charts['cumulative-funnel'] = new Chart(ctx, {
     type: 'bar',
@@ -783,8 +782,6 @@ function renderCumulativeFunnelChart(deals) {
         label: 'Skumulowana liczba dealów',
         data: values,
         backgroundColor: colors,
-        borderColor: borders,
-        borderWidth: 1.5,
         borderRadius: 4,
       }],
     },
@@ -797,7 +794,7 @@ function renderCumulativeFunnelChart(deals) {
       },
       scales: {
         x: { beginAtZero: true, ticks: { stepSize: 1 } },
-        y: { position: 'right', ticks: { font: { size: 12 } } },
+        y: { ticks: { font: { size: 12 } } },
       },
     },
   });

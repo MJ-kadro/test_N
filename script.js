@@ -684,19 +684,8 @@ function setupEvents() {
     fileInput.value = '';
   });
 
-  // Drag & drop
-  const zone = document.getElementById('upload-zone');
-  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
-  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-  zone.addEventListener('drop', e => {
-    e.preventDefault();
-    zone.classList.remove('drag-over');
-    const files = Array.from(e.dataTransfer.files)
-      .filter(f => f.name.endsWith('.json'))
-      .sort((a, b) => b.name.localeCompare(a.name));
-    if (files[0]) loadJSON(files[0], 'current');
-    if (files[1]) loadJSON(files[1], 'prev');
-  });
+  // Drag & drop (disabled — upload zone removed from UI)
+
 
   // Search
   const search = document.getElementById('deal-search');

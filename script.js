@@ -737,6 +737,12 @@ function renderDirector() {
   const delta = state.prev.length > 0 ? calcDelta(deals, filtered(state.prev)) : null;
   const md = getMonthlyData(deals);
 
+  // Auto-compute rejected count from ALL current deals (regardless of partner filter)
+  state.rejectedCount = state.current.filter(d =>
+    norm(d['Deal - Status']) === 'lost' &&
+    (d['Deal - Lost reason'] || '').trim() === 'Już w kontakcie'
+  ).length;
+
   renderAISummaryDirector(deals, metrics, md);
   renderCallout(metrics, delta);
   renderKPIs(metrics, prevMetrics);

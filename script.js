@@ -77,14 +77,18 @@ function calcMetrics(deals) {
   const lost = deals.filter(d => norm(d['Deal - Status']) === 'lost');
   const open = deals.filter(d => norm(d['Deal - Status']) === 'open');
 
-  // Average days from created to closed (won + lost with both dates present)
+  // Median days from created to closed (won + lost with both dates present)
   const closedDeals = [...won, ...lost].filter(d => d['Deal - Deal created'] && d['Deal - Deal closed on']);
-  const totalDays = closedDeals.reduce((s, d) => {
+  const daysList = closedDeals.reduce((arr, d) => {
     const created = parseDate(d['Deal - Deal created']);
     const closed  = parseDate(d['Deal - Deal closed on']);
-    return (created && closed) ? s + Math.floor((closed - created) / 86400000) : s;
-  }, 0);
-  const avgDaysToClose = closedDeals.length > 0 ? Math.round(totalDays / closedDeals.length) : null;
+    if (created && closed) arr.push(Math.floor((closed - created) / 86400000));
+    return arr;
+  }, []).sort((a, b) => a - b);
+  const mid = Math.floor(daysList.length / 2);
+  const avgDaysToClose = daysList.length === 0 ? null
+    : daysList.length % 2 === 1 ? daysList[mid]
+    : Math.round((daysList[mid - 1] + daysList[mid]) / 2);
 
   return {
     mrrWon:         won.reduce((s, d) => s + parseMRR(d['Deal - Value']), 0),
@@ -293,7 +297,7 @@ function renderKPIs(metrics, prevMetrics) {
     { label: 'Pipeline MRR Potential', val: fmtMRR(metrics.mrrPipeline),        d: delta(metrics.mrrPipeline,       prevMetrics?.mrrPipeline,    ' zł') },
     { label: 'Win Rate',               val: metrics.winRate + '%',               d: delta(metrics.winRate,           prevMetrics?.winRate,        'pp')  },
     { label: 'Aktywny pipeline',       val: metrics.activePipeline + ' dealów', d: delta(metrics.activePipeline,    prevMetrics?.activePipeline, '')    },
-    { label: 'Śr. czas zamknięcia',    val: avgVal,                              d: prevAvg !== undefined && metrics.avgDaysToClose !== null ? delta(metrics.avgDaysToClose, prevAvg, ' dni') : '' },
+    { label: 'Mediana czasu zamknięcia', val: avgVal,                             d: prevAvg !== undefined && metrics.avgDaysToClose !== null ? delta(metrics.avgDaysToClose, prevAvg, ' dni') : '' },
   ];
   const rejCard = `
     <div class="kpi-card kpi-card--amber">
@@ -762,6 +766,9 @@ function renderCumulativeFunnelChart(deals) {
   // Count deals (all statuses) per stage
   const stageCounts = {};
   FUNNEL_STAGES.forEach(s => { stageCounts[s] = deals.filter(d => d['Deal - Stage'] === s).length; });
+
+  const titleEl = document.getElementById('cumulative-funnel-title');
+  if (titleEl) titleEl.textContent = `Skumulowany lejek · ${deals.length} leadów`;
 
   // Cumulative: each stage = total - sum of all previous stage counts
   const total = deals.length;

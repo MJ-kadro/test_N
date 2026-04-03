@@ -51,22 +51,22 @@
       <div class="charts-row">
         <div class="chart-card">
           <div class="chart-card-title">Nowe deale miesięcznie</div>
-          <canvas id="chart-monthly" height="260"></canvas>
+          <canvas id="chart-monthly" height="180"></canvas>
         </div>
         <div class="chart-card">
           <div class="chart-card-title">Skumulowane deale</div>
-          <canvas id="chart-cumulative" height="260"></canvas>
+          <canvas id="chart-cumulative" height="180"></canvas>
         </div>
       </div>
 
       <div class="charts-row charts-row--donuts">
         <div class="chart-card chart-card--donut">
           <div class="chart-card-title">Podział wg Partnera</div>
-          <canvas id="chart-partner-split" height="220"></canvas>
+          <canvas id="chart-partner-split" height="160"></canvas>
         </div>
         <div class="chart-card chart-card--donut">
           <div class="chart-card-title">Status dealów</div>
-          <canvas id="chart-status-split" height="220"></canvas>
+          <canvas id="chart-status-split" height="160"></canvas>
         </div>
       </div>
 
@@ -78,16 +78,6 @@
   <!-- ===== MANAGER VIEW ===== -->
   <div id="view-manager" class="view">
     <div class="container">
-
-      <div class="section-title">Lejek sprzedażowy</div>
-      <div class="card" id="funnel-container">
-        <canvas id="chart-funnel" height="300"></canvas>
-      </div>
-
-      <div class="section-title">Flow lejka — ile dealów osiągnęło dany etap</div>
-      <div class="card" id="funnel-flow-container">
-        <canvas id="chart-funnel-flow" height="300"></canvas>
-      </div>
 
       <div class="section-title">Wszystkie deale</div>
       <div class="card">
@@ -101,10 +91,24 @@
         <div id="deals-table-container"></div>
       </div>
 
+      <div class="section-title">Deale per miesiąc</div>
+      <div class="chart-card">
+        <canvas id="chart-manager-monthly" height="160"></canvas>
+      </div>
+
+      <div class="section-title">Lejek sprzedażowy</div>
+      <div class="card" id="funnel-container">
+        <canvas id="chart-funnel" height="220"></canvas>
+      </div>
+
+      <div id="funnel-flow-container" style="display:none">
+        <canvas id="chart-funnel-flow"></canvas>
+      </div>
+
       <div class="section-title">Analiza Lost</div>
       <div class="chart-card">
         <div class="chart-card-title">Lost wg powodu utraty</div>
-        <canvas id="chart-lost-stage" height="220"></canvas>
+        <canvas id="chart-lost-stage" height="160"></canvas>
       </div>
       <div class="section-title">Lista Lost</div>
       <div class="card" id="lost-table-container"></div>

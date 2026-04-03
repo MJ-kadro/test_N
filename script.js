@@ -309,10 +309,7 @@ function renderFunnel(deals) {
 
   const fd = getFunnelData(deals);
   const colors = fd.map(item => item.stage === 'Blocked' ? '#b86b00' : '#1a4a8a');
-  const labels = fd.map(item => {
-    const val = item.mrr > 0 ? ` (${fmtNum(item.mrr)} zł)` : '';
-    return `${item.stage}${val}`;
-  });
+  const labels = fd.map(item => item.stage);
 
   state.charts.funnel = new Chart(ctx, {
     type: 'bar',
@@ -375,6 +372,29 @@ function renderFunnelFlow(deals) {
         x: { beginAtZero: true, ticks: { stepSize: 1 } },
         y: { ticks: { font: { size: 13 } } },
       },
+    },
+  });
+}
+
+// ---- MANAGER MONTHLY CHART ----
+function renderManagerMonthlyChart(deals) {
+  destroyChart('manager-monthly');
+  const ctx = document.getElementById('chart-manager-monthly');
+  if (!ctx) return;
+  const md = getMonthlyData(deals);
+  state.charts['manager-monthly'] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: md.map(m => m.month),
+      datasets: [
+        { label: 'Pracuj.pl',  data: md.map(m => m.pracuj),     backgroundColor: '#1a4a8a', stack: 'p' },
+        { label: 'eRecruiter', data: md.map(m => m.erecruiter), backgroundColor: '#6b21a8', stack: 'p' },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'bottom' } },
+      scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, ticks: { stepSize: 1 } } },
     },
   });
 }
@@ -557,9 +577,10 @@ function renderDirector() {
 // ---- MANAGER VIEW ----
 function renderManager() {
   const deals = filtered(state.current);
+  renderDealsTable(deals);
+  renderManagerMonthlyChart(deals);
   renderFunnel(deals);
   renderFunnelFlow(deals);
-  renderDealsTable(deals);
   renderLostAnalysis(deals);
 }
 

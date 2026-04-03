@@ -297,7 +297,7 @@ function renderKPIs(metrics, prevMetrics) {
   ];
   const rejCard = `
     <div class="kpi-card kpi-card--amber">
-      <div class="kpi-label">Odrzucone deale <span class="kpi-tooltip" title="Deale z którymi już prowadzimy rozmowy">ⓘ</span></div>
+      <div class="kpi-label">Odrzucone deale <span class="kpi-tooltip" title="Deale które już mamy w procesie sprzedaży">ⓘ</span></div>
       <div class="kpi-value kpi-value--amber">${state.rejectedCount}</div>
     </div>`;
   el.innerHTML = cards.map(k => `
@@ -753,6 +753,56 @@ function renderDirector() {
   renderDeltaSection(delta);
 }
 
+// ---- CUMULATIVE FUNNEL CHART ----
+function renderCumulativeFunnelChart(deals) {
+  destroyChart('cumulative-funnel');
+  const ctx = document.getElementById('chart-cumulative-funnel');
+  if (!ctx) return;
+
+  // Count deals (all statuses) per stage
+  const stageCounts = {};
+  FUNNEL_STAGES.forEach(s => { stageCounts[s] = deals.filter(d => d['Deal - Stage'] === s).length; });
+
+  // Cumulative: each stage = total - sum of all previous stage counts
+  const total = deals.length;
+  let cumSubtract = 0;
+  const values = FUNNEL_STAGES.map(stage => {
+    const val = total - cumSubtract;
+    cumSubtract += stageCounts[stage];
+    return val;
+  });
+
+  const colors = FUNNEL_STAGES.map(s => s === 'Blocked' ? '#b86b0066' : '#1a4a8a66');
+  const borders = FUNNEL_STAGES.map(s => s === 'Blocked' ? '#b86b00' : '#1a4a8a');
+
+  state.charts['cumulative-funnel'] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: FUNNEL_STAGES,
+      datasets: [{
+        label: 'Skumulowana liczba dealów',
+        data: values,
+        backgroundColor: colors,
+        borderColor: borders,
+        borderWidth: 1.5,
+        borderRadius: 4,
+      }],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => `${c.parsed.x} dealów osiągnęło ten etap` } },
+      },
+      scales: {
+        x: { beginAtZero: true, ticks: { stepSize: 1 } },
+        y: { position: 'right', ticks: { font: { size: 12 } } },
+      },
+    },
+  });
+}
+
 // ---- MANAGER VIEW ----
 function renderManager() {
   const deals = filtered(state.current);
@@ -760,6 +810,7 @@ function renderManager() {
   renderDealsTable(deals);
   renderManagerMonthlyChart(deals);
   renderFunnel(deals);
+  renderCumulativeFunnelChart(deals);
   renderFunnelFlow(deals);
   renderLostAnalysis(deals);
   renderWonTable(deals);
@@ -873,7 +924,8 @@ async function loadDefaultData() {
     }
 
     const meta = document.getElementById('report-meta');
-    if (meta) meta.textContent = `Dane na dzień: ${curr.date}${prev ? ` (poprzedni: ${prev.date})` : ''}`;
+    const fmtD = iso => iso.split('-').reverse().join('.');
+    if (meta) meta.textContent = `Dane na dzień: ${fmtD(curr.date)}${prev ? ` (poprzedni: ${fmtD(prev.date)})` : ''}`;
 
     renderAll();
   } catch (err) {

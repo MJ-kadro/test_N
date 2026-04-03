@@ -2,6 +2,38 @@
    KADROMIERZ × PRACUJ — PIPELINE DASHBOARD
    ============================================= */
 
+// ---- AUTH ----
+const _A = ['K','@','d','r','o','m','i','e','r','z','2','@','2','6','P','r','@','c','u','j'].join('');
+
+function setupAuth() {
+  const overlay = document.getElementById('auth-overlay');
+  const input   = document.getElementById('auth-input');
+  const btn     = document.getElementById('auth-btn');
+  const errEl   = document.getElementById('auth-error');
+
+  if (sessionStorage.getItem('kp_ok') === '1') {
+    overlay.style.display = 'none';
+    return true;
+  }
+
+  function tryLogin() {
+    if (input.value === _A) {
+      sessionStorage.setItem('kp_ok', '1');
+      overlay.style.display = 'none';
+      loadDefaultData();
+    } else {
+      errEl.textContent = 'Nieprawidłowe hasło. Spróbuj ponownie.';
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  btn.addEventListener('click', tryLogin);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+  input.focus();
+  return false;
+}
+
 // ---- CONFIG ----
 const PARTNER_COLORS = { 'Pracuj.pl': '#1a4a8a', 'eRecruiter': '#6b21a8' };
 const STATUS_COLORS  = { won: '#1a7a4a', lost: '#c0392b', open: '#1a4a8a', blocked: '#b86b00' };
@@ -733,6 +765,30 @@ function renderAISummaryManager(deals) {
   </div>`;
 }
 
+// ---- REJECTED TABLE ----
+function renderRejectedTable(deals) {
+  const el = document.getElementById('rejected-table-container');
+  if (!el) return;
+  // Use ALL current deals regardless of partner filter
+  const rejected = state.current.filter(d =>
+    norm(d['Deal - Status']) === 'lost' &&
+    (d['Deal - Lost reason'] || '').trim() === 'Już w kontakcie'
+  ).sort((a, b) => (parseDate(b['Deal - Lost time']) || 0) - (parseDate(a['Deal - Lost time']) || 0));
+
+  const rows = rejected.map(d => `<tr>
+    <td><strong>${dealName(d)}</strong></td>
+    <td>${partnerBadge(d)}</td>
+    <td><span class="stage-badge">${esc(d['Deal - Stage'] || '—')}</span></td>
+    <td>${fmtDate(d['Deal - Lost time'] || d['Deal - Deal closed on'])}</td>
+    <td>${fmtMRR(d['Deal - Value'])}</td>
+  </tr>`).join('');
+
+  el.innerHTML = `<table class="data-table">
+    <thead><tr><th>Firma</th><th>Partner</th><th>Etap</th><th>Data odrzucenia</th><th>Wartość</th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="5" class="empty-state">Brak odrzuconych dealów</td></tr>'}</tbody>
+  </table>`;
+}
+
 // ---- DIRECTOR VIEW ----
 function renderDirector() {
   const deals = filtered(state.current);
@@ -755,6 +811,7 @@ function renderDirector() {
   renderPartnerSplitChart(deals);
   renderStatusSplitChart(metrics);
   renderDeltaSection(delta);
+  renderRejectedTable(deals);
 }
 
 // ---- CUMULATIVE FUNNEL CHART ----
@@ -944,7 +1001,8 @@ async function loadDefaultData() {
 // ---- INIT ----
 function init() {
   setupEvents();
-  loadDefaultData();
+  const authed = setupAuth();
+  if (authed) loadDefaultData();
 }
 
 document.addEventListener('DOMContentLoaded', init);

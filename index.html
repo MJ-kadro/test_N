@@ -9,6 +9,17 @@
 </head>
 <body>
 
+  <!-- ===== AUTH OVERLAY ===== -->
+  <div id="auth-overlay">
+    <div id="auth-box">
+      <div class="auth-logo">Kadromierz × Pracuj</div>
+      <div class="auth-sub">Pipeline Dashboard</div>
+      <input type="password" id="auth-input" placeholder="Hasło dostępu" autocomplete="current-password">
+      <button id="auth-btn">Zaloguj</button>
+      <div id="auth-error"></div>
+    </div>
+  </div>
+
   <header class="header">
     <div class="header-brand">
       <span class="brand-name">Kadromierz × Pracuj</span>
@@ -66,6 +77,9 @@
         </div>
         <div id="delta-section"></div>
       </div>
+
+      <div class="section-title">Deale odrzucone</div>
+      <div class="card" id="rejected-table-container"></div>
 
     </div>
   </div>

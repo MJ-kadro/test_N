@@ -27,6 +27,39 @@
 body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); font-size: 13px; min-width: 1280px; }
 a { color: inherit; }
 
+/* ---- AUTH OVERLAY ---- */
+#auth-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #0f172a;
+  display: flex; align-items: center; justify-content: center;
+}
+#auth-box {
+  background: #1e293b; border-radius: 14px;
+  padding: 40px 48px; width: 360px;
+  display: flex; flex-direction: column; gap: 14px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+}
+.auth-logo {
+  font-size: 1.1rem; font-weight: 700; color: #f1f5f9; text-align: center;
+}
+.auth-sub {
+  font-size: 0.8rem; color: #64748b; text-align: center; margin-top: -8px;
+}
+#auth-input {
+  padding: 10px 14px; border-radius: 8px;
+  border: 1.5px solid #334155; background: #0f172a;
+  color: #f1f5f9; font-size: 0.9rem; outline: none;
+  transition: border 0.15s;
+}
+#auth-input:focus { border-color: #1a4a8a; }
+#auth-btn {
+  padding: 10px; border-radius: 8px; border: none;
+  background: #1a4a8a; color: #fff; font-size: 0.9rem;
+  font-weight: 600; cursor: pointer; transition: background 0.15s;
+}
+#auth-btn:hover { background: #1e5aa8; }
+#auth-error { font-size: 0.8rem; color: #f87171; text-align: center; min-height: 18px; }
+
 /* ---- HEADER ---- */
 .header {
   position: sticky; top: 0; z-index: 100;

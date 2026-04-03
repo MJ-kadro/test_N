@@ -76,11 +76,22 @@ function calcMetrics(deals) {
   const won  = deals.filter(d => norm(d['Deal - Status']) === 'won');
   const lost = deals.filter(d => norm(d['Deal - Status']) === 'lost');
   const open = deals.filter(d => norm(d['Deal - Status']) === 'open');
+
+  // Average days from created to closed (won + lost with both dates present)
+  const closedDeals = [...won, ...lost].filter(d => d['Deal - Deal created'] && d['Deal - Deal closed on']);
+  const totalDays = closedDeals.reduce((s, d) => {
+    const created = parseDate(d['Deal - Deal created']);
+    const closed  = parseDate(d['Deal - Deal closed on']);
+    return (created && closed) ? s + Math.floor((closed - created) / 86400000) : s;
+  }, 0);
+  const avgDaysToClose = closedDeals.length > 0 ? Math.round(totalDays / closedDeals.length) : null;
+
   return {
-    mrrWon:      won.reduce((s, d) => s + parseMRR(d['Deal - Value']), 0),
-    mrrPipeline: open.filter(d => parseMRR(d['Deal - Value']) > 0).reduce((s, d) => s + parseMRR(d['Deal - Value']), 0),
-    winRate:     (won.length + lost.length > 0) ? ((won.length / (won.length + lost.length)) * 100).toFixed(1) : '0.0',
+    mrrWon:         won.reduce((s, d) => s + parseMRR(d['Deal - Value']), 0),
+    mrrPipeline:    open.filter(d => parseMRR(d['Deal - Value']) > 0).reduce((s, d) => s + parseMRR(d['Deal - Value']), 0),
+    winRate:        (won.length + lost.length > 0) ? ((won.length / (won.length + lost.length)) * 100).toFixed(1) : '0.0',
     activePipeline: open.length,
+    avgDaysToClose,
     won, lost, open,
   };
 }
@@ -270,11 +281,15 @@ function renderKPIs(metrics, prevMetrics) {
     return `<div class="kpi-delta ${cls}">${sign}${val}${unit}</div>`;
   }
 
+  const avgVal = metrics.avgDaysToClose !== null ? metrics.avgDaysToClose + ' dni' : '—';
+  const prevAvg = prevMetrics?.avgDaysToClose ?? undefined;
+
   const cards = [
-    { label: 'MRR Won',               val: fmtMRR(metrics.mrrWon),             d: delta(metrics.mrrWon,         prevMetrics?.mrrWon,         ' zł') },
-    { label: 'Pipeline MRR Potential', val: fmtMRR(metrics.mrrPipeline),        d: delta(metrics.mrrPipeline,    prevMetrics?.mrrPipeline,    ' zł') },
-    { label: 'Win Rate',               val: metrics.winRate + '%',               d: delta(metrics.winRate,        prevMetrics?.winRate,        'pp')  },
-    { label: 'Aktywny pipeline',       val: metrics.activePipeline + ' dealów', d: delta(metrics.activePipeline, prevMetrics?.activePipeline, '')   },
+    { label: 'MRR Won',               val: fmtMRR(metrics.mrrWon),             d: delta(metrics.mrrWon,            prevMetrics?.mrrWon,         ' zł') },
+    { label: 'Pipeline MRR Potential', val: fmtMRR(metrics.mrrPipeline),        d: delta(metrics.mrrPipeline,       prevMetrics?.mrrPipeline,    ' zł') },
+    { label: 'Win Rate',               val: metrics.winRate + '%',               d: delta(metrics.winRate,           prevMetrics?.winRate,        'pp')  },
+    { label: 'Aktywny pipeline',       val: metrics.activePipeline + ' dealów', d: delta(metrics.activePipeline,    prevMetrics?.activePipeline, '')    },
+    { label: 'Śr. czas zamknięcia',    val: avgVal,                              d: prevAvg !== undefined && metrics.avgDaysToClose !== null ? delta(metrics.avgDaysToClose, prevAvg, ' dni') : '' },
   ];
   const rejCard = `
     <div class="kpi-card kpi-card--amber">
@@ -287,7 +302,7 @@ function renderKPIs(metrics, prevMetrics) {
       <div class="kpi-value">${k.val}</div>
       ${k.d}
     </div>`).join('') + rejCard;
-  el.style.gridTemplateColumns = 'repeat(5, 1fr)';
+  el.style.gridTemplateColumns = 'repeat(6, 1fr)';
 }
 
 // ---- CALLOUT ----
@@ -635,7 +650,11 @@ function renderAISummaryDirector(deals, metrics, md) {
   }
 
   if (recentAvg > 0) {
-    text += `Średni napływ nowych dealów w ostatnich ${lastMonths.length} miesiącach: <strong>${recentAvg} dealów/miesiąc</strong>.`;
+    text += `Średni napływ nowych dealów w ostatnich ${lastMonths.length} miesiącach: <strong>${recentAvg} dealów/miesiąc</strong>. `;
+  }
+
+  if (metrics.avgDaysToClose !== null) {
+    text += `Średni czas zamknięcia deala (od dodania do zamknięcia won/lost): <strong>${metrics.avgDaysToClose} dni</strong>.`;
   }
 
   el.innerHTML = `<div class="ai-summary-card">
@@ -688,7 +707,12 @@ function renderAISummaryManager(deals) {
   if (lost.length > 0 && open.length > 0) {
     const ratio = (open.length / lost.length).toFixed(1);
     text += `Na każdy utracony deal przypada ${ratio} aktywnych — `;
-    text += parseFloat(ratio) < 2 ? `stosunek wymaga uwagi.` : `stosunek wskazuje na zdrowy pipeline.`;
+    text += parseFloat(ratio) < 2 ? `stosunek wymaga uwagi. ` : `stosunek wskazuje na zdrowy pipeline. `;
+  }
+
+  const metrics = calcMetrics(deals);
+  if (metrics.avgDaysToClose !== null) {
+    text += `Średni czas zamknięcia deala: <strong>${metrics.avgDaysToClose} dni</strong> (od dodania do zamknięcia won/lost).`;
   }
 
   el.innerHTML = `<div class="ai-summary-card">
@@ -705,6 +729,7 @@ function renderDirector() {
   const delta = state.prev.length > 0 ? calcDelta(deals, filtered(state.prev)) : null;
   const md = getMonthlyData(deals);
 
+  renderAISummaryDirector(deals, metrics, md);
   renderCallout(metrics, delta);
   renderKPIs(metrics, prevMetrics);
   renderMonthlyChart(md);
@@ -712,19 +737,18 @@ function renderDirector() {
   renderPartnerSplitChart(deals);
   renderStatusSplitChart(metrics);
   renderDeltaSection(delta);
-  renderAISummaryDirector(deals, metrics, md);
 }
 
 // ---- MANAGER VIEW ----
 function renderManager() {
   const deals = filtered(state.current);
+  renderAISummaryManager(deals);
   renderDealsTable(deals);
   renderManagerMonthlyChart(deals);
   renderFunnel(deals);
   renderFunnelFlow(deals);
   renderLostAnalysis(deals);
   renderWonTable(deals);
-  renderAISummaryManager(deals);
 }
 
 function renderAll() {

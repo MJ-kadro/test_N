@@ -249,8 +249,12 @@ function renderLostByStageChart(deals) {
   destroyChart('lost-stage');
   const ctx = document.getElementById('chart-lost-stage');
   if (!ctx) return;
+  const lostDeals = deals.filter(d => norm(d['Deal - Status']) === 'lost');
+  const lostTitleEl = document.getElementById('lost-chart-title');
+  if (lostTitleEl) lostTitleEl.textContent = `Lost wg powodu utraty · ${lostDeals.length} dealów`;
+
   const byReason = {};
-  deals.filter(d => norm(d['Deal - Status']) === 'lost').forEach(d => {
+  lostDeals.forEach(d => {
     let r = (d['Deal - Lost reason'] || '').trim() || 'Nie podano';
     if (r === 'Już w kontakcie') r = 'Odrzucone (już w kontakcie)';
     byReason[r] = (byReason[r] || 0) + 1;
@@ -293,7 +297,7 @@ function renderKPIs(metrics, prevMetrics) {
   ];
   const rejCard = `
     <div class="kpi-card kpi-card--amber">
-      <div class="kpi-label">Odrzucone deale <span class="kpi-tooltip" title="Deale które są już procesowane przed poleceniem przez partnera">ⓘ</span></div>
+      <div class="kpi-label">Odrzucone deale <span class="kpi-tooltip" title="Deale z którymi już prowadzimy rozmowy">ⓘ</span></div>
       <div class="kpi-value kpi-value--amber">${state.rejectedCount}</div>
     </div>`;
   el.innerHTML = cards.map(k => `
@@ -334,6 +338,10 @@ function renderFunnel(deals) {
   if (!ctx) return;
 
   const fd = getFunnelData(deals);
+  const openCount = deals.filter(d => norm(d['Deal - Status']) === 'open').length;
+  const titleEl = document.getElementById('funnel-chart-title');
+  if (titleEl) titleEl.textContent = `Lejek sprzedażowy · ${openCount} aktywnych`;
+
   const colors = fd.map(item => item.stage === 'Blocked' ? '#b86b00' : '#1a4a8a');
   const labels = fd.map(item => item.stage);
 
@@ -859,7 +867,7 @@ async function loadDefaultData() {
     }
 
     const meta = document.getElementById('report-meta');
-    if (meta) meta.textContent = `Raport: ${curr.name}${prev ? ` | Poprzedni: ${prev.name}` : ''}`;
+    if (meta) meta.textContent = `Dane na dzień: ${curr.date}${prev ? ` (poprzedni: ${prev.date})` : ''}`;
 
     renderAll();
   } catch (err) {

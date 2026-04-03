@@ -17,23 +17,6 @@
     "Deal - Lost reason": "Brak decyzji"
   },
   {
-    "Deal - ID": 22370,
-    "Deal - Value": 20000.0,
-    "Organization - MRR": 0.0,
-    "Deal - Title": "Zdrojowa Hotels Sp. z o.o. (IGHP)",
-    "Deal - Deal created": "2025-04-29 08:51:59",
-    "Deal - Deal closed on": null,
-    "Deal - Stage": "Consideration",
-    "Deal - Status": "Open",
-    "Deal - Won time": null,
-    "Deal - Lost time": null,
-    "Deal - Total activities": 10,
-    "Deal - Organization": "Zdrojowa Hotels Sp. z o.o.",
-    "Organization - Status konta": "Zablokowane",
-    "Deal - Nazwa Partnera": "eRecruiter",
-    "Deal - Lost reason": null
-  },
-  {
     "Deal - ID": 23470,
     "Deal - Value": 2000.0,
     "Organization - MRR": 0.0,
@@ -61,7 +44,7 @@
     "Deal - Status": "Open",
     "Deal - Won time": null,
     "Deal - Lost time": null,
-    "Deal - Total activities": 17,
+    "Deal - Total activities": 18,
     "Deal - Organization": "Destigo Hotels",
     "Organization - Status konta": null,
     "Deal - Nazwa Partnera": "Pracuj.pl",
@@ -78,7 +61,7 @@
     "Deal - Status": "Open",
     "Deal - Won time": null,
     "Deal - Lost time": null,
-    "Deal - Total activities": 8,
+    "Deal - Total activities": 7,
     "Deal - Organization": "Grycan Lodziarnie Firmowe",
     "Organization - Status konta": null,
     "Deal - Nazwa Partnera": "eRecruiter",
@@ -780,5 +763,22 @@
     "Organization - Status konta": null,
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": null
+  },
+  {
+    "Deal - ID": 28995,
+    "Deal - Value": 0.0,
+    "Organization - MRR": 0.0,
+    "Deal - Title": "Four Points by Sheraton Warsaw",
+    "Deal - Deal created": "2026-04-03 10:38:16",
+    "Deal - Deal closed on": "2026-04-03 10:40:45",
+    "Deal - Stage": "Prospect",
+    "Deal - Status": "Lost",
+    "Deal - Won time": null,
+    "Deal - Lost time": "2026-04-03 10:40:45",
+    "Deal - Total activities": 0,
+    "Deal - Organization": "Four Points by Sheraton Warsaw",
+    "Organization - Status konta": null,
+    "Deal - Nazwa Partnera": "eRecruiter",
+    "Deal - Lost reason": "Już w kontakcie"
   }
 ]

@@ -341,7 +341,6 @@ function _gpPartnerBadge(partner) {
 const GP_CATEGORIES = [
   {
     key:     'lead_confirmed',
-    icon:    '✅',
     label:   'Potwierdzenie przejęcia leada',
     tooltip: 'Deal stworzony między raportami, status aktywny, etap ≠ Prospect',
     accent:  '#1a4a8a',
@@ -356,7 +355,6 @@ const GP_CATEGORIES = [
   },
   {
     key:     'meeting_scheduled',
-    icon:    '📅',
     label:   'Umówienie spotkania z klientem',
     tooltip: 'Zadanie "Online Prezentacja" dodane w Pipedrive między raportami',
     accent:  '#0055ff',
@@ -371,11 +369,10 @@ const GP_CATEGORIES = [
   },
   {
     key:     'trial_started',
-    icon:    '🧑‍💻',
     label:   'Uruchomienie Trialu',
     tooltip: 'Pole "Organization - Spaceship link" uzupełnione między raportami',
     accent:  '#6b21a8',
-    cols:    ['Firma', 'Partner', 'Etap', 'Wartość', 'Spaceship', 'Data raportu'],
+    cols:    ['Firma', 'Partner', 'Etap', 'Wartość'],
     row: d => `<tr>
       <td><strong>${esc(d.title)}</strong></td>
       <td>${_gpPartnerBadge(d.partner)}</td>
@@ -387,24 +384,9 @@ const GP_CATEGORIES = [
       <td>${fmtDate(d.date)}</td>
     </tr>`,
   },
-  {
-    key:     'no_contact',
-    icon:    '❌',
-    label:   'Brak kontaktu (min. 4 próby Call+BK)',
-    tooltip: 'Minimum 4 kolejne zadania Call z komentarzem BK w Pipedrive',
-    accent:  '#b86b00',
-    cols:    ['Firma', 'Partner', 'Etap', 'Wartość', 'Data 4. próby'],
-    row: d => `<tr>
-      <td><strong>${esc(d.title)}</strong></td>
-      <td>${_gpPartnerBadge(d.partner)}</td>
-      <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
-      <td>${fmtMRR(d.value)}</td>
-      <td>${fmtDate(d.date)}</td>
-    </tr>`,
-  },
+
   {
     key:     'rejected',
-    icon:    '🚫',
     label:   'Odrzucenie / brak zainteresowania',
     tooltip: '"Zastał przy obecnym rozwiązaniu" lub "Brak decyzji" — nowa strata między raportami',
     accent:  '#c0392b',
@@ -419,7 +401,6 @@ const GP_CATEGORIES = [
   },
   {
     key:     'deal_closed',
-    icon:    '🎯',
     label:   'Zamknięcie sprzedaży (Won / Lost)',
     tooltip: 'Deale zamknięte między raportami z wyłączeniem odrzuceń (kategoria wyżej)',
     accent:  '#1a7a4a',

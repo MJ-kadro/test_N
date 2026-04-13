@@ -346,7 +346,7 @@ a { color: inherit; }
   border-top: 3px solid var(--gp-accent);
   border-radius: var(--radius);
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  overflow: hidden;
+  position: relative;
 }
 .gp-alert-header {
   display: flex; align-items: center; gap: 10px;
@@ -386,7 +386,7 @@ a { color: inherit; }
   background: #1e293b; color: #f1f5f9;
   font-size: 0.75rem; font-weight: 400; line-height: 1.5;
   padding: 7px 11px; border-radius: 6px;
-  width: 240px; white-space: normal; z-index: 200;
+  width: 240px; white-space: normal; z-index: 300;
   box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   pointer-events: none;
 }

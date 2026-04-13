@@ -394,3 +394,18 @@ a { color: inherit; }
 .gp-tooltip-icon:focus .gp-tooltip-text { display: block; }
 .stage-badge--won { background: #dcfce7; color: #15803d; }
 .stage-badge--lost { background: #fee2e2; color: #b91c1c; }
+
+/* Sekcja GP Alerts — dodatkowe elementy */
+.gp-flow-wrapper { grid-template-columns: 1fr 1fr 1fr; } /* 3 kolumny dla 6 kart */
+.gp-alert-icon { font-size: 1.1rem; flex-shrink: 0; }
+.gp-table-wrap { overflow-x: auto; }
+.gp-table-wrap .data-table { min-width: 420px; }
+.gp-link { color: var(--pracuj); text-decoration: underline; font-size: 0.8rem; }
+.gp-link:hover { opacity: 0.8; }
+.gp-alerts-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.gp-alerts-period {
+  font-size: 0.78rem; font-weight: 400;
+  color: var(--muted);
+  background: #f1f5f9; border: 1px solid var(--border);
+  padding: 2px 9px; border-radius: 8px;
+}

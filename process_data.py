@@ -238,6 +238,8 @@ def calc_manager(df):
         'won_deals': won_rows,
         'lost_deals': lost_rows,
         'lost_reasons_summary': lost_reasons_summary,
+        # gp_alerts jest uzupełniane przez convert.py po porównaniu dwóch raportów
+        'gp_alerts': None,
     }
 
 
@@ -421,16 +423,14 @@ def calc_gp_alerts(df, prev_records: list, prev_date: datetime, current_date: da
             })
 
     return {
-        'period': {
-            'from': prev_date.strftime('%Y-%m-%d'),
-            'to': current_date.strftime('%Y-%m-%d'),
-        },
-        'lead_confirmed':    lead_confirmed,
-        'meeting_scheduled': meeting_scheduled,
-        'trial_started':     trial_started,
-        'no_contact':        no_contact,
-        'rejected':          rejected,
-        'closed':            closed_deals,
+        'prev_report_date':    prev_date.strftime('%Y-%m-%d'),
+        'current_report_date': current_date.strftime('%Y-%m-%d'),
+        'lead_confirmed':      lead_confirmed,
+        'meeting_scheduled':   meeting_scheduled,
+        'trial_started':       trial_started,
+        'no_contact':          no_contact,
+        'rejected':            rejected,
+        'deal_closed':         closed_deals,
     }
 
 

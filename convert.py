@@ -1,25 +1,24 @@
 """
 Kadromierz × Pracuj — Pipeline Dashboard
-Obliczanie delt KPI między dwoma ostatnimi raportami.
+Obliczanie delt KPI między dwoma ostatnimi raportami + Alerty GP.
 
 Porównuje 2 ostatnie pliki basic_data_*.json i aktualizuje
-dashboard_data.json o wartości zmian (WoW delty) dla 6 metryk KPI:
-  - MRR Won
-  - Pipeline MRR Potential
-  - Win Rate
-  - Aktywny Pipeline (open deals)
-  - Mediana czasu zamknięcia
-  - Odrzucone deale
+dashboard_data.json o:
+  1. WoW delty 6 metryk KPI (MRR Won, Pipeline MRR, Win Rate, ...)
+  2. Alerty GP — 6 kategorii zdarzeń między raportami
 
 Wymagania: process_data.py musi być uruchomiony wcześniej.
 
 Użycie:
-    python convert.py
+    python convert.py            # z pobieraniem aktywności przez API
+    python convert.py --no-api   # bez API (tylko cache lokalny)
 """
 import json
 import glob
 import math
 import os
+import re
+import sys
 from datetime import datetime
 
 
@@ -79,7 +78,16 @@ def calc_kpis_from_records(records):
     }
 
 
+def _ddmm_to_date(ddmm: str) -> str:
+    """'1004' → '2026-04-10', '0304' → '2026-04-03'"""
+    dd, mm = ddmm[:2], ddmm[2:4]
+    year = datetime.now().year
+    return f'{year}-{mm}-{dd}'
+
+
 def run_convert():
+    use_api = '--no-api' not in sys.argv
+
     json_files = sorted(glob.glob('data/basic_data_*.json'))
     if len(json_files) < 2:
         print(f'Potrzebne co najmniej 2 pliki JSON (znaleziono {len(json_files)}).')
@@ -92,6 +100,14 @@ def run_convert():
     print(f'Porównuję:')
     print(f'  Aktualny:  {latest_path}')
     print(f'  Poprzedni: {prev_path}')
+
+    # Wyznacz daty raportów z nazw plików (basic_data_DDMM.json)
+    m_curr = re.search(r'basic_data_(\d{4})\.json$', latest_path)
+    m_prev = re.search(r'basic_data_(\d{4})\.json$', prev_path)
+    curr_date_str = _ddmm_to_date(m_curr.group(1)) if m_curr else datetime.now().strftime('%Y-%m-%d')
+    prev_date_str = _ddmm_to_date(m_prev.group(1)) if m_prev else curr_date_str
+    print(f'  Data bieżąca:    {curr_date_str}')
+    print(f'  Data poprzednia: {prev_date_str}')
 
     with open(latest_path, encoding='utf-8') as f:
         latest_records = json.load(f)
@@ -129,10 +145,39 @@ def run_convert():
     for key, value in deltas.items():
         kpis[key] = value
 
+    # ── Alerty GP ────────────────────────────────────────────────────────────
+    print('\n=== Krok 2: Obliczanie alertów GP ===')
+    try:
+        from task_api import compute_all_gp_alerts
+        gp_alerts = compute_all_gp_alerts(
+            latest_records,
+            prev_records,
+            prev_date_str,
+            curr_date_str,
+            fetch_api=use_api,
+        )
+    except Exception as e:
+        print(f'  UWAGA: Obliczanie alertów GP nie powiodło się: {e}')
+        gp_alerts = {
+            'prev_report_date':    prev_date_str,
+            'current_report_date': curr_date_str,
+            'lead_confirmed':      [],
+            'meeting_scheduled':   [],
+            'trial_started':       [],
+            'no_contact':          [],
+            'rejected':            [],
+            'deal_closed':         [],
+            'error':               str(e),
+        }
+
+    # ── Zapis ────────────────────────────────────────────────────────────────
+    dashboard['manager']['gp_alerts'] = gp_alerts
+
     with open('dashboard_data.json', 'w', encoding='utf-8') as f:
         json.dump(dashboard, f, indent=2, ensure_ascii=False)
 
-    print('\nDelty KPI:')
+    print('\n=== Podsumowanie ===')
+    print('Delty KPI:')
     labels = {
         'mrr_won': 'MRR Won',
         'pipeline_mrr_potential': 'Pipeline MRR Potential',
@@ -149,7 +194,7 @@ def run_convert():
         sign = '+' if (d is not None and d > 0) else ''
         print(f'  {label}: {prev_val} → {now_val}  (Δ {sign}{d})')
 
-    print('\ndashboard_data.json zaktualizowany o delty.')
+    print('\ndashboard_data.json zaktualizowany (delty KPI + alerty GP).')
 
 
 if __name__ == '__main__':

@@ -329,94 +329,147 @@ function renderAISummaryManager(deals) {
 }
 
 // ---- GP STATUS FLOW ALERTS ----
+
+// Helper: badge partnera dla wpisów GP (mają pole d.partner, nie d['Deal - Nazwa Partnera'])
+function _gpPartnerBadge(partner) {
+  if (!partner || partner === '—') return '<span class="partner-badge">—</span>';
+  const cls = partner === 'Pracuj.pl' ? 'pracuj' : 'erecruiter';
+  return `<span class="partner-badge partner-badge--${cls}">${esc(partner)}</span>`;
+}
+
+// Definicje 6 kategorii alertów GP
+const GP_CATEGORIES = [
+  {
+    key:     'lead_confirmed',
+    icon:    '✅',
+    label:   'Potwierdzenie przejęcia leada',
+    tooltip: 'Deal stworzony między raportami, status aktywny, etap ≠ Prospect',
+    accent:  '#1a4a8a',
+    cols:    ['Firma', 'Partner', 'Etap', 'Wartość', 'Data przejęcia'],
+    row: d => `<tr>
+      <td><strong>${esc(d.title)}</strong></td>
+      <td>${_gpPartnerBadge(d.partner)}</td>
+      <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
+      <td>${fmtMRR(d.value)}</td>
+      <td>${fmtDate(d.date)}</td>
+    </tr>`,
+  },
+  {
+    key:     'meeting_scheduled',
+    icon:    '📅',
+    label:   'Umówienie spotkania z klientem',
+    tooltip: 'Zadanie "Online Prezentacja" dodane w Pipedrive między raportami',
+    accent:  '#0055ff',
+    cols:    ['Firma', 'Partner', 'Etap', 'Wartość', 'Data zadania'],
+    row: d => `<tr>
+      <td><strong>${esc(d.title)}</strong></td>
+      <td>${_gpPartnerBadge(d.partner)}</td>
+      <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
+      <td>${fmtMRR(d.value)}</td>
+      <td>${fmtDate(d.date)}</td>
+    </tr>`,
+  },
+  {
+    key:     'trial_started',
+    icon:    '🧑‍💻',
+    label:   'Uruchomienie Trialu',
+    tooltip: 'Pole "Organization - Spaceship link" uzupełnione między raportami',
+    accent:  '#6b21a8',
+    cols:    ['Firma', 'Partner', 'Etap', 'Wartość', 'Spaceship', 'Data raportu'],
+    row: d => `<tr>
+      <td><strong>${esc(d.title)}</strong></td>
+      <td>${_gpPartnerBadge(d.partner)}</td>
+      <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
+      <td>${fmtMRR(d.value)}</td>
+      <td>${d.spaceship_link
+        ? `<a href="${esc(d.spaceship_link)}" target="_blank" class="gp-link">🔗 Link</a>`
+        : '—'}</td>
+      <td>${fmtDate(d.date)}</td>
+    </tr>`,
+  },
+  {
+    key:     'no_contact',
+    icon:    '❌',
+    label:   'Brak kontaktu (min. 4 próby Call+BK)',
+    tooltip: 'Minimum 4 kolejne zadania Call z komentarzem BK w Pipedrive',
+    accent:  '#b86b00',
+    cols:    ['Firma', 'Partner', 'Etap', 'Wartość', 'Data 4. próby'],
+    row: d => `<tr>
+      <td><strong>${esc(d.title)}</strong></td>
+      <td>${_gpPartnerBadge(d.partner)}</td>
+      <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
+      <td>${fmtMRR(d.value)}</td>
+      <td>${fmtDate(d.date)}</td>
+    </tr>`,
+  },
+  {
+    key:     'rejected',
+    icon:    '🚫',
+    label:   'Odrzucenie / brak zainteresowania',
+    tooltip: '"Zastał przy obecnym rozwiązaniu" lub "Brak decyzji" — nowa strata między raportami',
+    accent:  '#c0392b',
+    cols:    ['Firma', 'Partner', 'Wartość', 'Powód utraty', 'Data zamknięcia'],
+    row: d => `<tr>
+      <td><strong>${esc(d.title)}</strong></td>
+      <td>${_gpPartnerBadge(d.partner)}</td>
+      <td>${fmtMRR(d.value)}</td>
+      <td><em>${esc(d.lost_reason || '—')}</em></td>
+      <td>${fmtDate(d.date)}</td>
+    </tr>`,
+  },
+  {
+    key:     'deal_closed',
+    icon:    '🎯',
+    label:   'Zamknięcie sprzedaży (Won / Lost)',
+    tooltip: 'Deale zamknięte między raportami z wyłączeniem odrzuceń (kategoria wyżej)',
+    accent:  '#1a7a4a',
+    cols:    ['Firma', 'Partner', 'Wartość', 'Wynik', 'Powód', 'Data zamknięcia'],
+    row: d => {
+      const outcomeHtml = d.outcome === 'won'
+        ? '<span class="stage-badge" style="background:#d1fae5;color:#1a7a4a">Won</span>'
+        : '<span class="stage-badge" style="background:#fee2e2;color:#c0392b">Lost</span>';
+      return `<tr class="${d.outcome === 'won' ? 'row--won' : ''}">
+        <td><strong>${esc(d.title)}</strong></td>
+        <td>${_gpPartnerBadge(d.partner)}</td>
+        <td>${fmtMRR(d.value)}</td>
+        <td>${outcomeHtml}</td>
+        <td><em>${esc(d.lost_reason || '—')}</em></td>
+        <td>${fmtDate(d.date)}</td>
+      </tr>`;
+    },
+  },
+];
+
 function renderGPAlerts(gpAlerts) {
   const el = document.getElementById('gp-alerts-container');
   if (!el) return;
 
   if (!gpAlerts) {
-    el.innerHTML = '<div class="gp-flow-wrapper"><p class="empty-state">Brak danych GP alerts.</p></div>';
+    el.innerHTML = `<div class="gp-flow-wrapper">
+      <p class="empty-state">⚠️ Brak danych alertów GP. Uruchom <code>python convert.py</code> i odśwież stronę.</p>
+    </div>`;
     return;
   }
 
-  // Filtrowanie po partnerze (zgodnie z globalnym filtrem)
+  // Aktualizuj nagłówek okresu
+  const periodEl = document.getElementById('gp-alerts-period');
+  const prev = gpAlerts.prev_report_date;
+  const curr = gpAlerts.current_report_date;
+  if (periodEl && prev && curr) {
+    periodEl.textContent = `${fmtDate(prev)} → ${fmtDate(curr)}`;
+  }
+
   const activePartner = state.partner;
   const applyFilter = items => activePartner === 'all'
     ? items
     : items.filter(d => d.partner === activePartner);
 
-  const period = gpAlerts.period
-    ? `${fmtDate(gpAlerts.period.from)} – ${fmtDate(gpAlerts.period.to)}`
-    : '';
-
-  const categories = [
-    {
-      key: 'lead_confirmed',
-      label: 'Potwierdzenie przejęcia leada',
-      tooltip: 'Leady przesłane przez Partnera, z którym Kadromierz nie prowadzi rozmów w celu pozyskania',
-      accent: '#1a4a8a',
-      cols: ['Firma', 'Partner', 'Etap', 'Data przejęcia'],
-      row: d => `<tr>
-        <td><strong>${esc(d.title)}</strong></td>
-        <td>${partnerBadge(d)}</td>
-        <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
-        <td>${fmtDate(d.date)}</td>
-      </tr>`,
-    },
-    {
-      key: 'meeting_scheduled',
-      label: 'Umówienie spotkania z klientem',
-      tooltip: 'Kadromierz umówił spotkanie z osobą podaną w Lead',
-      accent: '#0055ff',
-      cols: ['Firma', 'Partner', 'Etap', 'Data zadania'],
-      row: d => `<tr>
-        <td><strong>${esc(d.title)}</strong></td>
-        <td>${partnerBadge(d)}</td>
-        <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
-        <td>${fmtDate(d.date)}</td>
-      </tr>`,
-    },
-    {
-      key: 'rejected',
-      label: 'Odrzucenie / brak zainteresowania',
-      tooltip: 'Podczas rozmów Kadromierz otrzymał informację o braku zainteresowania ofertą',
-      accent: '#c0392b',
-      cols: ['Firma', 'Partner', 'Etap', 'Powód', 'Data odrzucenia'],
-      row: d => `<tr>
-        <td><strong>${esc(d.title)}</strong></td>
-        <td>${partnerBadge(d)}</td>
-        <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
-        <td>${esc(d.lost_reason || '—')}</td>
-        <td>${fmtDate(d.date)}</td>
-      </tr>`,
-    },
-    {
-      key: 'closed',
-      label: 'Zamknięcie sprzedaży',
-      tooltip: 'Leady które mają zakończony proces sprzedaży',
-      accent: '#6b21a8',
-      cols: ['Firma', 'Partner', 'Status', 'Powód', 'Data zamknięcia'],
-      row: d => {
-        const statusCls = d.status === 'won' ? 'row--won' : '';
-        const statusLabel = d.status === 'won' ? 'Won' : 'Lost';
-        return `<tr class="${statusCls}">
-          <td><strong>${esc(d.title)}</strong></td>
-          <td>${partnerBadge(d)}</td>
-          <td><span class="stage-badge stage-badge--${d.status}">${statusLabel}</span></td>
-          <td>${esc(d.lost_reason || '—')}</td>
-          <td>${fmtDate(d.date)}</td>
-        </tr>`;
-      },
-    },
-  ];
-
-  const cardsHtml = categories.map(cat => {
+  const cardsHtml = GP_CATEGORIES.map(cat => {
     const allItems = gpAlerts[cat.key] || [];
     const items = applyFilter(allItems);
-    const totalCount = allItems.length;
-    const visibleCount = items.length;
 
-    const countBadge = totalCount > 0
-      ? `<span class="gp-count gp-count--active">${visibleCount}</span>`
+    const countBadge = allItems.length > 0
+      ? `<span class="gp-count gp-count--active">${items.length}</span>`
       : `<span class="gp-count">0</span>`;
 
     let bodyHtml;
@@ -425,17 +478,19 @@ function renderGPAlerts(gpAlerts) {
     } else {
       const headers = cat.cols.map(c => `<th>${c}</th>`).join('');
       const rows    = items.map(d => cat.row(d)).join('');
-      bodyHtml = `<table class="data-table">
+      bodyHtml = `<div class="gp-table-wrap"><table class="data-table">
         <thead><tr>${headers}</tr></thead>
         <tbody>${rows}</tbody>
-      </table>`;
+      </table></div>`;
     }
 
     const tooltipHtml = cat.tooltip
       ? `<span class="gp-tooltip-icon" tabindex="0">ⓘ<span class="gp-tooltip-text">${esc(cat.tooltip)}</span></span>`
       : '';
+
     return `<div class="gp-alert-card" style="--gp-accent:${cat.accent}">
       <div class="gp-alert-header">
+        <span class="gp-alert-icon">${cat.icon}</span>
         <span class="gp-label">${esc(cat.label)}</span>
         ${tooltipHtml}
         ${countBadge}
@@ -444,11 +499,7 @@ function renderGPAlerts(gpAlerts) {
     </div>`;
   }).join('');
 
-  const periodHtml = period
-    ? `<div class="gp-period">Zmiany w okresie: <strong>${esc(period)}</strong></div>`
-    : '';
-
-  el.innerHTML = `<div class="gp-flow-wrapper">${periodHtml}${cardsHtml}</div>`;
+  el.innerHTML = `<div class="gp-flow-wrapper">${cardsHtml}</div>`;
 }
 
 // ---- MANAGER VIEW ----

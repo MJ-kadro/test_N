@@ -117,6 +117,73 @@ a { color: inherit; }
 .container { max-width: 1400px; margin: 0 auto; padding: 14px 20px; }
 .section-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 16px 0 8px; }
 
+/* ---- GP SECTION TITLE ---- */
+.section-title--gp {
+  border-top: 4px solid #1a5c3a;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #1a5c3a;
+  padding-top: 14px;
+  margin-top: 28px;
+  line-height: 1.4;
+}
+.section-title--gp::after {
+  content: ' ▼';
+  font-size: 16px;
+  color: #1a5c3a;
+  display: inline-block;
+  margin-left: 6px;
+}
+.gp-section-period {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: #2d7a52;
+}
+
+/* ---- WSZYSTKIE DEALE SECTION TITLE ---- */
+.section-title--blue {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #1a4a8a;
+  border-bottom: 4px solid #1a4a8a;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+/* ---- REFERRER FILTER ---- */
+.referrer-filter-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0 10px; flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+}
+.referrer-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.referrer-pill {
+  font-size: 0.75rem; padding: 3px 10px;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: #f8fafc; color: var(--muted);
+  cursor: pointer; transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.referrer-pill:hover { background: #e2e8f0; color: var(--text); }
+.referrer-pill--active {
+  background: #dbeafe; color: #1d4ed8;
+  border-color: #93c5fd; font-weight: 600;
+}
+.referrer-pill--clear {
+  background: #fee2e2; color: #b91c1c;
+  border-color: #fca5a5;
+}
+.referrer-pill--clear:hover { background: #fecaca; }
+.referrer-email {
+  font-size: 0.78rem; color: #1d4ed8;
+}
+
 .card {
   background: var(--card); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 14px;

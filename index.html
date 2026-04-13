@@ -90,10 +90,10 @@
 
       <div id="ai-summary-manager"></div>
 
-      <div class="section-title">GP Status Flow</div>
+      <div class="section-title section-title--gp" id="gp-section-title">Zmiany w programie partnerskim</div>
       <div id="gp-alerts-container"></div>
 
-      <div class="section-title">Wszystkie deale</div>
+      <div class="section-title section-title--blue">Wszystkie deale</div>
       <div class="card">
         <div class="table-controls">
           <input type="text" id="deal-search" class="search-input" placeholder="Szukaj po nazwie firmy...">
@@ -102,6 +102,7 @@
             Pokaż wszystkie (z Won/Lost)
           </label>
         </div>
+        <div id="referrer-filter"></div>
         <div id="deals-table-container"></div>
       </div>
 
@@ -137,13 +138,6 @@
 
       <div class="section-title">Wygrane deale</div>
       <div class="card" id="won-table-container"></div>
-
-      <!-- ===== GP ALERTS ===== -->
-      <div class="section-title gp-alerts-title">
-        Alerty GP — Raport tygodniowy
-        <span class="gp-alerts-period" id="gp-alerts-period"></span>
-      </div>
-      <div id="gp-alerts-container"></div>
 
     </div>
   </div>

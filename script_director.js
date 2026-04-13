@@ -58,12 +58,13 @@ const state = {
   partner:     'all',
   tab:         'director',
   charts:      {},
-  dealSortCol:    'Deal - Value',
-  dealSortDir:    'desc',
-  showAll:        false,
-  search:         '',
-  rejectedCount:  0,
-  gpAlerts:       null,
+  dealSortCol:      'Deal - Value',
+  dealSortDir:      'desc',
+  showAll:          false,
+  search:           '',
+  rejectedCount:    0,
+  gpAlerts:         null,
+  referrerEmails:   [],   // wielokrotny filtr po e-mailu polecającego
 };
 
 // ---- UTILS ----

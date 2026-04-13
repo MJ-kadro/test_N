@@ -158,9 +158,49 @@ function renderDealsTable(allDeals) {
   const el = document.getElementById('deals-table-container');
   if (!el) return;
 
+  // ── Filtr polecającego (multi-select) ────────────────────────────────────
+  const EMAIL_COL = 'Deal - Adres e-mail polecającego';
+  const refFilterEl = document.getElementById('referrer-filter');
+  const allEmails = [...new Set(
+    allDeals.map(d => (d[EMAIL_COL] || '').trim()).filter(Boolean)
+  )].sort();
+
+  if (refFilterEl) {
+    if (allEmails.length > 0) {
+      const pills = allEmails.map(email => {
+        const active = state.referrerEmails.includes(email);
+        return `<button class="referrer-pill${active ? ' referrer-pill--active' : ''}" data-email="${esc(email)}">${esc(email)}</button>`;
+      }).join('');
+      const clearBtn = state.referrerEmails.length > 0
+        ? `<button class="referrer-pill referrer-pill--clear" id="referrer-clear">Wyczyść filtr</button>`
+        : '';
+      refFilterEl.innerHTML = `<div class="referrer-filter-row"><span class="filter-label">Polecający:</span><div class="referrer-pills">${pills}${clearBtn}</div></div>`;
+
+      refFilterEl.querySelectorAll('.referrer-pill[data-email]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const email = btn.dataset.email;
+          if (state.referrerEmails.includes(email)) {
+            state.referrerEmails = state.referrerEmails.filter(e => e !== email);
+          } else {
+            state.referrerEmails = [...state.referrerEmails, email];
+          }
+          renderDealsTable(allDeals);
+        });
+      });
+      const cb = refFilterEl.querySelector('#referrer-clear');
+      if (cb) cb.addEventListener('click', () => { state.referrerEmails = []; renderDealsTable(allDeals); });
+    } else {
+      refFilterEl.innerHTML = '';
+    }
+  }
+
+  // ── Filtrowanie dealów ────────────────────────────────────────────────────
   let deals = state.showAll ? allDeals : allDeals.filter(d => norm(d['Deal - Status']) === 'open');
   const q = state.search.toLowerCase();
   if (q) deals = deals.filter(d => (d['Deal - Title'] || d['Deal - Organization'] || '').toLowerCase().includes(q));
+  if (state.referrerEmails.length > 0) {
+    deals = deals.filter(d => state.referrerEmails.includes((d[EMAIL_COL] || '').trim()));
+  }
 
   const sc = state.dealSortCol;
   deals = [...deals].sort((a, b) => {
@@ -177,12 +217,13 @@ function renderDealsTable(allDeals) {
   });
 
   const cols = [
-    { label: 'Firma',        key: 'Deal - Title' },
-    { label: 'Etap',         key: 'Deal - Stage' },
-    { label: 'Partner',      key: 'Deal - Nazwa Partnera' },
-    { label: 'Wartość',      key: 'Deal - Value' },
-    { label: 'Data dodania', key: 'Deal - Deal created' },
-    { label: 'Aktywności',   key: 'Deal - Total activities' },
+    { label: 'Firma',                 key: 'Deal - Title' },
+    { label: 'Etap',                  key: 'Deal - Stage' },
+    { label: 'Partner',               key: 'Deal - Nazwa Partnera' },
+    { label: 'Wartość',               key: 'Deal - Value' },
+    { label: 'Data dodania',          key: 'Deal - Deal created' },
+    { label: 'Aktywności',            key: 'Deal - Total activities' },
+    { label: 'Handlowiec polecający', key: EMAIL_COL },
   ];
 
   const headers = cols.map(c => {
@@ -196,6 +237,7 @@ function renderDealsTable(allDeals) {
     let cls = '';
     if (stage === 'Blocked') cls = 'row--blocked';
     else if (status === 'won') cls = 'row--won';
+    const email = (d[EMAIL_COL] || '').trim();
     return `<tr class="${cls}">
       <td><strong>${dealName(d)}</strong>${isNew(d) ? ' <span class="badge-new">NOWY</span>' : ''}</td>
       <td><span class="stage-badge">${esc(stage || '—')}</span></td>
@@ -203,13 +245,14 @@ function renderDealsTable(allDeals) {
       <td>${fmtMRR(d['Deal - Value'])}</td>
       <td>${fmtDate(d['Deal - Deal created'])}</td>
       <td>${d['Deal - Total activities'] || 0}</td>
+      <td>${email ? `<span class="referrer-email">${esc(email)}</span>` : '—'}</td>
     </tr>`;
   }).join('');
 
   el.innerHTML = `
     <table class="data-table" id="deals-table">
       <thead><tr>${headers}</tr></thead>
-      <tbody>${rows || '<tr><td colspan="6" class="empty-state">Brak dealów</td></tr>'}</tbody>
+      <tbody>${rows || '<tr><td colspan="7" class="empty-state">Brak dealów</td></tr>'}</tbody>
     </table>`;
 
   el.querySelectorAll('th.sortable').forEach(th => {
@@ -368,20 +411,6 @@ const GP_CATEGORIES = [
     </tr>`,
   },
   {
-    key:     'trial_started',
-    label:   'Uruchomienie Trialu',
-    tooltip: 'Pole "Organization - Spaceship link" uzupełnione między raportami',
-    accent:  '#6b21a8',
-    cols:    ['Firma', 'Partner', 'Etap', 'Wartość'],
-    row: d => `<tr>
-      <td><strong>${esc(d.title)}</strong></td>
-      <td>${_gpPartnerBadge(d.partner)}</td>
-      <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
-      <td>${fmtMRR(d.value)}</td>
-    </tr>`,
-  },
-
-  {
     key:     'rejected',
     label:   'Odrzucenie / brak zainteresowania',
     tooltip: '"Zastał przy obecnym rozwiązaniu" lub "Brak decyzji" — nowa strata między raportami',
@@ -399,7 +428,7 @@ const GP_CATEGORIES = [
     key:     'deal_closed',
     label:   'Zamknięcie sprzedaży (Won / Lost)',
     tooltip: 'Deale zamknięte między raportami z wyłączeniem odrzuceń (kategoria wyżej)',
-    accent:  '#1a7a4a',
+    accent:  '#6b21a8',
     cols:    ['Firma', 'Partner', 'Wartość', 'Wynik', 'Powód', 'Data zamknięcia'],
     row: d => {
       const outcomeHtml = d.outcome === 'won'
@@ -428,12 +457,12 @@ function renderGPAlerts(gpAlerts) {
     return;
   }
 
-  // Aktualizuj nagłówek okresu
-  const periodEl = document.getElementById('gp-alerts-period');
-  const prev = gpAlerts.prev_report_date;
-  const curr = gpAlerts.current_report_date;
-  if (periodEl && prev && curr) {
-    periodEl.textContent = `${fmtDate(prev)} → ${fmtDate(curr)}`;
+  // Aktualizuj nagłówek sekcji z datami okresu
+  const titleEl = document.getElementById('gp-section-title');
+  const prev = gpAlerts.prev_report_date || (gpAlerts.period && gpAlerts.period.from);
+  const curr = gpAlerts.current_report_date || (gpAlerts.period && gpAlerts.period.to);
+  if (titleEl && prev && curr) {
+    titleEl.innerHTML = `Zmiany w programie partnerskim<br><span class="gp-section-period">w okresie ${fmtDate(prev)} do ${fmtDate(curr)}</span>`;
   }
 
   const activePartner = state.partner;

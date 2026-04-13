@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-13T12:13:54",
+  "generated_at": "2026-04-13T13:16:51",
   "report_date": "2026-04-10",
   "director": {
     "kpis": {
@@ -886,38 +886,6 @@
           "partner": "eRecruiter",
           "status": "lost",
           "lost_reason": "Frozen",
-          "date": "2026-04-09"
-        },
-        {
-          "id": 28920,
-          "title": "Deal Kuźnia Matrycowa",
-          "partner": "Pracuj.pl",
-          "status": "lost",
-          "lost_reason": "Duplikat",
-          "date": "2026-04-08"
-        },
-        {
-          "id": 29047,
-          "title": "Polski Holding Hotelowy",
-          "partner": "Pracuj.pl",
-          "status": "lost",
-          "lost_reason": "Duplikat",
-          "date": "2026-04-07"
-        },
-        {
-          "id": 29057,
-          "title": "Deal Four Points Warsaw Sheraton",
-          "partner": "Pracuj.pl",
-          "status": "lost",
-          "lost_reason": "Duplikat",
-          "date": "2026-04-07"
-        },
-        {
-          "id": 29079,
-          "title": "Deal OTR Group",
-          "partner": "Pracuj.pl",
-          "status": "lost",
-          "lost_reason": "Duplikat",
           "date": "2026-04-09"
         }
       ]

@@ -403,10 +403,12 @@ def calc_gp_alerts(df, prev_records: list, prev_date: datetime, current_date: da
             })
 
     # ── 6. 🎯 Zamknięcie sprzedaży (won lub lost) ─────────────────────────────
-    # Dowolne zamknięcie (won / lost) w okresie
+    # Dowolne zamknięcie (won / lost) w okresie — z wyłączeniem Duplikatów
     closed_deals = []
     closed_df = df[df['Deal - Status'].str.lower().isin(['won', 'lost'])]
     for _, row in closed_df.iterrows():
+        if str(row.get('Deal - Lost reason', '') or '').strip() == 'Duplikat':
+            continue
         closed = row.get('Deal - Deal closed on')
         if pd.notna(closed) and in_period(pd.Timestamp(closed)):
             closed_deals.append({

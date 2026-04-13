@@ -352,6 +352,7 @@ function renderGPAlerts(gpAlerts) {
     {
       key: 'lead_confirmed',
       label: 'Potwierdzenie przejęcia leada',
+      tooltip: 'Leady przesłane przez Partnera, z którym Kadromierz nie prowadzi rozmów w celu pozyskania',
       accent: '#1a4a8a',
       cols: ['Firma', 'Partner', 'Etap', 'Data przejęcia'],
       row: d => `<tr>
@@ -364,6 +365,7 @@ function renderGPAlerts(gpAlerts) {
     {
       key: 'meeting_scheduled',
       label: 'Umówienie spotkania z klientem',
+      tooltip: 'Kadromierz umówił spotkanie z osobą podaną w Lead',
       accent: '#0055ff',
       cols: ['Firma', 'Partner', 'Etap', 'Data zadania'],
       row: d => `<tr>
@@ -374,33 +376,9 @@ function renderGPAlerts(gpAlerts) {
       </tr>`,
     },
     {
-      key: 'trial_started',
-      label: 'Uruchomienie Trialu',
-      accent: '#6b21a8',
-      cols: ['Firma', 'Partner', 'Etap', 'Data'],
-      row: d => `<tr>
-        <td><strong>${esc(d.title)}</strong></td>
-        <td>${partnerBadge(d)}</td>
-        <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
-        <td>${fmtDate(d.date)}</td>
-      </tr>`,
-    },
-    {
-      key: 'no_contact',
-      label: 'Brak kontaktu z klientem (3 ostatnie zadania to Call)',
-      accent: '#b86b00',
-      cols: ['Firma', 'Partner', 'Etap', 'Data ostatniego Call', 'Wszystkich aktywności'],
-      row: d => `<tr>
-        <td><strong>${esc(d.title)}</strong></td>
-        <td>${partnerBadge(d)}</td>
-        <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
-        <td>${fmtDate(d.date)}</td>
-        <td>${d.call_count}</td>
-      </tr>`,
-    },
-    {
       key: 'rejected',
       label: 'Odrzucenie / brak zainteresowania',
+      tooltip: 'Podczas rozmów Kadromierz otrzymał informację o braku zainteresowania ofertą',
       accent: '#c0392b',
       cols: ['Firma', 'Partner', 'Etap', 'Powód', 'Data odrzucenia'],
       row: d => `<tr>
@@ -414,7 +392,8 @@ function renderGPAlerts(gpAlerts) {
     {
       key: 'closed',
       label: 'Zamknięcie sprzedaży',
-      accent: '#1a7a4a',
+      tooltip: 'Leady które mają zakończony proces sprzedaży',
+      accent: '#6b21a8',
       cols: ['Firma', 'Partner', 'Status', 'Powód', 'Data zamknięcia'],
       row: d => {
         const statusCls = d.status === 'won' ? 'row--won' : '';
@@ -452,9 +431,13 @@ function renderGPAlerts(gpAlerts) {
       </table>`;
     }
 
+    const tooltipHtml = cat.tooltip
+      ? `<span class="gp-tooltip-icon" tabindex="0">ⓘ<span class="gp-tooltip-text">${esc(cat.tooltip)}</span></span>`
+      : '';
     return `<div class="gp-alert-card" style="--gp-accent:${cat.accent}">
       <div class="gp-alert-header">
         <span class="gp-label">${esc(cat.label)}</span>
+        ${tooltipHtml}
         ${countBadge}
       </div>
       <div class="gp-alert-body">${bodyHtml}</div>

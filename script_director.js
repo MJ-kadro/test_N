@@ -63,6 +63,7 @@ const state = {
   showAll:        false,
   search:         '',
   rejectedCount:  0,
+  gpAlerts:       null,
 };
 
 // ---- UTILS ----
@@ -123,7 +124,7 @@ function calcMetrics(deals) {
     mrrWon:         won.reduce((s, d) => s + parseMRR(d['Deal - Value']), 0),
     mrrPipeline:    open.filter(d => parseMRR(d['Deal - Value']) > 0).reduce((s, d) => s + parseMRR(d['Deal - Value']), 0),
     winRate:        (() => {
-      const lostQ = lost.filter(d => (d['Deal - Lost reason'] || '').trim() !== 'Już w kontakcie');
+      const lostQ = lost.filter(d => (d['Deal - Lost reason'] || '').trim() !== 'Duplikat');
       const denom = won.length + lostQ.length;
       return denom > 0 ? ((won.length / denom) * 100).toFixed(1) : '0.0';
     })(),
@@ -424,7 +425,7 @@ function renderRejectedTable() {
   if (!el) return;
   const rejected = state.current.filter(d =>
     norm(d['Deal - Status']) === 'lost' &&
-    (d['Deal - Lost reason'] || '').trim() === 'Już w kontakcie'
+    (d['Deal - Lost reason'] || '').trim() === 'Duplikat'
   ).sort((a, b) => (parseDate(b['Deal - Lost time'] || b['Deal - Deal closed on']) || 0) - (parseDate(a['Deal - Lost time'] || a['Deal - Deal closed on']) || 0));
 
   const rows = rejected.map(d => `<tr>
@@ -451,7 +452,7 @@ function renderDirector() {
 
   state.rejectedCount = state.current.filter(d =>
     norm(d['Deal - Status']) === 'lost' &&
-    (d['Deal - Lost reason'] || '').trim() === 'Już w kontakcie'
+    (d['Deal - Lost reason'] || '').trim() === 'Duplikat'
   ).length;
 
   renderAISummaryDirector(deals, metrics, md);
@@ -556,6 +557,15 @@ async function loadDefaultData() {
       const prevRes = await fetch(`data/${prev.name}`);
       if (prevRes.ok) state.prev = await prevRes.json();
     }
+
+    // Załaduj GP alerts z dashboard_data.json
+    try {
+      const dashRes = await fetch('dashboard_data.json');
+      if (dashRes.ok) {
+        const dash = await dashRes.json();
+        state.gpAlerts = dash.manager && dash.manager.gp_alerts ? dash.manager.gp_alerts : null;
+      }
+    } catch (_) { /* dashboard_data.json opcjonalne */ }
 
     const fmtD = iso => iso.split('-').reverse().join('.');
     const meta = document.getElementById('report-meta');

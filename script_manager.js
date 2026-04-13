@@ -17,7 +17,7 @@ function renderLostByStageChart(deals) {
   const byReason = {};
   lostDeals.forEach(d => {
     let r = (d['Deal - Lost reason'] || '').trim() || 'Nie podano';
-    if (r === 'Już w kontakcie') r = 'Odrzucone (już w kontakcie)';
+    if (r === 'Duplikat') r = 'Odrzucone (duplikat)';
     byReason[r] = (byReason[r] || 0) + 1;
   });
   const entries = Object.entries(byReason).sort(([, a], [, b]) => b - a);
@@ -233,7 +233,7 @@ function renderLostAnalysis(deals) {
 
   const rows = lost.map(d => {
     let reason = (d['Deal - Lost reason'] || '').trim() || '—';
-    if (reason === 'Już w kontakcie') reason = 'Odrzucone (już w kontakcie)';
+    if (reason === 'Duplikat') reason = 'Odrzucone (duplikat)';
     return `<tr>
       <td><strong>${dealName(d)}</strong></td>
       <td>${partnerBadge(d)}</td>
@@ -306,11 +306,11 @@ function renderAISummaryManager(deals) {
   if (topReasons.length > 0) {
     const [topReason, topCount] = topReasons[0];
     const pct = lost.length > 0 ? ((topCount / lost.length) * 100).toFixed(0) : 0;
-    const label = topReason === 'Już w kontakcie' ? 'Odrzucone (już w kontakcie)' : topReason;
+    const label = topReason === 'Duplikat' ? 'Odrzucone (duplikat)' : topReason;
     text += `Dominujący powód utraty: <strong>"${esc(label)}"</strong> — ${topCount} dealów (${pct}% wszystkich strat). `;
     if (topReasons.length > 1) {
       const [r2, c2] = topReasons[1];
-      const label2 = r2 === 'Już w kontakcie' ? 'Odrzucone (już w kontakcie)' : r2;
+      const label2 = r2 === 'Duplikat' ? 'Odrzucone (duplikat)' : r2;
       text += `Drugi w kolejności: <strong>"${esc(label2)}"</strong> (${c2} dealów). `;
     }
   }
@@ -328,6 +328,146 @@ function renderAISummaryManager(deals) {
   </div>`;
 }
 
+// ---- GP STATUS FLOW ALERTS ----
+function renderGPAlerts(gpAlerts) {
+  const el = document.getElementById('gp-alerts-container');
+  if (!el) return;
+
+  if (!gpAlerts) {
+    el.innerHTML = '<div class="gp-flow-wrapper"><p class="empty-state">Brak danych GP alerts.</p></div>';
+    return;
+  }
+
+  // Filtrowanie po partnerze (zgodnie z globalnym filtrem)
+  const activePartner = state.partner;
+  const applyFilter = items => activePartner === 'all'
+    ? items
+    : items.filter(d => d.partner === activePartner);
+
+  const period = gpAlerts.period
+    ? `${fmtDate(gpAlerts.period.from)} – ${fmtDate(gpAlerts.period.to)}`
+    : '';
+
+  const categories = [
+    {
+      key: 'lead_confirmed',
+      label: 'Potwierdzenie przejęcia leada',
+      accent: '#1a4a8a',
+      cols: ['Firma', 'Partner', 'Etap', 'Data przejęcia'],
+      row: d => `<tr>
+        <td><strong>${esc(d.title)}</strong></td>
+        <td>${partnerBadge(d)}</td>
+        <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
+        <td>${fmtDate(d.date)}</td>
+      </tr>`,
+    },
+    {
+      key: 'meeting_scheduled',
+      label: 'Umówienie spotkania z klientem',
+      accent: '#0055ff',
+      cols: ['Firma', 'Partner', 'Etap', 'Data zadania'],
+      row: d => `<tr>
+        <td><strong>${esc(d.title)}</strong></td>
+        <td>${partnerBadge(d)}</td>
+        <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
+        <td>${fmtDate(d.date)}</td>
+      </tr>`,
+    },
+    {
+      key: 'trial_started',
+      label: 'Uruchomienie Trialu',
+      accent: '#6b21a8',
+      cols: ['Firma', 'Partner', 'Etap', 'Data'],
+      row: d => `<tr>
+        <td><strong>${esc(d.title)}</strong></td>
+        <td>${partnerBadge(d)}</td>
+        <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
+        <td>${fmtDate(d.date)}</td>
+      </tr>`,
+    },
+    {
+      key: 'no_contact',
+      label: 'Brak kontaktu z klientem (3 ostatnie zadania to Call)',
+      accent: '#b86b00',
+      cols: ['Firma', 'Partner', 'Etap', 'Data ostatniego Call', 'Wszystkich aktywności'],
+      row: d => `<tr>
+        <td><strong>${esc(d.title)}</strong></td>
+        <td>${partnerBadge(d)}</td>
+        <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
+        <td>${fmtDate(d.date)}</td>
+        <td>${d.call_count}</td>
+      </tr>`,
+    },
+    {
+      key: 'rejected',
+      label: 'Odrzucenie / brak zainteresowania',
+      accent: '#c0392b',
+      cols: ['Firma', 'Partner', 'Etap', 'Powód', 'Data odrzucenia'],
+      row: d => `<tr>
+        <td><strong>${esc(d.title)}</strong></td>
+        <td>${partnerBadge(d)}</td>
+        <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
+        <td>${esc(d.lost_reason || '—')}</td>
+        <td>${fmtDate(d.date)}</td>
+      </tr>`,
+    },
+    {
+      key: 'closed',
+      label: 'Zamknięcie sprzedaży',
+      accent: '#1a7a4a',
+      cols: ['Firma', 'Partner', 'Status', 'Powód', 'Data zamknięcia'],
+      row: d => {
+        const statusCls = d.status === 'won' ? 'row--won' : '';
+        const statusLabel = d.status === 'won' ? 'Won' : 'Lost';
+        return `<tr class="${statusCls}">
+          <td><strong>${esc(d.title)}</strong></td>
+          <td>${partnerBadge(d)}</td>
+          <td><span class="stage-badge stage-badge--${d.status}">${statusLabel}</span></td>
+          <td>${esc(d.lost_reason || '—')}</td>
+          <td>${fmtDate(d.date)}</td>
+        </tr>`;
+      },
+    },
+  ];
+
+  const cardsHtml = categories.map(cat => {
+    const allItems = gpAlerts[cat.key] || [];
+    const items = applyFilter(allItems);
+    const totalCount = allItems.length;
+    const visibleCount = items.length;
+
+    const countBadge = totalCount > 0
+      ? `<span class="gp-count gp-count--active">${visibleCount}</span>`
+      : `<span class="gp-count">0</span>`;
+
+    let bodyHtml;
+    if (items.length === 0) {
+      bodyHtml = `<p class="gp-empty">Brak zdarzeń w tym okresie${activePartner !== 'all' ? ` dla ${esc(activePartner)}` : ''}.</p>`;
+    } else {
+      const headers = cat.cols.map(c => `<th>${c}</th>`).join('');
+      const rows    = items.map(d => cat.row(d)).join('');
+      bodyHtml = `<table class="data-table">
+        <thead><tr>${headers}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+    }
+
+    return `<div class="gp-alert-card" style="--gp-accent:${cat.accent}">
+      <div class="gp-alert-header">
+        <span class="gp-label">${esc(cat.label)}</span>
+        ${countBadge}
+      </div>
+      <div class="gp-alert-body">${bodyHtml}</div>
+    </div>`;
+  }).join('');
+
+  const periodHtml = period
+    ? `<div class="gp-period">Zmiany w okresie: <strong>${esc(period)}</strong></div>`
+    : '';
+
+  el.innerHTML = `<div class="gp-flow-wrapper">${periodHtml}${cardsHtml}</div>`;
+}
+
 // ---- MANAGER VIEW ----
 function renderManager() {
   const deals = filtered(state.current);
@@ -339,4 +479,5 @@ function renderManager() {
   renderFunnelFlow(deals);
   renderLostAnalysis(deals);
   renderWonTable(deals);
+  renderGPAlerts(state.gpAlerts);
 }

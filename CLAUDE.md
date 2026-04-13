@@ -43,8 +43,10 @@ data/basic_data_DDMM.csv  →  process_data.py  →  dashboard_data.json  →  s
 ```
 
 1. `process_data.py` reads the latest `data/basic_data_*.csv`, computes all KPI metrics, and writes `dashboard_data.json`.
-2. `script.js` fetches `dashboard_data.json` on page load and renders both dashboard tabs.
-3. `index.html` + `style.css` define the two-tab layout (Polish-language UI).
+2. `convert.py` reads the latest two `data/basic_data_*.csv`, computes all KPI metrics changes as report / report , and update `dashboard_data.json`.
+3. `menager_script.js` fetches `dashboard_data.json` on page load and renders Menager Director dashboard tabs.
+4. `director_script.js` fetches `dashboard_data.json` on page load and renders Sales Director dashboard tabs.
+5. `index.html` + `style.css` define the two-tab layout (Polish-language UI).
 
 `dashboard_data.json` must be regenerated whenever source CSV files change.
 
@@ -58,7 +60,6 @@ data/basic_data_DDMM.csv  →  process_data.py  →  dashboard_data.json  →  s
 |---|---|---|
 | `Deal - ID` | int | Unique deal identifier |
 | `Deal - Value` | float | Deal value — used as MRR (both potential and Won). Null/0 = no pricing yet |
-| `Organization - MRR` | float | MRR at organization level (secondary, not used for KPI sums) |
 | `Deal - Title` | string | Company / deal name |
 | `Deal - Deal created` | date | Date added to pipeline |
 | `Deal - Deal closed on` | date | Date closed (won or lost) |
@@ -71,9 +72,6 @@ data/basic_data_DDMM.csv  →  process_data.py  →  dashboard_data.json  →  s
 | `Organization - Status konta` | string | Account status |
 | `Deal - Nazwa Partnera` | string | `"Pracuj.pl"` or `"eRecruiter"` |
 | `Deal - Lost reason` | string/null | Reason for loss — see values below |
-
-**Columns removed vs previous version (do not reference):**
-`Deal - MRR`, `Deal - Next activity date`, `Organization - Branża`, `Organization - Pakiet`, `Organization - Liczba userów`, `Organization - Spaceship link`
 
 ### MRR source — important
 **All MRR calculations (Won MRR, Pipeline MRR Potential) must use `Deal - Value`, not any MRR column.**
@@ -96,8 +94,6 @@ A **rejected deal** is defined as:
 - `Deal - Stage == "Prospect"` AND
 - `Deal - Status == "lost"` AND
 - `Deal - Lost reason == "Już w kontakcie"`
-
-These deals are NOT in the current CSV (they exist in the full Pipedrive database but are filtered out of the export). Their **count must be tracked separately** and displayed as a distinct metric. The count is provided as a manually maintained value or derived from a secondary source — do not attempt to compute it from the current CSV alone. Expose it as a configurable field in `dashboard_data.json` (`"rejected_deals_count"`).
 
 ### Known `Deal - Lost reason` values
 - `"Już w kontakcie"` — already a customer / in contact (= rejected deal, see above)

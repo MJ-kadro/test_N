@@ -1,73 +1,156 @@
 """
-Konwertuje pliki CSV z Pipedrive (data/basic_data_DDMM.csv)
-na tablice JSON gotowe do załadowania przez dashboard.
-Generuje data/manifest.json z listą dostępnych plików.
+Kadromierz × Pracuj — Pipeline Dashboard
+Obliczanie delt KPI między dwoma ostatnimi raportami.
+
+Porównuje 2 ostatnie pliki basic_data_*.json i aktualizuje
+dashboard_data.json o wartości zmian (WoW delty) dla 6 metryk KPI:
+  - MRR Won
+  - Pipeline MRR Potential
+  - Win Rate
+  - Aktywny Pipeline (open deals)
+  - Mediana czasu zamknięcia
+  - Odrzucone deale
+
+Wymagania: process_data.py musi być uruchomiony wcześniej.
 
 Użycie:
     python convert.py
 """
-import pandas as pd
 import json
 import glob
+import math
 import os
-import re
 from datetime import datetime
 
 
-def ddmm_to_sortable(ddmm: str) -> str:
-    """'2003' → '2025-03-20', '0504' → '2026-04-05' (rok wykryty heurystycznie)."""
-    dd, mm = ddmm[:2], ddmm[2:4]
-    # Prosta heurystyka: jeśli miesiąc >= bieżącego miesiąca i dd <= 31 → rok bieżący,
-    # inaczej załóż rok bieżący i tak (dla sortowania wystarczy RRRR-MM-DD)
-    year = datetime.now().year
-    return f"{year}-{mm}-{dd}"
+def calc_kpis_from_records(records):
+    """Oblicza snapshot KPI z listy surowych rekordów dealów."""
+    won = [r for r in records if (r.get('Deal - Status') or '').lower() == 'won']
+    lost = [r for r in records if (r.get('Deal - Status') or '').lower() == 'lost']
+    open_ = [r for r in records if (r.get('Deal - Status') or '').lower() == 'open']
+
+    rejected = [r for r in lost if (r.get('Deal - Lost reason') or '').strip() == 'Duplikat']
+    lost_qualified = [r for r in lost if (r.get('Deal - Lost reason') or '').strip() != 'Duplikat']
+
+    def val(r):
+        v = r.get('Deal - Value') or 0
+        try:
+            f = float(v)
+            return 0 if math.isnan(f) else f
+        except (TypeError, ValueError):
+            return 0
+
+    mrr_won = round(sum(val(r) for r in won), 2)
+    mrr_pipeline = round(sum(val(r) for r in open_ if val(r) > 0), 2)
+    denom = len(won) + len(lost_qualified)
+    win_rate = round(len(won) / denom * 100, 1) if denom > 0 else 0.0
+    open_deals = len(open_)
+    rejected_count = len(rejected)
+
+    def parse_date(s):
+        if not s:
+            return None
+        try:
+            return datetime.fromisoformat(str(s)[:10])
+        except (ValueError, TypeError):
+            return None
+
+    days_list = []
+    for r in won:
+        created = parse_date(r.get('Deal - Deal created'))
+        closed = parse_date(r.get('Deal - Deal closed on'))
+        if created and closed:
+            days_list.append((closed - created).days)
+
+    if days_list:
+        days_list.sort()
+        n = len(days_list)
+        median_days = days_list[n // 2] if n % 2 == 1 else (days_list[n // 2 - 1] + days_list[n // 2]) // 2
+    else:
+        median_days = None
+
+    return {
+        'mrr_won': mrr_won,
+        'pipeline_mrr_potential': mrr_pipeline,
+        'win_rate': win_rate,
+        'open_deals': open_deals,
+        'rejected_deals_count': rejected_count,
+        'median_days_to_close': median_days,
+    }
 
 
-def convert_all():
-    files = sorted(glob.glob('data/basic_data_*.csv'))
-    if not files:
-        print('Brak plików CSV w katalogu data/')
+def run_convert():
+    json_files = sorted(glob.glob('data/basic_data_*.json'))
+    if len(json_files) < 2:
+        print(f'Potrzebne co najmniej 2 pliki JSON (znaleziono {len(json_files)}).')
+        print('Delty nie zostaną obliczone — dashboard_data.json pozostaje bez zmian.')
         return
 
-    manifest_entries = []
+    latest_path = json_files[-1]
+    prev_path = json_files[-2]
 
-    for csv_path in files:
-        basename = os.path.basename(csv_path)
-        match = re.search(r'basic_data_(\d{4})\.csv$', basename)
-        if not match:
-            print(f'Pominięto (nieznany format nazwy): {basename}')
-            continue
+    print(f'Porównuję:')
+    print(f'  Aktualny:  {latest_path}')
+    print(f'  Poprzedni: {prev_path}')
 
-        ddmm = match.group(1)
-        date_str = ddmm_to_sortable(ddmm)
-        json_name = basename.replace('.csv', '.json')
-        json_path = os.path.join('data', json_name)
+    with open(latest_path, encoding='utf-8') as f:
+        latest_records = json.load(f)
+    with open(prev_path, encoding='utf-8') as f:
+        prev_records = json.load(f)
 
-        df = pd.read_csv(csv_path)
-        # Zamień NaN/NaT na None (json.dump nie obsługuje float('nan'))
-        df = df.where(pd.notna(df), None)
-        records = df.to_dict(orient='records')
-        # Drugi pass: upewnij się że żadna wartość float NaN nie prześlizgnęła się
-        import math
-        def clean(v):
-            if isinstance(v, float) and math.isnan(v):
-                return None
-            return v
-        records = [{k: clean(v) for k, v in row.items()} for row in records]
+    kpis_now = calc_kpis_from_records(latest_records)
+    kpis_prev = calc_kpis_from_records(prev_records)
 
-        with open(json_path, 'w', encoding='utf-8') as f:
-            json.dump(records, f, ensure_ascii=False, indent=2)
+    def delta_float(key, decimals=2):
+        now, prev = kpis_now[key], kpis_prev[key]
+        if now is None or prev is None:
+            return None
+        return round(now - prev, decimals)
 
-        manifest_entries.append({'name': json_name, 'date': date_str})
-        print(f'  {basename}  →  {json_name}  ({len(records)} dealów)')
+    def delta_int(key):
+        now, prev = kpis_now[key], kpis_prev[key]
+        if now is None or prev is None:
+            return None
+        return int(now - prev)
 
-    manifest_entries.sort(key=lambda x: x['date'])
+    deltas = {
+        'mrr_won_delta': delta_float('mrr_won', 2),
+        'pipeline_mrr_potential_delta': delta_float('pipeline_mrr_potential', 2),
+        'win_rate_delta': delta_float('win_rate', 1),
+        'open_deals_delta': delta_int('open_deals'),
+        'rejected_deals_count_delta': delta_int('rejected_deals_count'),
+        'median_days_to_close_delta': delta_int('median_days_to_close'),
+    }
 
-    with open('data/manifest.json', 'w', encoding='utf-8') as f:
-        json.dump({'files': manifest_entries}, f, ensure_ascii=False, indent=2)
+    with open('dashboard_data.json', encoding='utf-8') as f:
+        dashboard = json.load(f)
 
-    print(f'\nmanifest.json zaktualizowany — {len(manifest_entries)} plik(i/ów)')
+    kpis = dashboard['director']['kpis']
+    for key, value in deltas.items():
+        kpis[key] = value
+
+    with open('dashboard_data.json', 'w', encoding='utf-8') as f:
+        json.dump(dashboard, f, indent=2, ensure_ascii=False)
+
+    print('\nDelty KPI:')
+    labels = {
+        'mrr_won': 'MRR Won',
+        'pipeline_mrr_potential': 'Pipeline MRR Potential',
+        'win_rate': 'Win Rate (%)',
+        'open_deals': 'Aktywny Pipeline',
+        'rejected_deals_count': 'Odrzucone deale',
+        'median_days_to_close': 'Mediana czasu zamknięcia (dni)',
+    }
+    for metric, label in labels.items():
+        delta_key = f'{metric}_delta'
+        prev_val = kpis_prev[metric]
+        now_val = kpis_now[metric]
+        d = deltas[delta_key]
+        sign = '+' if (d is not None and d > 0) else ''
+        print(f'  {label}: {prev_val} → {now_val}  (Δ {sign}{d})')
+
+    print('\ndashboard_data.json zaktualizowany o delty.')
 
 
 if __name__ == '__main__':
-    convert_all()
+    run_convert()

@@ -194,7 +194,10 @@ function calcDelta(current, prev) {
   });
   const lostDeals = current.filter(d => {
     const p = pm.get(String(d['Deal - ID']));
-    return p && norm(p['Deal - Status']) !== 'lost' && norm(d['Deal - Status']) === 'lost';
+    const reason = (d['Deal - Lost reason'] || '').trim();
+    return p && norm(p['Deal - Status']) !== 'lost' &&
+         norm(d['Deal - Status']) === 'lost' &&
+         reason !== 'Duplikat';
   });
   const stageChanges = current.filter(d => {
     const p = pm.get(String(d['Deal - ID']));

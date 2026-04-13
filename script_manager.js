@@ -378,10 +378,6 @@ const GP_CATEGORIES = [
       <td>${_gpPartnerBadge(d.partner)}</td>
       <td><span class="stage-badge">${esc(d.stage || '—')}</span></td>
       <td>${fmtMRR(d.value)}</td>
-      <td>${d.spaceship_link
-        ? `<a href="${esc(d.spaceship_link)}" target="_blank" class="gp-link">🔗 Link</a>`
-        : '—'}</td>
-      <td>${fmtDate(d.date)}</td>
     </tr>`,
   },
 
@@ -471,7 +467,6 @@ function renderGPAlerts(gpAlerts) {
 
     return `<div class="gp-alert-card" style="--gp-accent:${cat.accent}">
       <div class="gp-alert-header">
-        <span class="gp-alert-icon">${cat.icon}</span>
         <span class="gp-label">${esc(cat.label)}</span>
         ${tooltipHtml}
         ${countBadge}

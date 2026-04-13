@@ -347,13 +347,13 @@ function renderDeltaSection(delta) {
       const d = item.deal || item;
       return `<tr>${cols.map(c => `<td>${c(d, item)}</td>`).join('')}</tr>`;
     }).join('');
-    return `
-      <div class="delta-card delta-card--${color}">
-        <h4>${title} (${items.length})</h4>
-        ${items.length === 0
-          ? '<p class="empty-state">Brak</p>'
-          : `<table class="data-table"><tbody>${rows}</tbody></table>`}
-      </div>`;
+    const body = items.length === 0
+      ? '<p class="empty-state">Brak</p>'
+      : `<table class="data-table"><tbody>${rows}</tbody></table>`;
+    return `<div class="delta-card delta-card--${color}">
+      <h4>${title} <span style="font-weight:400;opacity:.7">(${items.length})</span></h4>
+      ${body}
+    </div>`;
   }
 
   el.innerHTML = `

@@ -264,16 +264,37 @@ a { color: inherit; }
 .donuts-col { display: flex; flex-direction: column; gap: 10px; }
 
 /* ---- DELTA ---- */
-.delta-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.delta-card {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow);
+.delta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
 }
-.delta-card h4 { font-size: 0.84rem; font-weight: 700; margin-bottom: 12px; }
-.delta-card--new h4 { color: var(--muted); }
-.delta-card--won h4 { color: var(--won); }
-.delta-card--lost h4 { color: var(--lost); }
-.delta-card--stage h4 { color: var(--pracuj); }
+.delta-card {
+  --delta-accent: #64748b;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--delta-accent);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  overflow: hidden;
+}
+.delta-card h4 {
+  font-size: 0.84rem; font-weight: 700;
+  color: var(--delta-accent);
+  padding: 10px 16px;
+  margin: 0;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--delta-accent) 8%, #fff) 0%, #fff 100%);
+  border-bottom: 1px solid var(--border);
+  letter-spacing: -0.01em;
+}
+.delta-card .data-table,
+.delta-card .empty-state { padding: 10px 16px 14px; margin: 0; }
+.delta-card .data-table { width: 100%; }
+.delta-card--new  { --delta-accent: #64748b; }
+.delta-card--won  { --delta-accent: #1a7a4a; }
+.delta-card--lost { --delta-accent: #c0392b; }
+.delta-card--stage { --delta-accent: #0055ff; }
 
 /* ---- LOST SECTION ---- */
 /* ---- KPI AMBER (odrzucone) ---- */
@@ -396,7 +417,8 @@ a { color: inherit; }
 .stage-badge--lost { background: #fee2e2; color: #b91c1c; }
 
 /* Sekcja GP Alerts — dodatkowe elementy */
-.gp-flow-wrapper { grid-template-columns: 1fr 1fr 1fr; } /* 3 kolumny dla 6 kart */
+/* gp-flow-wrapper: 2 kolumny, 3 wiersze (2×3) — nadpisuje deklarację wyżej */
+.gp-flow-wrapper { grid-template-columns: 1fr 1fr; }
 .gp-alert-icon { font-size: 1.1rem; flex-shrink: 0; }
 .gp-table-wrap { overflow-x: auto; }
 .gp-table-wrap .data-table { min-width: 420px; }

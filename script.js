@@ -3,7 +3,7 @@
    ============================================= */
 
 // ---- AUTH ----
-const _A = ['K','@','d','r','o','m','i','e','r','z','2','@','2','6','P','r','@','c','u','j'].join('');
+const _A = ['@','p','r','a','c','u','j','.','p','l'].join('');
 
 function setupAuth() {
   const overlay = document.getElementById('auth-overlay');

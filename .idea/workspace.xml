@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="386a553a-ec28-463c-ae50-c47106008c92" name="Changes" comment="Secound _dashboard margins fixes" />
+    <list default="true" id="386a553a-ec28-463c-ae50-c47106008c92" name="Changes" comment="Secound _dashboard margins fixes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/basic_data_1004.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/basic_data_1004.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/basic_data_1004.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/basic_data_1004.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -230,7 +234,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776083033753</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1776083884192</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1776083884192</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

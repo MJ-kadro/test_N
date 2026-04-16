@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-04-13T13:16:51",
-  "report_date": "2026-04-10",
+  "generated_at": "2026-04-16T15:55:59",
+  "report_date": "2026-04-16",
   "director": {
     "kpis": {
       "mrr_won": 700.0,
       "mrr_won_delta": 0.0,
-      "pipeline_mrr_potential": 27842.46,
-      "pipeline_mrr_potential_delta": -15532.23,
-      "win_rate": 5.3,
-      "win_rate_delta": -0.6,
-      "open_deals": 26,
-      "open_deals_delta": -3,
+      "pipeline_mrr_potential": 26242.46,
+      "pipeline_mrr_potential_delta": -1600.0,
+      "win_rate": 5.0,
+      "win_rate_delta": -0.3,
+      "open_deals": 27,
+      "open_deals_delta": 1,
       "rejected_deals_count": 4,
-      "rejected_deals_count_delta": 4,
+      "rejected_deals_count_delta": 0,
       "median_days_to_close": 94,
       "median_days_to_close_delta": 0
     },
@@ -64,7 +64,7 @@
       },
       {
         "month": "2026-04",
-        "pracuj": 4,
+        "pracuj": 6,
         "erecruiter": 1
       }
     ],
@@ -125,26 +125,26 @@
       },
       {
         "month": "2026-04",
-        "total_created": 49,
+        "total_created": 51,
         "total_won": 1,
-        "total_lost": 22
+        "total_lost": 23
       }
     ],
     "partner_split": {
-      "pracuj": 34,
+      "pracuj": 36,
       "erecruiter": 15
     },
     "status_split": {
-      "open": 26,
+      "open": 27,
       "won": 1,
-      "lost": 22
+      "lost": 23
     }
   },
   "manager": {
     "funnel_stages": [
       {
         "stage": "Prospect",
-        "count": 1
+        "count": 3
       },
       {
         "stage": "Lead",
@@ -156,15 +156,15 @@
       },
       {
         "stage": "Demo/Meeting",
-        "count": 6
-      },
-      {
-        "stage": "Blocked",
         "count": 4
       },
       {
-        "stage": "Consideration",
+        "stage": "Blocked",
         "count": 3
+      },
+      {
+        "stage": "Consideration",
+        "count": 5
       },
       {
         "stage": "Trial",
@@ -189,18 +189,6 @@
         "branża": "Hotele"
       },
       {
-        "id": 24203,
-        "title": "Sky Bowling",
-        "partner": "Pracuj.pl",
-        "stage": "Blocked",
-        "status": "open",
-        "value": 1600.0,
-        "created": "2025-07-31",
-        "total_activities": 13,
-        "organization": "Sky Bowling",
-        "branża": "Rozrywka, atrakcje turystyczne i kultura"
-      },
-      {
         "id": 24278,
         "title": "Targi Kielce S.A.",
         "partner": "Pracuj.pl",
@@ -220,7 +208,7 @@
         "status": "open",
         "value": 2136.38,
         "created": "2026-02-11",
-        "total_activities": 7,
+        "total_activities": 8,
         "organization": "Noble Securities",
         "branża": "Usługi"
       },
@@ -232,7 +220,7 @@
         "status": "open",
         "value": 5000.0,
         "created": "2026-02-13",
-        "total_activities": 6,
+        "total_activities": 9,
         "organization": "consorfrut.pl",
         "branża": "Produkcja i przemysł"
       },
@@ -256,7 +244,7 @@
         "status": "open",
         "value": 1200.0,
         "created": "2026-02-25",
-        "total_activities": 9,
+        "total_activities": 7,
         "organization": "Tirsped (Hotel Młyn Klekotki)",
         "branża": "Hotele"
       },
@@ -280,7 +268,7 @@
         "status": "open",
         "value": 500.0,
         "created": "2026-02-27",
-        "total_activities": 3,
+        "total_activities": 4,
         "organization": "Villa Omnia",
         "branża": "Hotele"
       },
@@ -340,7 +328,7 @@
         "status": "open",
         "value": 0.0,
         "created": "2026-03-17",
-        "total_activities": 4,
+        "total_activities": 5,
         "organization": "Circle K Polska Sp. z o.o.",
         "branża": "Handel"
       },
@@ -384,11 +372,11 @@
         "id": 28777,
         "title": "Frisco",
         "partner": "eRecruiter",
-        "stage": "Demo/Meeting",
+        "stage": "Consideration",
         "status": "open",
         "value": 0.0,
         "created": "2026-03-24",
-        "total_activities": 3,
+        "total_activities": 4,
         "organization": "Frisco",
         "branża": "Produkcja i przemysł"
       },
@@ -400,7 +388,7 @@
         "status": "open",
         "value": 0.0,
         "created": "2026-03-25",
-        "total_activities": 4,
+        "total_activities": 5,
         "organization": "PG Biogaz",
         "branża": "Produkcja i przemysł"
       },
@@ -436,7 +424,7 @@
         "status": "open",
         "value": 0.0,
         "created": "2026-03-27",
-        "total_activities": 1,
+        "total_activities": 2,
         "organization": "Radisson Hotele HQ",
         "branża": "Hotele"
       },
@@ -454,13 +442,13 @@
       },
       {
         "id": 28919,
-        "title": "Deal Spółdzielnia Handlowa Jubilat ❌",
+        "title": "Deal Spółdzielnia Handlowa Jubilat",
         "partner": "Pracuj.pl",
         "stage": "Demo/Meeting",
         "status": "open",
         "value": 2278.8,
         "created": "2026-03-30",
-        "total_activities": 5,
+        "total_activities": 7,
         "organization": "Spółdzielnia Handlowa Jubilat",
         "branża": "Handel"
       },
@@ -478,15 +466,39 @@
       },
       {
         "id": 29110,
-        "title": "Deal TMR",
+        "title": "Deal TMR (Tatra Mountain Resort)",
         "partner": "Pracuj.pl",
-        "stage": "Demo/Meeting",
+        "stage": "Consideration",
         "status": "open",
         "value": 0.0,
         "created": "2026-04-10",
-        "total_activities": 3,
+        "total_activities": 4,
         "organization": "TMR",
         "branża": "Rozrywka, atrakcje turystyczne i kultura"
+      },
+      {
+        "id": 29180,
+        "title": "Deal Nasza Klinika ❌",
+        "partner": "Pracuj.pl",
+        "stage": "Prospect",
+        "status": "open",
+        "value": 0.0,
+        "created": "2026-04-14",
+        "total_activities": 3,
+        "organization": "Nasza Klinika",
+        "branża": "Opieka zdrowotna"
+      },
+      {
+        "id": 29213,
+        "title": "Deal Global Colors Polska",
+        "partner": "Pracuj.pl",
+        "stage": "Prospect",
+        "status": "open",
+        "value": 0.0,
+        "created": "2026-04-15",
+        "total_activities": 0,
+        "organization": "Global Colors",
+        "branża": "Produkcja i przemysł"
       }
     ],
     "won_deals": [
@@ -526,6 +538,15 @@
         "value": 0.0,
         "lost_date": "2026-02-19",
         "stage_at_close": "Follow up",
+        "lost_reason": "Brak kontaktu"
+      },
+      {
+        "id": 24203,
+        "title": "Sky Bowling",
+        "partner": "Pracuj.pl",
+        "value": 1600.0,
+        "lost_date": "2026-04-15",
+        "stage_at_close": "Blocked",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -703,7 +724,7 @@
     "lost_reasons_summary": [
       {
         "reason": "Brak kontaktu",
-        "count": 5
+        "count": 6
       },
       {
         "reason": "Został przy obecnym rozwiązaniu",
@@ -735,156 +756,23 @@
       }
     ],
     "gp_alerts": {
-      "prev_report_date": "2026-04-03",
-      "current_report_date": "2026-04-10",
-      "lead_confirmed": [
-        {
-          "id": 29110,
-          "title": "Deal TMR",
-          "partner": "Pracuj.pl",
-          "stage": "Demo/Meeting",
-          "value": 0.0,
-          "date": "2026-04-10"
-        }
-      ],
-      "meeting_scheduled": [
-        {
-          "id": 28586,
-          "title": "BELAYO LTD sp. z o.o. ❌",
-          "partner": "eRecruiter",
-          "stage": "Consideration",
-          "value": 427.28,
-          "date": "2026-04-09",
-          "activity_subject": "Online Prezentacja"
-        },
-        {
-          "id": 28777,
-          "title": "Frisco",
-          "partner": "eRecruiter",
-          "stage": "Demo/Meeting",
-          "value": 0.0,
-          "date": "2026-04-10",
-          "activity_subject": "Online Prezentacja"
-        },
-        {
-          "id": 29110,
-          "title": "Deal TMR",
-          "partner": "Pracuj.pl",
-          "stage": "Demo/Meeting",
-          "value": 0.0,
-          "date": "2026-04-10",
-          "activity_subject": "Online Prezentacja"
-        }
-      ],
-      "trial_started": [
-        {
-          "id": 23470,
-          "title": "Mövenpick Grand Hotel Wrocław",
-          "partner": "Pracuj.pl",
-          "stage": "Follow up",
-          "value": 2000.0,
-          "date": "2026-04-10",
-          "spaceship_link": "https://spaceship7.kadro.dev/account/30222"
-        },
-        {
-          "id": 26057,
-          "title": "Deal Art Suites",
-          "partner": "Pracuj.pl",
-          "stage": "Success",
-          "value": 700.0,
-          "date": "2026-04-10",
-          "spaceship_link": "https://spaceship.kadro.dev/accounts/36956"
-        },
-        {
-          "id": 28129,
-          "title": "Deal SPL",
-          "partner": "eRecruiter",
-          "stage": "Follow up",
-          "value": 0.0,
-          "date": "2026-04-10",
-          "spaceship_link": "https://spaceship.kadro.dev/accounts/38063"
-        },
-        {
-          "id": 28772,
-          "title": "Spółdzielcza Mleczarnia Spomle",
-          "partner": "Pracuj.pl",
-          "stage": "Prospect",
-          "value": 0.0,
-          "date": "2026-04-10",
-          "spaceship_link": "https://spaceship7.kadro.dev/account/22423"
-        },
-        {
-          "id": 29079,
-          "title": "Deal OTR Group",
-          "partner": "Pracuj.pl",
-          "stage": "Prospect",
-          "value": 0.0,
-          "date": "2026-04-10",
-          "spaceship_link": "https://spaceship.kadro.dev/accounts/38005"
-        }
-      ],
+      "prev_report_date": "2026-04-10",
+      "current_report_date": "2026-04-16",
+      "lead_confirmed": [],
+      "meeting_scheduled": [],
+      "trial_started": [],
       "no_contact": [],
       "rejected": [],
       "deal_closed": [
         {
-          "id": 25831,
-          "title": "ICH POLAND SPÓŁKA Z OGRANICZONĄ",
+          "id": 24203,
+          "title": "Sky Bowling",
           "partner": "Pracuj.pl",
-          "stage": "Lead",
-          "value": 0.0,
-          "date": "2026-04-07",
+          "stage": "Blocked",
+          "value": 1600.0,
+          "date": "2026-04-15",
           "outcome": "lost",
           "lost_reason": "Brak kontaktu"
-        },
-        {
-          "id": 28046,
-          "title": "Deal IMPULS Leasing",
-          "partner": "eRecruiter",
-          "stage": "Blocked",
-          "value": 959.5,
-          "date": "2026-04-09",
-          "outcome": "lost",
-          "lost_reason": "Frozen"
-        },
-        {
-          "id": 28920,
-          "title": "Deal Kuźnia Matrycowa",
-          "partner": "Pracuj.pl",
-          "stage": "Prospect",
-          "value": 1851.53,
-          "date": "2026-04-08",
-          "outcome": "lost",
-          "lost_reason": "Duplikat"
-        },
-        {
-          "id": 29047,
-          "title": "Polski Holding Hotelowy",
-          "partner": "Pracuj.pl",
-          "stage": "Prospect",
-          "value": 0.0,
-          "date": "2026-04-07",
-          "outcome": "lost",
-          "lost_reason": "Duplikat"
-        },
-        {
-          "id": 29057,
-          "title": "Deal Four Points Warsaw Sheraton",
-          "partner": "Pracuj.pl",
-          "stage": "Prospect",
-          "value": 0.0,
-          "date": "2026-04-07",
-          "outcome": "lost",
-          "lost_reason": "Duplikat"
-        },
-        {
-          "id": 29079,
-          "title": "Deal OTR Group",
-          "partner": "Pracuj.pl",
-          "stage": "Prospect",
-          "value": 0.0,
-          "date": "2026-04-09",
-          "outcome": "lost",
-          "lost_reason": "Duplikat"
         }
       ]
     }

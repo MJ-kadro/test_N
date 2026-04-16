@@ -185,27 +185,6 @@ function getFunnelData(deals) {
   });
 }
 
-function calcDelta(current, prev) {
-  if (!prev || prev.length === 0) return null;
-  const pm = new Map(prev.map(d => [String(d['Deal - ID']), d]));
-  const newDeals = current.filter(d => !pm.has(String(d['Deal - ID'])));
-  const wonDeals = current.filter(d => {
-    const p = pm.get(String(d['Deal - ID']));
-    return p && norm(p['Deal - Status']) !== 'won' && norm(d['Deal - Status']) === 'won';
-  });
-  const lostDeals = current.filter(d => {
-    const p = pm.get(String(d['Deal - ID']));
-    const reason = (d['Deal - Lost reason'] || '').trim();
-    return p && norm(p['Deal - Status']) !== 'lost' &&
-         norm(d['Deal - Status']) === 'lost' &&
-         reason !== 'Duplikat';
-  });
-  const stageChanges = current.filter(d => {
-    const p = pm.get(String(d['Deal - ID']));
-    return p && norm(d['Deal - Status']) === 'open' && p['Deal - Stage'] !== d['Deal - Stage'];
-  }).map(d => ({ deal: d, from: pm.get(String(d['Deal - ID']))['Deal - Stage'], to: d['Deal - Stage'] }));
-  return { newDeals, wonDeals, lostDeals, stageChanges };
-}
 
 // ---- CHART UTILS ----
 function destroyChart(id) {
@@ -327,62 +306,13 @@ function renderKPIs(metrics, prevMetrics) {
 }
 
 // ---- CALLOUT ----
-function renderCallout(metrics, delta) {
+function renderCallout(metrics) {
   const el = document.getElementById('callout-box');
   if (!el) return;
-  let txt = `Aktywny pipeline: <strong>${metrics.open.length} dealów</strong> · Won: <strong>${metrics.won.length}</strong> · Lost: <strong>${metrics.lost.length}</strong> · MRR Won: <strong>${fmtMRR(metrics.mrrWon)}</strong> · Pipeline MRR: <strong>${fmtMRR(metrics.mrrPipeline)}</strong>.`;
-  if (delta) {
-    txt += ` Vs. poprzedni raport: <strong>${delta.newDeals.length}</strong> nowych, <strong>${delta.wonDeals.length}</strong> wygranych, <strong>${delta.lostDeals.length}</strong> przegranych, <strong>${delta.stageChanges.length}</strong> zmian etapu.`;
-  }
+  const txt = `Aktywny pipeline: <strong>${metrics.open.length} dealów</strong> · Won: <strong>${metrics.won.length}</strong> · Lost: <strong>${metrics.lost.length}</strong> · MRR Won: <strong>${fmtMRR(metrics.mrrWon)}</strong> · Pipeline MRR: <strong>${fmtMRR(metrics.mrrPipeline)}</strong>.`;
   el.innerHTML = `<div class="callout-content">ℹ️ ${txt}</div>`;
 }
 
-// ---- DELTA SECTION ----
-function renderDeltaSection(delta) {
-  const el = document.getElementById('delta-section');
-  if (!el) return;
-  if (!delta) { el.innerHTML = ''; return; }
-
-  function mini(title, color, items, cols) {
-    const rows = items.map(item => {
-      const d = item.deal || item;
-      return `<tr>${cols.map(c => `<td>${c(d, item)}</td>`).join('')}</tr>`;
-    }).join('');
-    const body = items.length === 0
-      ? '<p class="empty-state">Brak</p>'
-      : `<table class="data-table"><tbody>${rows}</tbody></table>`;
-    return `<div class="delta-card delta-card--${color}">
-      <h4>${title} <span style="font-weight:400;opacity:.7">(${items.length})</span></h4>
-      ${body}
-    </div>`;
-  }
-
-  el.innerHTML = `
-    <div class="section-title">Zmiany vs. poprzedni raport</div>
-    <div class="delta-grid">
-      ${mini('🆕 Nowe deale', 'new', delta.newDeals, [
-        d => `<strong>${dealName(d)}</strong>`,
-        d => partnerBadge(d),
-        d => fmtMRR(d['Deal - Value']),
-        d => `<span class="stage-badge">${esc(d['Deal - Stage'] || '—')}</span>`,
-      ])}
-      ${mini('✅ Wygrane', 'won', delta.wonDeals, [
-        d => `<strong>${dealName(d)}</strong>`,
-        d => partnerBadge(d),
-        d => fmtMRR(d['Deal - Value']),
-      ])}
-      ${mini('❌ Przegrane', 'lost', delta.lostDeals, [
-        d => `<strong>${dealName(d)}</strong>`,
-        d => partnerBadge(d),
-        d => fmtMRR(d['Deal - Value']),
-      ])}
-      ${mini('↔️ Zmiany etapu', 'stage', delta.stageChanges, [
-        (d, item) => `<strong>${dealName(d)}</strong>`,
-        (d, item) => `${esc(item.from)} → ${esc(item.to)}`,
-        d => partnerBadge(d),
-      ])}
-    </div>`;
-}
 
 // ---- AI SUMMARY — DIRECTOR ----
 function renderAISummaryDirector(deals, metrics, md) {
@@ -446,12 +376,64 @@ function renderRejectedTable() {
   </table>`;
 }
 
+// ---- DIRECTOR WON TABLE ----
+function renderDirectorWonTable(deals) {
+  const el = document.getElementById('director-won-container');
+  if (!el) return;
+  const won = deals.filter(d => norm(d['Deal - Status']) === 'won')
+    .sort((a, b) => (parseDate(b['Deal - Won time'] || b['Deal - Deal closed on']) || 0) - (parseDate(a['Deal - Won time'] || a['Deal - Deal closed on']) || 0));
+
+  const rows = won.map(d => {
+    const created = parseDate(d['Deal - Deal created']);
+    const wonTime = parseDate(d['Deal - Won time'] || d['Deal - Deal closed on']);
+    const days = (created && wonTime) ? Math.floor((wonTime - created) / 86400000) : null;
+    return `<tr class="row--won">
+      <td><strong>${dealName(d)}</strong></td>
+      <td>${partnerBadge(d)}</td>
+      <td><span class="stage-badge">${esc(d['Deal - Stage'] || '—')}</span></td>
+      <td>${fmtDate(d['Deal - Won time'] || d['Deal - Deal closed on'])}</td>
+      <td>${fmtMRR(d['Deal - Value'])}</td>
+      <td>${days !== null ? days + ' dni' : '—'}</td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML = `<table class="data-table">
+    <thead><tr><th>Firma</th><th>Partner</th><th>Etap zamknięcia</th><th>Data zamknięcia</th><th>Wartość</th><th>Czas pozyskania</th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="6" class="empty-state">Brak wygranych dealów</td></tr>'}</tbody>
+  </table>`;
+}
+
+// ---- DIRECTOR LOST TABLE ----
+function renderDirectorLostTable(deals) {
+  const el = document.getElementById('director-lost-container');
+  if (!el) return;
+  const lost = deals.filter(d => norm(d['Deal - Status']) === 'lost')
+    .sort((a, b) => (parseDate(b['Deal - Lost time'] || b['Deal - Deal closed on']) || 0) - (parseDate(a['Deal - Lost time'] || a['Deal - Deal closed on']) || 0));
+
+  const rows = lost.map(d => {
+    let reason = (d['Deal - Lost reason'] || '').trim() || '—';
+    if (reason === 'Duplikat') reason = 'Odrzucone (duplikat)';
+    return `<tr>
+      <td><strong>${dealName(d)}</strong></td>
+      <td>${partnerBadge(d)}</td>
+      <td><span class="stage-badge">${esc(d['Deal - Stage'] || '—')}</span></td>
+      <td>${esc(reason)}</td>
+      <td>${fmtDate(d['Deal - Lost time'] || d['Deal - Deal closed on'])}</td>
+      <td>${fmtMRR(d['Deal - Value'])}</td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML = `<table class="data-table">
+    <thead><tr><th>Firma</th><th>Partner</th><th>Etap zamknięcia</th><th>Powód utraty</th><th>Data zamknięcia</th><th>Wartość</th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="6" class="empty-state">Brak przegranych dealów</td></tr>'}</tbody>
+  </table>`;
+}
+
 // ---- DIRECTOR VIEW ----
 function renderDirector() {
   const deals = filtered(state.current);
   const metrics = calcMetrics(deals);
   const prevMetrics = state.prev.length > 0 ? calcMetrics(filtered(state.prev)) : null;
-  const delta = state.prev.length > 0 ? calcDelta(deals, filtered(state.prev)) : null;
   const md = getMonthlyData(deals);
 
   state.rejectedCount = state.current.filter(d =>
@@ -460,14 +442,15 @@ function renderDirector() {
   ).length;
 
   renderAISummaryDirector(deals, metrics, md);
-  renderCallout(metrics, delta);
+  renderCallout(metrics);
   renderKPIs(metrics, prevMetrics);
   renderMonthlyChart(md);
   renderCumulativeChart(md);
   renderPartnerSplitChart(deals);
   renderStatusSplitChart(metrics);
-  renderDeltaSection(delta);
   renderRejectedTable();
+  renderDirectorWonTable(deals);
+  renderDirectorLostTable(deals);
 }
 
 // ---- RENDER ALL ----

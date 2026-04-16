@@ -526,10 +526,8 @@ def run_process():
     gp_alerts = calc_gp_alerts(df, prev_records, prev_date, current_date, activities_by_deal)
     print(f'  ✅ Przejęcia leadów:    {len(gp_alerts["lead_confirmed"])}')
     print(f'  📅 Spotkania:           {len(gp_alerts["meeting_scheduled"])}')
-    print(f'  🧑‍💻 Trialy:             {len(gp_alerts["trial_started"])}')
-    print(f'  ❌ Brak kontaktu:       {len(gp_alerts["no_contact"])}')
     print(f'  🚫 Odrzucenia:          {len(gp_alerts["rejected"])}')
-    print(f'  🎯 Zamknięcia:          {len(gp_alerts["closed"])}')
+    print(f'  🎯 Zamknięcia:          {len(gp_alerts["deal_closed"])}')
 
     # ── Zapis dashboard_data.json ─────────────────────────────────────────────
     manager_data = calc_manager(df)

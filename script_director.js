@@ -376,6 +376,39 @@ function renderRejectedTable() {
   </table>`;
 }
 
+// ---- DIRECTOR REFERRED TABLE (new since last report) ----
+function renderDirectorReferredTable(deals) {
+  const el = document.getElementById('director-referred-container');
+  if (!el) return;
+
+  const prevIds = new Set(state.prev.map(d => String(d['Deal - ID'])));
+  const newDeals = deals.filter(d => !prevIds.has(String(d['Deal - ID'])))
+    .sort((a, b) => (parseDate(b['Deal - Deal created']) || 0) - (parseDate(a['Deal - Deal created']) || 0));
+
+  const prevDate = (() => {
+    const meta = document.getElementById('report-meta');
+    if (!meta) return null;
+    const m = meta.textContent.match(/poprzedni:\s*([\d.]+)/);
+    return m ? m[1] : null;
+  })();
+  const subtitle = prevDate ? ` od raportu ${prevDate}` : '';
+
+  const rows = newDeals.map(d => `<tr>
+    <td><strong>${dealName(d)}</strong></td>
+    <td>${partnerBadge(d)}</td>
+    <td><span class="stage-badge">${esc(d['Deal - Stage'] || '—')}</span></td>
+    <td>${fmtDate(d['Deal - Deal created'])}</td>
+    <td>${fmtMRR(d['Deal - Value'])}</td>
+  </tr>`).join('');
+
+  el.innerHTML = `
+    ${subtitle ? `<div style="font-size:0.78rem;color:#64748b;margin-bottom:8px;">Nowe deale${subtitle}</div>` : ''}
+    <table class="data-table">
+      <thead><tr><th>Firma</th><th>Partner</th><th>Etap</th><th>Data dodania</th><th>Wartość</th></tr></thead>
+      <tbody>${rows || '<tr><td colspan="5" class="empty-state">Brak nowych dealów od ostatniego raportu</td></tr>'}</tbody>
+    </table>`;
+}
+
 // ---- DIRECTOR WON TABLE ----
 function renderDirectorWonTable(deals) {
   const el = document.getElementById('director-won-container');
@@ -449,6 +482,7 @@ function renderDirector() {
   renderPartnerSplitChart(deals);
   renderStatusSplitChart(metrics);
   renderRejectedTable();
+  renderDirectorReferredTable(deals);
   renderDirectorWonTable(deals);
   renderDirectorLostTable(deals);
 }

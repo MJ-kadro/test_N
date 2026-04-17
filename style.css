@@ -24,7 +24,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); font-size: 13px; min-width: 1280px; }
+body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); font-size: 13px; min-width: 1280px; padding: 0 20px; box-sizing: border-box; }
 a { color: inherit; }
 
 /* ---- AUTH OVERLAY ---- */
@@ -328,7 +328,11 @@ a { color: inherit; }
 
 /* ---- DONUTS + DELTA ROW ---- */
 .donuts-delta-row { display: grid; grid-template-columns: 280px 1fr; gap: 10px; margin-bottom: 10px; }
-.donuts-col { display: grid; grid-template-columns: 1fr; gap: 10px; width: 33%; margin-bottom: 10px; }
+.donuts-right-row { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-bottom: 10px; align-items: start; }
+.donuts-col { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.right-panels { display: flex; flex-direction: column; gap: 0; }
+.right-panels .section-title { margin-top: 10px; }
+.right-panels .section-title:first-child { margin-top: 0; }
 
 /* ---- DELTA ---- */
 .delta-grid {

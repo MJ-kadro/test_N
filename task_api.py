@@ -193,9 +193,9 @@ def _parse_date_gp(s) -> datetime | None:
 
 
 def _in_window(date_val, prev_date: datetime, curr_date: datetime) -> bool:
-    """Zwraca True jeśli prev_date < date_val <= curr_date (okno raportowe)."""
+    """Zwraca True jeśli prev_date <= date_val <= curr_date (okno raportowe)."""
     d = _parse_date_gp(date_val) if not isinstance(date_val, datetime) else date_val
-    return d is not None and prev_date < d <= curr_date
+    return d is not None and prev_date <= d <= curr_date
 
 
 def _safe_float(v) -> float:

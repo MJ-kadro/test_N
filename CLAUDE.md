@@ -7,78 +7,117 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Sales dashboard for **Kadromierz × Grupa Pracuj** lead program. It visualizes the B2B sales pipeline where leads originate from Pracuj.pl and eRecruiter.
 
 **Two audiences, two tabs:**
-- **Sales Director tab** — executive KPIs, MRR, win rate, monthly trends, partner split
-- **Sales Manager tab** — operational pipeline: funnel with stage conversion rates, lost analysis, full deal table
+- **Sales Director tab** — executive KPIs, MRR, win rate, monthly trends, partner split, tables of rejected / referred / won / lost deals
+- **Sales Manager tab** — operational pipeline: GP status-flow alerts, full deal table (with referrer filter), funnel, monthly/funnel charts, Lost and Won lists
 
-Python processes CSV exports from Pipedrive into `dashboard_data.json`; a static HTML/CSS/JS frontend renders it using Chart.js.
+Python processes CSV exports from Pipedrive into a set of per-report JSON files plus an aggregated `dashboard_data.json`; a static HTML/CSS/JS frontend renders it using Chart.js. The frontend loads the raw per-report JSON directly and only reads `dashboard_data.json` for GP alerts.
+
+---
+
+## Repository Layout
+
+```
+netlify/
+├── index.html                     # page shell: auth overlay, two tabs, partner filter
+├── style.css                      # styles
+├── script_director.js             # shared globals + Sales Director tab logic
+├── script_manager.js              # Sales Manager tab logic (requires script_director.js first)
+├── script.js                      # LEGACY monolithic JS — not loaded by index.html, kept as reference
+├── process_data.py                # main pipeline: CSVs → per-report JSONs + manifest + dashboard_data.json
+├── convert.py                     # fills WoW KPI deltas + recomputes GP alerts in dashboard_data.json
+├── task_api.py                    # Pipedrive REST client for activities + GP-alert computation helpers
+├── dashboard_data.json            # aggregate output (KPIs, deltas, gp_alerts)
+├── data/
+│   ├── basic_data_DDMM.csv        # raw weekly export from Pipedrive
+│   ├── basic_data_DDMM.json       # same, converted to JSON records (primary frontend data source)
+│   ├── manifest.json              # { files: [{name, date}] } — sorted list of reports
+│   └── activities_cache.json      # cache of Pipedrive activities keyed by deal_id
+└── CLAUDE.md                      # this file
+```
 
 ---
 
 ## Development Workflow
 
-### Data Processing (Python)
+### Data processing (Python)
 
 ```bash
 source .venv/bin/activate
-python process_data.py
+python process_data.py     # Step 1: CSVs → JSONs, manifest, dashboard_data.json (deltas = 0)
+python convert.py          # Step 2: compute KPI deltas and GP alerts between last 2 reports
+# python convert.py --no-api   # skip Pipedrive API calls; use activities_cache.json only
 ```
 
-The script picks up the most recent file matching `data/basic_data_*.csv` (sorted by filename date suffix, e.g. `basic_data_1304.csv` = 13 April).
+`process_data.py` always regenerates the JSON twin of every `data/basic_data_*.csv`. It then picks the newest one as the "current" report (files sorted lexicographically; the `DDMM` suffix encodes day-month, e.g. `basic_data_1604.csv` = 16 April).
 
-### Serve Frontend Locally
+### Serve frontend locally
 
 ```bash
 python -m http.server 8000
 # Open http://localhost:8000
 ```
 
-Chart.js is loaded from CDN — no build step needed for the frontend.
+Chart.js is loaded from jsDelivr CDN (`cdn.jsdelivr.net/npm/chart.js@4.4.0/...`). No build step.
 
 ---
 
-## Architecture
+## Architecture / Data Flow
 
 ```
-data/basic_data_DDMM.csv  →  process_data.py  →  dashboard_data.json  →  script.js  →  index.html
+data/basic_data_DDMM.csv ──┐
+                           │ process_data.py
+                           ├──► data/basic_data_DDMM.json
+                           ├──► data/manifest.json
+                           └──► dashboard_data.json (KPIs, gp_alerts, deltas=0)
+                                         ▲
+                                         │ convert.py (uses 2 newest JSONs + task_api.py)
+                                         │  - fills director.kpis.*_delta
+                                         │  - overwrites manager.gp_alerts
+                                         └── final dashboard_data.json
+
+Frontend (browser):
+  fetch data/manifest.json            → pick newest + previous report
+  fetch data/basic_data_<curr>.json   → state.current (primary data)
+  fetch data/basic_data_<prev>.json   → state.prev    (for WoW comparisons, optional)
+  fetch dashboard_data.json           → state.gpAlerts (manager.gp_alerts only)
+  render ← script_director.js + script_manager.js
 ```
 
-1. `process_data.py` reads the latest `data/basic_data_*.csv`, computes all KPI metrics, and writes `dashboard_data.json`.
-2. `convert.py` reads the latest two `data/basic_data_*.csv`, computes all KPI metrics changes as report / report , and update `dashboard_data.json`.
-3. `menager_script.js` fetches `dashboard_data.json` on page load and renders Menager Director dashboard tabs.
-4. `director_script.js` fetches `dashboard_data.json` on page load and renders Sales Director dashboard tabs.
-5. `index.html` + `style.css` define the two-tab layout (Polish-language UI).
-
-`dashboard_data.json` must be regenerated whenever source CSV files change.
+Key implication: **the frontend re-derives most KPIs/charts client-side from the raw per-report JSON**, not from `dashboard_data.json`. `dashboard_data.json` is still committed and is the canonical source for `gp_alerts` (and a machine-readable KPI snapshot with deltas).
 
 ---
 
 ## Source Data — CSV Structure
 
-**Primary file:** `data/basic_data_DDMM.csv` (exported from Pipedrive every Friday by 12:00)
+**Primary file:** `data/basic_data_DDMM.csv` (exported from Pipedrive, typically Friday)
+
+Actual columns observed in current exports:
 
 | Column | Type | Notes |
 |---|---|---|
 | `Deal - ID` | int | Unique deal identifier |
-| `Deal - Value` | float | Deal value — used as MRR (both potential and Won). Null/0 = no pricing yet |
+| `Deal - Value` | float | Used as MRR (both potential and Won). Null/0 → excluded from MRR sums, displayed as "—" |
+| `Organization - MRR` | float | Present but not used for KPI math — MRR comes from `Deal - Value` |
 | `Deal - Title` | string | Company / deal name |
-| `Deal - Deal created` | date | Date added to pipeline |
-| `Deal - Deal closed on` | date | Date closed (won or lost) |
-| `Deal - Stage` | string | Funnel stage — see ordered list below |
-| `Deal - Status` | string | `"open"`, `"won"`, `"lost"` |
-| `Deal - Won time` | date/null | Timestamp of won |
-| `Deal - Lost time` | date/null | Timestamp of lost |
+| `Deal - Deal created` | datetime | Date added to pipeline |
+| `Deal - Deal closed on` | datetime | Date closed (won or lost) |
+| `Deal - Stage` | string | Funnel stage — see list below; `"Success"` appears for closed-won |
+| `Deal - Status` | string | `"Open"`, `"Won"`, `"Lost"` (case-insensitive in code) |
 | `Deal - Total activities` | int | Total logged activities on deal |
 | `Deal - Organization` | string | Legal entity name |
-| `Organization - Status konta` | string | Account status |
 | `Deal - Nazwa Partnera` | string | `"Pracuj.pl"` or `"eRecruiter"` |
-| `Deal - Lost reason` | string/null | Reason for loss — see values below |
+| `Deal - Lost reason` | string/null | See values below |
+| `Organization - Branża` | string/null | Industry (used in open-deals table) |
+| `Deal - Adres e-mail polecającego` | string/null | Referring salesperson email — used for "Deale polecone" and the referrer multi-select filter |
 
-### MRR source — important
-**All MRR calculations (Won MRR, Pipeline MRR Potential) must use `Deal - Value`, not any MRR column.**
-- `Deal - Value` null or 0 → exclude from MRR sums, display as "—"
+Columns referenced by older docs but **not** present in current exports: `Deal - Won time`, `Deal - Lost time`, `Organization - Status konta`. The `Organization - Spaceship link` column is referenced optionally by `process_data.calc_gp_alerts` but absent from current CSVs, so the `trial_started` GP alert stays empty.
 
-### Funnel stage order (`Deal - Stage`) — Sales Manager funnel
-Only deals where `Deal - Status == "open"` appear in the funnel. Order:
+### MRR source
+All MRR calculations (Won MRR, Pipeline MRR Potential) use `Deal - Value`.
+- `Deal - Value` null or 0 → excluded from MRR sums and displayed as "—".
+
+### Funnel stages (`Deal - Stage`)
+Open-deal funnel (Sales Manager tab), ordered:
 
 1. Prospect
 2. Lead
@@ -89,178 +128,213 @@ Only deals where `Deal - Status == "open"` appear in the funnel. Order:
 7. Trial
 8. Contract negotiation
 
-### Rejected deals (odrzucone) — special category
-A **rejected deal** is defined as:
-- `Deal - Stage == "Prospect"` AND
-- `Deal - Status == "lost"` AND
-- `Deal - Lost reason == "Już w kontakcie"`
+`Success` is a closed-won stage (appears in `won_deals[].stage_at_close`) — it is **not** part of the open funnel.
 
-### Known `Deal - Lost reason` values
-- `"Już w kontakcie"` — already a customer / in contact (= rejected deal, see above)
-- Other free-text reasons from Pipedrive (e.g. "Pozostał przy obecnym rozwiązaniu", "Brak funkcjonalności", "Brak kontaktu", "Osoba nie jest decyzyjna")
+### Rejected deals (odrzucone) — how it's actually defined in code
+A **rejected deal** = `Deal - Status == "lost"` **AND** `Deal - Lost reason == "Duplikat"`.
+
+This is what `process_data.calc_snapshot` and `convert.calc_kpis_from_records` both count as `rejected_deals_count`, and what the Manager tab labels as "Odrzucone (duplikat)" in the lost-by-reason chart.
+
+> Note: earlier drafts of this doc defined rejected as `Prospect + lost + "Już w kontakcie"`. That does **not** match the code; the current implementation uses the `Duplikat` rule above.
+
+### Lost reasons used for GP alerts
+`process_data.py` and `task_api.py` treat the following set as "rejection / no interest" for the `rejected` GP-alert bucket:
+
+```
+REJECTION_LOST_REASONS = {
+    'Pozostał przy obecnym rozwiązaniu',
+    'Zastał przy obecnym rozwiązaniu',
+    'Brak decyzji',
+}
+```
+
+Other free-text reasons (e.g. `"Brak funkcjonalności"`, `"Brak kontaktu"`, `"Osoba nie jest decyzyjna"`, `"Już w kontakcie"`) appear in Pipedrive and are grouped in the Lost-by-reason chart as their own bars. `"Duplikat"` is relabelled on the UI as `"Odrzucone (duplikat)"`.
 
 ---
 
-## process_data.py — Required Output (dashboard_data.json)
+## `dashboard_data.json` — Actual Schema
 
 ```json
 {
-  "generated_at": "2026-04-13T12:00:00",
-  "report_date": "2026-04-13",
-  "rejected_deals_count": 12,
+  "generated_at": "2026-04-16T15:55:59",
+  "report_date": "2026-04-16",
 
   "director": {
     "kpis": {
       "mrr_won": 700.0,
       "mrr_won_delta": 0.0,
-      "pipeline_mrr_potential": 29820.0,
-      "pipeline_mrr_potential_delta": 5000.0,
-      "win_rate": 9.1,
-      "win_rate_delta": 0.5,
-      "open_deals": 26,
+      "pipeline_mrr_potential": 26242.46,
+      "pipeline_mrr_potential_delta": -1600.0,
+      "win_rate": 5.0,
+      "win_rate_delta": -0.3,
+      "open_deals": 27,
       "open_deals_delta": 1,
-      "rejected_deals_count": 12
+      "rejected_deals_count": 4,
+      "rejected_deals_count_delta": 0,
+      "median_days_to_close": 94,
+      "median_days_to_close_delta": 0
     },
     "monthly_new_deals": [
       { "month": "2025-06", "pracuj": 1, "erecruiter": 0 }
     ],
     "cumulative_deals": [
-      { "month": "2025-06", "total_created": 1, "total_won": 0, "total_lost": 0 }
+      { "month": "2025-06", "total_created": 2, "total_won": 0, "total_lost": 0 }
     ],
-    "partner_split": { "pracuj": 25, "erecruiter": 13 },
-    "status_split": { "open": 26, "won": 1, "lost": 10 }
+    "partner_split": { "pracuj": 36, "erecruiter": 15 },
+    "status_split": { "open": 27, "won": 1, "lost": 23 }
   },
 
   "manager": {
     "funnel_stages": [
-      { "stage": "Prospect", "count": 2 },
-      { "stage": "Lead", "count": 1 },
-      { "stage": "Follow up", "count": 7 },
-      { "stage": "Demo/Meeting", "count": 6 },
-      { "stage": "Blocked", "count": 5 },
-      { "stage": "Consideration", "count": 4 },
-      { "stage": "Trial", "count": 0 },
-      { "stage": "Contract negotiation", "count": 1 }
-    ],
-    "funnel_conversions": [
-      { "from": "Prospect", "to": "Lead", "rate": 0.72 },
-      { "from": "Lead", "to": "Follow up", "rate": 0.65 }
+      { "stage": "Prospect", "count": 3 },
+      { "stage": "Lead", "count": 3 }
     ],
     "all_open_deals": [
       {
-        "id": 88,
-        "title": "Dla Spania",
+        "id": 23645,
+        "title": "Destigo Hotels",
         "partner": "Pracuj.pl",
-        "stage": "Demo/Meeting",
+        "stage": "Blocked",
         "status": "open",
-        "value": 5000.0,
-        "created": "2026-01-15",
-        "total_activities": 9,
-        "organization": "Dla Spania sieć sklepów"
+        "value": 10000.0,
+        "created": "2025-07-03",
+        "total_activities": 18,
+        "organization": "Destigo Hotels",
+        "branża": "Hotele"
+      }
+    ],
+    "won_deals": [
+      {
+        "id": 26057,
+        "title": "Deal Art Suites",
+        "partner": "Pracuj.pl",
+        "value": 700.0,
+        "won_date": "2026-02-02",
+        "stage_at_close": "Success",
+        "days_to_close": 94
       }
     ],
     "lost_deals": [
       {
-        "id": 12,
-        "title": "Eneris",
+        "id": 850,
+        "title": "Hotel Monopol Wrocław deal",
         "partner": "Pracuj.pl",
-        "value": 5000.0,
-        "lost_date": "2026-03-11",
-        "stage_at_close": "Follow up",
-        "lost_reason": "Pozostał przy obecnym rozwiązaniu"
+        "value": 1300.0,
+        "lost_date": "2026-03-02",
+        "stage_at_close": "Consideration",
+        "lost_reason": "Brak decyzji"
       }
     ],
     "lost_reasons_summary": [
-      { "reason": "Pozostał przy obecnym rozwiązaniu", "count": 4 },
-      { "reason": "Już w kontakcie", "count": 12 },
-      { "reason": "Brak funkcjonalności", "count": 2 }
+      { "reason": "Brak decyzji", "count": 7 }
     ],
-    "total_activities_all": 156,
-    "avg_activities_per_deal": 5.2
+    "gp_alerts": {
+      "prev_report_date": "2026-04-10",
+      "current_report_date": "2026-04-16",
+      "lead_confirmed":    [ /* {id,title,partner,stage,date} */ ],
+      "meeting_scheduled": [ /* {id,title,partner,stage,date} */ ],
+      "trial_started":     [ /* {id,title,partner,stage,spaceship_link,date} */ ],
+      "no_contact":        [ /* {id,title,partner,stage,date,call_count} */ ],
+      "rejected":          [ /* {id,title,partner,stage,lost_reason,date} */ ],
+      "deal_closed":       [ /* {id,title,partner,status,lost_reason,date} */ ]
+    }
   }
 }
 ```
 
+Things the earlier spec mentioned but are **not** emitted today: top-level `rejected_deals_count`, `director.kpis.funnel_conversions` (no such field — frontend computes funnel purely from per-report JSON), `manager.total_activities_all`, `manager.avg_activities_per_deal`, `manager.funnel_conversions`.
+
 ---
 
-## KPI Computation Rules
+## KPI Computation Rules (as implemented)
+
+Both `process_data.calc_snapshot` and `convert.calc_kpis_from_records` implement the same formulas, so WoW deltas use consistent math.
 
 | Metric | Formula |
 |---|---|
 | `mrr_won` | `SUM(Deal - Value)` where `Deal - Status == "won"` |
 | `pipeline_mrr_potential` | `SUM(Deal - Value)` where `Deal - Status == "open"` AND `Deal - Value > 0` |
-| `win_rate` | `COUNT(won) / (COUNT(won) + COUNT(lost)) * 100` |
+| `win_rate` | `COUNT(won) / (COUNT(won) + COUNT(lost where Lost reason != "Duplikat")) * 100` — `Duplikat` rows are excluded from the denominator |
 | `open_deals` | `COUNT` where `Deal - Status == "open"` |
-| `rejected_deals_count` | Manually set in JSON — not computable from current CSV export |
-| `cumulative_won` | Running total of `COUNT(won)` by month of `Deal - Won time` |
-| `cumulative_lost` | Running total of `COUNT(lost)` by month of `Deal - Lost time` |
-| `cumulative_created` | Running total of `COUNT(all deals)` by month of `Deal - Deal created` |
-| `funnel_conversions` | For each consecutive stage pair: `COUNT(stage N+1) / COUNT(stage N)` — computed from all-time deal data, not just current open |
+| `rejected_deals_count` | `COUNT` where `Deal - Status == "lost"` AND `Deal - Lost reason == "Duplikat"` |
+| `median_days_to_close` | Median of `(Deal - Deal closed on - Deal - Deal created)` in days, over Won deals with both dates present |
+| `monthly_new_deals[month]` | Grouped by `Deal - Deal created` month; split by `Deal - Nazwa Partnera` (`pracuj` / `erecruiter`) |
+| `cumulative_deals[month]` | Running totals: `total_created` by `Deal - Deal created`, `total_won`/`total_lost` by `Deal - Deal closed on` |
+| `partner_split` | Counts of `Deal - Nazwa Partnera` values |
+| `status_split` | Counts of `Deal - Status` values |
+| `*_delta` | `convert.py`: `current - previous` computed from the two newest `data/basic_data_*.json` files |
+
+Funnel and lost-by-reason visuals are recomputed client-side from the raw per-report JSON — there is no `funnel_conversions` array in `dashboard_data.json`.
 
 ---
 
-## Frontend — Tab 1: Sales Director
+## GP Status-Flow Alerts
 
-### Layout (top to bottom)
+Computed between the two newest reports (`prev_date` → `current_date`). Six buckets, emitted in `manager.gp_alerts`:
 
-1. **Global partner filter** (sticky): All | Pracuj.pl | eRecruiter — filters all charts and tables on both tabs
+1. **`lead_confirmed`** — deal created in the period, currently `open`, stage ≠ `Prospect`.
+2. **`meeting_scheduled`** — Pipedrive activity with `subject` containing `"Online Prezentacja"` added in the period.
+3. **`trial_started`** — `Organization - Spaceship link` was empty in the previous report and is filled now. (Requires the column; stays empty in current exports.)
+4. **`no_contact`** — the last three dated activities on a deal are all `type == "call"` and the most recent one falls in the period.
+5. **`rejected`** — `Deal - Status == "lost"` AND `Deal - Lost reason` ∈ `REJECTION_LOST_REASONS` AND closed in the period.
+6. **`deal_closed`** — any `won`/`lost` closed in the period, excluding `Lost reason == "Duplikat"`.
 
-2. **KPI strip** — 5 cards:
-   - MRR Won (`mrr_won`) + WoW delta badge
-   - Pipeline MRR Potential (`pipeline_mrr_potential`) + WoW delta badge
-   - Win Rate % (`win_rate`) + WoW delta badge
-   - Open Deals (`open_deals`) + WoW delta badge
-   - Rejected Deals / Odrzucone (`rejected_deals_count`) — amber/warning color, tooltip explaining definition
+`task_api.py` handles Pipedrive REST fetches for activities (paged, with rate limit and local cache in `data/activities_cache.json`). `convert.py` calls `task_api.compute_all_gp_alerts(...)`; `process_data.py` has an older copy of the same logic via `calc_gp_alerts`.
 
-3. **Charts row 1:**
-   - Monthly new deals — stacked bar: Pracuj.pl (blue `#1a4a8a`) + eRecruiter (purple `#6b21a8`)
-   - Partner split — donut: Pracuj.pl vs eRecruiter
-
-4. **Charts row 2 — Cumulative deals (single chart, 3 lines):**
-   - Line 1: Total deals created (all statuses) — dark/neutral color
-   - Line 2: Cumulative Won — green `#1a7a4a`
-   - Line 3: Cumulative Lost — red `#c0392b`
-   - X axis: months; Y axis: count; legend visible
-
-5. **Won / Lost / Open status donut**
+> Security note: `PIPEDRIVE_API_TOKEN` is currently hard-coded at the top of `task_api.py`. Do not commit a new token to a public fork — move it to an env var / `.env` on next refactor.
 
 ---
 
-## Frontend — Tab 2: Sales Manager
+## Frontend
 
-### Layout (top to bottom)
+### Auth overlay
+`index.html` shows an `#auth-overlay` password gate before loading data. The check is client-side only (`setupAuth` in `script_director.js`); success is stored in `sessionStorage.kp_ok`. Do not treat this as real authentication — the page and data are public once deployed.
 
-1. **Funnel — open deals only** (`Deal - Status == "open"`)
-   - Horizontal bar chart (Chart.js, `indexAxis: 'y'`)
-   - Stages in order: Prospect | Lead | Follow up | Demo/Meeting | Blocked | Consideration | Trial | Contract negotiation
-   - Each bar shows deal count
-   - Below each bar (or as annotation): conversion rate to next stage (from `funnel_conversions`)
-   - Blocked stage bar: amber color `#b86b00`
+### Partner filter (sticky, both tabs)
+`All | Pracuj.pl | eRecruiter` — filters every chart and table on both tabs by `Deal - Nazwa Partnera`.
 
-2. **All open deals table** — "Wszystkie aktywne deale"
-   - Source: `all_open_deals` (Status == "open" only)
-   - Columns: Firma | Etap | Partner | Wartość (Deal - Value) | Data dodania | Liczba aktywności
-   - **No Spaceship column**
-   - Sortable by any column
-   - Search/filter by company name
-   - Row color coding: Blocked = amber tint, default = white
+### Tab 1: Sales Director (`#view-director`)
 
-3. **Lost analysis** — "Analiza Lost"
-   - Horizontal bar chart: lost reasons by count (from `lost_reasons_summary`)
-   - Includes `"Już w kontakcie"` as a bar — label it "Odrzucone (już w kontakcie)"
-   - **No lost MRR / utracony potencjał section** — removed
-   - Section header: "Analiza Lost"
+Top-to-bottom:
 
-4. **Lost deals table** — "Lista Lost"
-   - Source: `lost_deals`
-   - Columns: Firma | Partner | Etap zamknięcia | Powód utraty | Data zamknięcia | Wartość
-   - All lost deals, no filtering by default
-   - Section header: "Lista Lost"
+1. AI summary placeholder (`#ai-summary-director`) and a callout box (`#callout-box`, shown on load errors).
+2. **KPI strip** (`#kpi-strip`) — cards with WoW delta badges. Includes (at minimum): MRR Won, Pipeline MRR Potential, Win Rate, Open Deals, Rejected Deals (Odrzucone), Median days to close.
+3. **Trendy** section with two chart cards side by side:
+   - `#chart-monthly` — monthly new deals, stacked bar by partner (Pracuj.pl `#1a4a8a`, eRecruiter `#6b21a8`).
+   - `#chart-cumulative` — cumulative deals: 3 lines (created / won / lost).
+4. **Donuts + right-side tables**:
+   - `#chart-partner-split` — Pracuj.pl vs eRecruiter donut.
+   - `#chart-status-split` — Open / Won / Lost donut.
+   - Right panels: "Deale odrzucone", "Deale polecone" (filtered by `Deal - Adres e-mail polecającego`), "Wygrane deale".
+5. **Przegrane deale** full-width card.
 
-### Removed from Sales Manager tab (do not implement)
-- "Wymagają Uwagi" section (Blocked alerts, Stale deals, Hot deals) — **out of scope**
-- Spaceship column in any table
-- Utracony potencjał MRR block
+### Tab 2: Sales Manager (`#view-manager`)
+
+Top-to-bottom:
+
+1. AI summary placeholder (`#ai-summary-manager`).
+2. **"Zmiany w programie partnerskim"** — renders `manager.gp_alerts` grouped by category.
+3. **"Wszystkie deale"** table:
+   - Search by company name.
+   - Toggle "Pokaż wszystkie (z Won/Lost)" (default: open-only).
+   - **Referrer multi-select pills** driven by `Deal - Adres e-mail polecającego`.
+   - Columns include company, stage, partner, value, created date, activities, referring salesperson email.
+4. **Wykresy** — 4 chart cards:
+   - `#chart-manager-monthly` — deals per month.
+   - `#chart-funnel` — horizontal bar funnel; "Blocked" bar colored `#b86b00`; title shows live count; ⓘ popup uses `FUNNEL_DESC` (stage tooltips).
+   - `#chart-lost-stage` — horizontal bar of lost reasons; `"Duplikat"` relabelled to `"Odrzucone (duplikat)"`.
+   - `#chart-cumulative-funnel` — cumulative funnel chart.
+5. **Lista Lost** — full lost-deals table.
+6. **Wygrane deale** — full won-deals table.
+
+### Data source for the frontend
+`loadDefaultData()` in `script_director.js`:
+1. `fetch('data/manifest.json')`
+2. Load the two newest `data/basic_data_*.json` files referenced there into `state.current` / `state.prev`.
+3. `fetch('dashboard_data.json')` → pull only `manager.gp_alerts` into `state.gpAlerts`.
+4. Render.
+
+If any fetch fails, `#callout-box` shows a warning suggesting `python convert.py`.
 
 ---
 
@@ -277,27 +351,33 @@ A **rejected deal** is defined as:
 | Open / neutral | `#1a4a8a` |
 | Primary UI | `#0055ff` |
 
+Defined in `script_director.js` as `PARTNER_COLORS` and `STATUS_COLORS`.
+
 ---
 
 ## Deployment (Netlify)
 
-- Repo connected to Netlify; every push to `main` triggers a deploy
-- **No build command** — static site, Netlify serves `index.html` directly
-- `dashboard_data.json` is committed to the repo after each Friday's data processing run
-- Python preprocessing runs **locally** before committing
+- Repo connected to Netlify; every push to `main` triggers a deploy.
+- **No build command** — static site; Netlify serves `index.html` directly.
+- All `data/basic_data_*.json`, `data/manifest.json`, and `dashboard_data.json` are committed after each Friday data-processing run.
+- Python preprocessing runs **locally** before committing.
 
 ### Friday update workflow
 ```bash
 # 1. Drop new CSV into data/
-cp ~/Downloads/basic_data_1304.csv data/
+cp ~/Downloads/basic_data_DDMM.csv data/
 
-# 2. Regenerate JSON
+# 2. Regenerate per-report JSONs, manifest, and dashboard_data.json
 source .venv/bin/activate
 python process_data.py
 
-# 3. Commit and push → Netlify auto-deploys
+# 3. Fill KPI deltas and GP alerts (needs Pipedrive API token)
+python convert.py
+# or: python convert.py --no-api    # rely on data/activities_cache.json only
+
+# 4. Commit and push → Netlify auto-deploys
 git add data/ dashboard_data.json
-git commit -m "data: update 2026-04-13"
+git commit -m "data: update YYYY-MM-DD"
 git push
 ```
 
@@ -305,12 +385,13 @@ git push
 
 ## Key Constraints
 
-- Python 3.11, dependencies: `pandas`, `numpy` only
-- No test suite
-- No linting configuration
-- All UI content in Polish
-- Chart.js loaded from CDN (`cdnjs.cloudflare.com`)
-- No backend — `dashboard_data.json` is the only data contract between Python and JS
-- `Deal - Value` null or 0 → exclude from MRR sums, display as "—"
-- `Organization - Status konta` null → display as "—"
-- Report switching between weeks — **out of scope for v1**, will be added in next iteration
+- Python 3.11, dependencies: `pandas`, `numpy` (+ stdlib `urllib` in `task_api.py`).
+- No test suite, no linting config.
+- All UI content in Polish.
+- Chart.js loaded from jsDelivr CDN (`cdn.jsdelivr.net/npm/chart.js@4.4.0`).
+- No backend; the per-report JSON files plus `dashboard_data.json` are the only data contracts between Python and JS.
+- `Deal - Value` null or 0 → excluded from MRR sums, displayed as "—".
+- Auth overlay is client-side only — **not** a real security boundary.
+- `PIPEDRIVE_API_TOKEN` is currently hard-coded in `task_api.py` — relocate before open-sourcing.
+- `script.js` (legacy) is not loaded by `index.html`; only `script_director.js` + `script_manager.js` are.
+- Report switching between historical weeks is not wired into the UI yet — `state.current` / `state.prev` are always the two newest reports from `manifest.json`.

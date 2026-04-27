@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="386a553a-ec28-463c-ae50-c47106008c92" name="Changes" comment="Secound _dashboard margins fixes">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard_data.json" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard_data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/activities_cache.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/activities_cache.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/basic_data_0204.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/basic_data_0204.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/basic_data_0304.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/basic_data_0304.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/basic_data_1004.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/basic_data_1004.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/manifest.json" afterDir="false" />
-    </list>
+    <list default="true" id="386a553a-ec28-463c-ae50-c47106008c92" name="Changes" comment="Secound _dashboard margins fixes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -275,7 +262,23 @@
       <option name="project" value="LOCAL" />
       <updated>1776158313964</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1777021962910</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1777021962910</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1777021971820</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1777021971820</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

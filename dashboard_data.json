@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-24T11:08:13",
+  "generated_at": "2026-04-27T11:04:41",
   "report_date": "2026-04-23",
   "director": {
     "kpis": {
@@ -478,7 +478,7 @@
       },
       {
         "id": 29359,
-        "title": "Sebastian Wysocki",
+        "title": "Workeo",
         "partner": "Pracuj.pl",
         "stage": "Follow up",
         "status": "open",
@@ -497,8 +497,8 @@
         "value": 0.0,
         "created": "2026-04-22",
         "total_activities": 2,
-        "organization": "Hilton",
-        "branża": "Hotele"
+        "organization": "Canopy by Hilton",
+        "branża": "nan"
       },
       {
         "id": 29365,
@@ -812,7 +812,7 @@
       "lead_confirmed": [
         {
           "id": 29359,
-          "title": "Sebastian Wysocki",
+          "title": "Workeo",
           "partner": "Pracuj.pl",
           "stage": "Follow up",
           "value": 0.0,

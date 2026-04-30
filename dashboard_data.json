@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-04-27T11:04:41",
-  "report_date": "2026-04-23",
+  "generated_at": "2026-04-30T15:46:49",
+  "report_date": "2026-04-30",
   "director": {
     "kpis": {
       "mrr_won": 700.0,
       "mrr_won_delta": 0.0,
-      "pipeline_mrr_potential": 42524.26,
-      "pipeline_mrr_potential_delta": 16281.8,
-      "win_rate": 4.5,
-      "win_rate_delta": -0.5,
-      "open_deals": 29,
-      "open_deals_delta": 2,
+      "pipeline_mrr_potential": 57524.26,
+      "pipeline_mrr_potential_delta": 15000.0,
+      "win_rate": 4.2,
+      "win_rate_delta": -0.3,
+      "open_deals": 27,
+      "open_deals_delta": -2,
       "rejected_deals_count": 5,
-      "rejected_deals_count_delta": 1,
+      "rejected_deals_count_delta": 0,
       "median_days_to_close": 94,
       "median_days_to_close_delta": 0
     },
@@ -127,7 +127,7 @@
         "month": "2026-04",
         "total_created": 56,
         "total_won": 1,
-        "total_lost": 26
+        "total_lost": 28
       }
     ],
     "partner_split": {
@@ -135,16 +135,16 @@
       "erecruiter": 16
     },
     "status_split": {
-      "open": 29,
+      "open": 27,
       "won": 1,
-      "lost": 26
+      "lost": 28
     }
   },
   "manager": {
     "funnel_stages": [
       {
         "stage": "Prospect",
-        "count": 3
+        "count": 0
       },
       {
         "stage": "Lead",
@@ -152,7 +152,7 @@
       },
       {
         "stage": "Follow up",
-        "count": 10
+        "count": 11
       },
       {
         "stage": "Demo/Meeting",
@@ -164,15 +164,15 @@
       },
       {
         "stage": "Consideration",
-        "count": 7
+        "count": 6
       },
       {
         "stage": "Trial",
-        "count": 2
+        "count": 3
       },
       {
         "stage": "Contract negotiation",
-        "count": 1
+        "count": 0
       }
     ],
     "all_open_deals": [
@@ -216,25 +216,13 @@
         "id": 28064,
         "title": "consorfrut.pl",
         "partner": "eRecruiter",
-        "stage": "Contract negotiation",
+        "stage": "Success",
         "status": "open",
         "value": 5000.0,
         "created": "2026-02-13",
         "total_activities": 9,
         "organization": "consorfrut.pl",
         "branża": "Produkcja i przemysł"
-      },
-      {
-        "id": 28129,
-        "title": "Deal SPL",
-        "partner": "eRecruiter",
-        "stage": "Follow up",
-        "status": "open",
-        "value": 0.0,
-        "created": "2026-02-17",
-        "total_activities": 8,
-        "organization": "SPL",
-        "branża": "Inne"
       },
       {
         "id": 28309,
@@ -244,21 +232,9 @@
         "status": "open",
         "value": 1200.0,
         "created": "2026-02-25",
-        "total_activities": 9,
+        "total_activities": 10,
         "organization": "Tirsped (Hotel Młyn Klekotki)",
         "branża": "Hotele"
-      },
-      {
-        "id": 28369,
-        "title": "'- SIEĆ BADAWCZA ŁUKASIEWICZ - KRAKOWSKI INSTYTUT TECHNOLOGICZNY",
-        "partner": "eRecruiter",
-        "stage": "Follow up",
-        "status": "open",
-        "value": 0.0,
-        "created": "2026-02-27",
-        "total_activities": 6,
-        "organization": "'- SIEĆ BADAWCZA ŁUKASIEWICZ - KRAKOWSKI INSTYTUT TECHNOLOGICZNY",
-        "branża": "Inne"
       },
       {
         "id": 28373,
@@ -290,9 +266,9 @@
         "partner": "Pracuj.pl",
         "stage": "Consideration",
         "status": "open",
-        "value": 0.0,
+        "value": 15000.0,
         "created": "2026-03-05",
-        "total_activities": 4,
+        "total_activities": 5,
         "organization": "Castorama Polska",
         "branża": "Handel"
       },
@@ -310,14 +286,14 @@
       },
       {
         "id": 28586,
-        "title": "Deal Belayo Ltd Sp. z o.o. ❌",
+        "title": "Deal FNiR & Belayo",
         "partner": "eRecruiter",
-        "stage": "Consideration",
+        "stage": "Trial",
         "status": "open",
         "value": 427.28,
         "created": "2026-03-12",
-        "total_activities": 9,
-        "organization": "Belayo Ltd Sp. z o.o.",
+        "total_activities": 15,
+        "organization": "FNiR & Belayo",
         "branża": "Usługi"
       },
       {
@@ -340,7 +316,7 @@
         "status": "open",
         "value": 0.0,
         "created": "2026-03-17",
-        "total_activities": 3,
+        "total_activities": 4,
         "organization": "Hampton by Hilton Warsaw Mokotow",
         "branża": "Hotele"
       },
@@ -360,11 +336,11 @@
         "id": 28772,
         "title": "Spółdzielcza Mleczarnia Spomle",
         "partner": "Pracuj.pl",
-        "stage": "Prospect",
+        "stage": "Lead",
         "status": "open",
         "value": 0.0,
         "created": "2026-03-24",
-        "total_activities": 1,
+        "total_activities": 2,
         "organization": "Spółdzielcza Mleczarnia Spomle",
         "branża": "Produkcja i przemysł"
       },
@@ -384,7 +360,7 @@
         "id": 28807,
         "title": "PG Biogaz",
         "partner": "Pracuj.pl",
-        "stage": "Lead",
+        "stage": "Follow up",
         "status": "open",
         "value": 0.0,
         "created": "2026-03-25",
@@ -436,7 +412,7 @@
         "status": "open",
         "value": 0.0,
         "created": "2026-03-27",
-        "total_activities": 3,
+        "total_activities": 5,
         "organization": "ihg.com",
         "branża": "Hotele"
       },
@@ -448,31 +424,31 @@
         "status": "open",
         "value": 0.0,
         "created": "2026-04-02",
-        "total_activities": 2,
+        "total_activities": 3,
         "organization": "GWIAZDA MORZA\" HOTEL MANAGEMENT Sp. z o.o. Sp. K.",
         "branża": "Hotele"
       },
       {
         "id": 29110,
-        "title": "Deal TMR (Tatra Mountain Resort)",
+        "title": "Deal TMR (Tatra Mountain Resort), Legendia, Śląskie Wesołe Miasteczko",
         "partner": "Pracuj.pl",
         "stage": "Trial",
         "status": "open",
         "value": 4700.0,
         "created": "2026-04-10",
-        "total_activities": 8,
-        "organization": "TMR",
+        "total_activities": 9,
+        "organization": "TMR (Tatra Mountain Resort), Legendia - Śląskie Wesołe Miasteczko",
         "branża": "Rozrywka, atrakcje turystyczne i kultura"
       },
       {
         "id": 29180,
         "title": "Deal Nasza Klinika ❌",
         "partner": "Pracuj.pl",
-        "stage": "Prospect",
+        "stage": "Follow up",
         "status": "open",
         "value": 996.98,
         "created": "2026-04-14",
-        "total_activities": 5,
+        "total_activities": 6,
         "organization": "Nasza Klinika",
         "branża": "Opieka zdrowotna"
       },
@@ -502,15 +478,15 @@
       },
       {
         "id": 29365,
-        "title": "Marta Patraszewska",
+        "title": "Deal Materialise ❌",
         "partner": "Pracuj.pl",
-        "stage": "Prospect",
+        "stage": "Follow up",
         "status": "open",
         "value": 0.0,
         "created": "2026-04-22",
-        "total_activities": 1,
+        "total_activities": 4,
         "organization": "materialise.com",
-        "branża": "nan"
+        "branża": "Produkcja i przemysł"
       },
       {
         "id": 29410,
@@ -520,7 +496,7 @@
         "status": "open",
         "value": 0.0,
         "created": "2026-04-24",
-        "total_activities": 2,
+        "total_activities": 3,
         "organization": "Piekarnia Cichowscy",
         "branża": "Produkcja i przemysł"
       }
@@ -664,6 +640,15 @@
         "lost_reason": "Został przy obecnym rozwiązaniu"
       },
       {
+        "id": 28129,
+        "title": "Deal SPL",
+        "partner": "eRecruiter",
+        "value": 0.0,
+        "lost_date": "2026-04-27",
+        "stage_at_close": "Follow up",
+        "lost_reason": "Brak kontaktu"
+      },
+      {
         "id": 28297,
         "title": "Ryan Air Sun Deal",
         "partner": "Pracuj.pl",
@@ -680,6 +665,15 @@
         "lost_date": "2026-03-12",
         "stage_at_close": "Follow up",
         "lost_reason": "Osoba z leada nie jest decyzyjna"
+      },
+      {
+        "id": 28369,
+        "title": "'- SIEĆ BADAWCZA ŁUKASIEWICZ - KRAKOWSKI INSTYTUT TECHNOLOGICZNY",
+        "partner": "eRecruiter",
+        "value": 0.0,
+        "lost_date": "2026-04-27",
+        "stage_at_close": "Follow up",
+        "lost_reason": "Brak kontaktu"
       },
       {
         "id": 28370,
@@ -775,7 +769,7 @@
     "lost_reasons_summary": [
       {
         "reason": "Brak kontaktu",
-        "count": 6
+        "count": 8
       },
       {
         "reason": "Duplikat",
@@ -807,24 +801,16 @@
       }
     ],
     "gp_alerts": {
-      "prev_report_date": "2026-04-16",
-      "current_report_date": "2026-04-23",
+      "prev_report_date": "2026-04-23",
+      "current_report_date": "2026-04-30",
       "lead_confirmed": [
         {
-          "id": 29359,
-          "title": "Workeo",
+          "id": 29410,
+          "title": "Piekarnia Cichowscy",
           "partner": "Pracuj.pl",
           "stage": "Follow up",
           "value": 0.0,
-          "date": "2026-04-22"
-        },
-        {
-          "id": 29362,
-          "title": "Canopy by Hilton Warsaw",
-          "partner": "Pracuj.pl",
-          "stage": "Demo/Meeting",
-          "value": 0.0,
-          "date": "2026-04-22"
+          "date": "2026-04-24"
         }
       ],
       "meeting_scheduled": [],
@@ -833,24 +819,24 @@
       "rejected": [],
       "deal_closed": [
         {
-          "id": 28028,
-          "title": "Deal Noble Securities",
+          "id": 28129,
+          "title": "Deal SPL",
           "partner": "eRecruiter",
-          "stage": "Blocked",
-          "value": 2136.38,
-          "date": "2026-04-20",
+          "stage": "Follow up",
+          "value": 0.0,
+          "date": "2026-04-27",
           "outcome": "lost",
-          "lost_reason": "Frozen"
+          "lost_reason": "Brak kontaktu"
         },
         {
-          "id": 29213,
-          "title": "Deal Global Colors Polska",
-          "partner": "Pracuj.pl",
-          "stage": "Prospect",
+          "id": 28369,
+          "title": "'- SIEĆ BADAWCZA ŁUKASIEWICZ - KRAKOWSKI INSTYTUT TECHNOLOGICZNY",
+          "partner": "eRecruiter",
+          "stage": "Follow up",
           "value": 0.0,
-          "date": "2026-04-20",
+          "date": "2026-04-27",
           "outcome": "lost",
-          "lost_reason": "Duplikat"
+          "lost_reason": "Brak kontaktu"
         }
       ]
     }

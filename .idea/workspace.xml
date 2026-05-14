@@ -286,7 +286,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777280690923</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1778162712933</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1778162712933</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

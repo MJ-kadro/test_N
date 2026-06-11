@@ -88,7 +88,11 @@ def _ddmm_to_date(ddmm: str) -> str:
 def run_convert():
     use_api = '--no-api' not in sys.argv
 
-    json_files = sorted(glob.glob('data/basic_data_*.json'))
+    def _sort_key(path):
+        m = re.search(r'basic_data_(\d{4})\.json$', path)
+        return _ddmm_to_date(m.group(1)) if m else '0000-00-00'
+
+    json_files = sorted(glob.glob('data/basic_data_*.json'), key=_sort_key)
     if len(json_files) < 2:
         print(f'Potrzebne co najmniej 2 pliki JSON (znaleziono {len(json_files)}).')
         print('Delty nie zostaną obliczone — dashboard_data.json pozostaje bez zmian.')
@@ -163,8 +167,6 @@ def run_convert():
             'current_report_date': curr_date_str,
             'lead_confirmed':      [],
             'meeting_scheduled':   [],
-            'trial_started':       [],
-            'no_contact':          [],
             'rejected':            [],
             'deal_closed':         [],
             'error':               str(e),

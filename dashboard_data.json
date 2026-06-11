@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-06-11T08:51:35",
+  "generated_at": "2026-06-11T10:48:18",
   "report_date": "2026-06-11",
   "director": {
     "kpis": {
-      "mrr_won": 1170.0,
-      "mrr_won_delta": -2000.0,
-      "pipeline_mrr_potential": 53900.0,
-      "pipeline_mrr_potential_delta": 3500.0,
-      "win_rate": 6.7,
-      "win_rate_delta": -2.4,
-      "open_deals": 21,
-      "open_deals_delta": -1,
+      "mrr_won": 3170.0,
+      "mrr_won_delta": 2000.0,
+      "pipeline_mrr_potential": 50400.0,
+      "pipeline_mrr_potential_delta": -3500.0,
+      "win_rate": 9.1,
+      "win_rate_delta": 2.4,
+      "open_deals": 22,
+      "open_deals_delta": 1,
       "rejected_deals_count": 5,
       "rejected_deals_count_delta": 0,
-      "median_days_to_close": 84,
-      "median_days_to_close_delta": 10
+      "median_days_to_close": 74,
+      "median_days_to_close_delta": -10
     },
     "monthly_new_deals": [
       {
@@ -70,6 +70,11 @@
       {
         "month": "2026-05",
         "pracuj": 1,
+        "erecruiter": 0
+      },
+      {
+        "month": "2026-06",
+        "pracuj": 4,
         "erecruiter": 0
       }
     ],
@@ -139,31 +144,37 @@
         "total_created": 56,
         "total_won": 2,
         "total_lost": 33
+      },
+      {
+        "month": "2026-06",
+        "total_created": 60,
+        "total_won": 3,
+        "total_lost": 35
       }
     ],
     "partner_split": {
-      "pracuj": 40,
+      "pracuj": 44,
       "erecruiter": 16
     },
     "status_split": {
-      "open": 21,
-      "won": 2,
-      "lost": 33
+      "open": 22,
+      "won": 3,
+      "lost": 35
     }
   },
   "manager": {
     "funnel_stages": [
       {
         "stage": "Prospect",
-        "count": 1
+        "count": 0
       },
       {
         "stage": "Lead",
-        "count": 1
+        "count": 0
       },
       {
         "stage": "Follow up",
-        "count": 7
+        "count": 10
       },
       {
         "stage": "Demo/Meeting",
@@ -171,7 +182,7 @@
       },
       {
         "stage": "Blocked",
-        "count": 2
+        "count": 3
       },
       {
         "stage": "Consideration",
@@ -179,7 +190,7 @@
       },
       {
         "stage": "Trial",
-        "count": 2
+        "count": 1
       },
       {
         "stage": "Contract negotiation",
@@ -243,7 +254,7 @@
         "status": "open",
         "value": 1200.0,
         "created": "2026-02-25",
-        "total_activities": 13,
+        "total_activities": 14,
         "organization": "Tirsped (Hotel Młyn Klekotki)",
         "branża": "Hotele"
       },
@@ -255,7 +266,7 @@
         "status": "open",
         "value": 500.0,
         "created": "2026-02-27",
-        "total_activities": 7,
+        "total_activities": 8,
         "organization": "Villa Omnia",
         "branża": "Hotele"
       },
@@ -267,7 +278,7 @@
         "status": "open",
         "value": 15000.0,
         "created": "2026-03-05",
-        "total_activities": 6,
+        "total_activities": 7,
         "organization": "Castorama Polska",
         "branża": "Handel"
       },
@@ -291,7 +302,7 @@
         "status": "open",
         "value": 0.0,
         "created": "2026-03-17",
-        "total_activities": 6,
+        "total_activities": 7,
         "organization": "Hampton by Hilton Warsaw Mokotow",
         "branża": "Hotele"
       },
@@ -308,22 +319,10 @@
         "branża": "Usługi"
       },
       {
-        "id": 28772,
-        "title": "Spółdzielcza Mleczarnia Spomle",
-        "partner": "Pracuj.pl",
-        "stage": "Lead",
-        "status": "open",
-        "value": 0.0,
-        "created": "2026-03-24",
-        "total_activities": 2,
-        "organization": "Spółdzielcza Mleczarnia Spomle",
-        "branża": "Produkcja i przemysł"
-      },
-      {
         "id": 28777,
         "title": "Frisco",
         "partner": "eRecruiter",
-        "stage": "Consideration",
+        "stage": "Blocked",
         "status": "open",
         "value": 0.0,
         "created": "2026-03-24",
@@ -351,7 +350,7 @@
         "status": "open",
         "value": 0.0,
         "created": "2026-03-27",
-        "total_activities": 4,
+        "total_activities": 6,
         "organization": "Radisson Hotele HQ",
         "branża": "Hotele"
       },
@@ -363,33 +362,9 @@
         "status": "open",
         "value": 0.0,
         "created": "2026-03-27",
-        "total_activities": 5,
+        "total_activities": 6,
         "organization": "ihg.com",
         "branża": "Hotele"
-      },
-      {
-        "id": 28986,
-        "title": "GWIAZDA MORZA\" HOTEL MANAGEMENT Sp. z o.o. Sp. K.",
-        "partner": "eRecruiter",
-        "stage": "Follow up",
-        "status": "open",
-        "value": 0.0,
-        "created": "2026-04-02",
-        "total_activities": 3,
-        "organization": "GWIAZDA MORZA\" HOTEL MANAGEMENT Sp. z o.o. Sp. K.",
-        "branża": "Hotele"
-      },
-      {
-        "id": 29110,
-        "title": "Deal TMR (Tatra Mountain Resort), Legendia, Śląskie Wesołe Miasteczko",
-        "partner": "Pracuj.pl",
-        "stage": "Trial",
-        "status": "open",
-        "value": 3500.0,
-        "created": "2026-04-10",
-        "total_activities": 14,
-        "organization": "TMR (Tatra Mountain Resort), Legendia - Śląskie Wesołe Miasteczko",
-        "branża": "Rozrywka, atrakcje turystyczne i kultura"
       },
       {
         "id": 29359,
@@ -411,7 +386,7 @@
         "status": "open",
         "value": 0.0,
         "created": "2026-04-22",
-        "total_activities": 4,
+        "total_activities": 5,
         "organization": "Canopy by Hilton",
         "branża": "nan"
       },
@@ -431,13 +406,61 @@
         "id": 29801,
         "title": "Naszmed.pl",
         "partner": "Pracuj.pl",
-        "stage": "Prospect",
+        "stage": "Follow up",
         "status": "open",
         "value": 0.0,
         "created": "2026-05-08",
-        "total_activities": 0,
+        "total_activities": 2,
         "organization": "Naszmed.pl",
         "branża": "nan"
+      },
+      {
+        "id": 30212,
+        "title": "Instal Solution Group",
+        "partner": "Pracuj.pl",
+        "stage": "Follow up",
+        "status": "open",
+        "value": 0.0,
+        "created": "2026-06-01",
+        "total_activities": 3,
+        "organization": "Instal Solution Group",
+        "branża": "nan"
+      },
+      {
+        "id": 30226,
+        "title": "DION",
+        "partner": "Pracuj.pl",
+        "stage": "Follow up",
+        "status": "open",
+        "value": 0.0,
+        "created": "2026-06-02",
+        "total_activities": 2,
+        "organization": "Dion",
+        "branża": "Produkcja i przemysł"
+      },
+      {
+        "id": 30242,
+        "title": "IASO HOSPITALITY",
+        "partner": "Pracuj.pl",
+        "stage": "Follow up",
+        "status": "open",
+        "value": 0.0,
+        "created": "2026-06-02",
+        "total_activities": 1,
+        "organization": "IASO HOSPITALITY sp. z o.o.",
+        "branża": "nan"
+      },
+      {
+        "id": 30246,
+        "title": "TMR - Szczyrk Mountai Resort",
+        "partner": "Pracuj.pl",
+        "stage": "Consideration",
+        "status": "open",
+        "value": 0.0,
+        "created": "2026-06-02",
+        "total_activities": 2,
+        "organization": "TMR - Szczyrk Mountai Resort",
+        "branża": "Hotele"
       }
     ],
     "won_deals": [
@@ -458,6 +481,15 @@
         "won_date": "2026-05-26",
         "stage_at_close": "Success",
         "days_to_close": 74
+      },
+      {
+        "id": 29110,
+        "title": "Śląskie Wesołe Miasteczko - Legendia",
+        "partner": "Pracuj.pl",
+        "value": 2000.0,
+        "won_date": "2026-06-01",
+        "stage_at_close": "Success",
+        "days_to_close": 51
       }
     ],
     "lost_deals": [
@@ -576,7 +608,7 @@
         "value": 959.5,
         "lost_date": "2026-04-09",
         "stage_at_close": "Blocked",
-        "lost_reason": "Frozen"
+        "lost_reason": "Brak decyzji"
       },
       {
         "id": 28049,
@@ -678,6 +710,15 @@
         "lost_reason": "Brak funkcjonalności"
       },
       {
+        "id": 28772,
+        "title": "Spółdzielcza Mleczarnia Spomle",
+        "partner": "Pracuj.pl",
+        "value": 0.0,
+        "lost_date": "2026-06-09",
+        "stage_at_close": "Lead",
+        "lost_reason": "Brak kontaktu"
+      },
+      {
         "id": 28807,
         "title": "PG Biogaz",
         "partner": "Pracuj.pl",
@@ -712,6 +753,15 @@
         "lost_date": "2026-04-08",
         "stage_at_close": "Prospect",
         "lost_reason": "Duplikat"
+      },
+      {
+        "id": 28986,
+        "title": "GWIAZDA MORZA\" HOTEL MANAGEMENT Sp. z o.o. Sp. K.",
+        "partner": "eRecruiter",
+        "value": 0.0,
+        "lost_date": "2026-06-10",
+        "stage_at_close": "Follow up",
+        "lost_reason": "Brak kontaktu"
       },
       {
         "id": 29047,
@@ -762,7 +812,7 @@
     "lost_reasons_summary": [
       {
         "reason": "Brak kontaktu",
-        "count": 10
+        "count": 12
       },
       {
         "reason": "Duplikat",
@@ -777,20 +827,20 @@
         "count": 3
       },
       {
-        "reason": "Frozen",
-        "count": 3
-      },
-      {
         "reason": "Brak funkcjonalności",
         "count": 3
       },
       {
-        "reason": "Został przy obecnym rozwiązaniu (koniecznie dopisz w komentarzu jakie to rozwiązanie)",
+        "reason": "Brak decyzji",
         "count": 2
       },
       {
-        "reason": "Brak decyzji",
-        "count": 1
+        "reason": "Frozen",
+        "count": 2
+      },
+      {
+        "reason": "Został przy obecnym rozwiązaniu (koniecznie dopisz w komentarzu jakie to rozwiązanie)",
+        "count": 2
       },
       {
         "reason": "Osoba z leada nie jest decyzyjna",
@@ -802,14 +852,76 @@
       }
     ],
     "gp_alerts": {
-      "prev_report_date": "2026-06-11",
-      "current_report_date": "2026-05-26",
-      "lead_confirmed": [],
+      "prev_report_date": "2026-05-26",
+      "current_report_date": "2026-06-11",
+      "lead_confirmed": [
+        {
+          "id": 30212,
+          "title": "Instal Solution Group",
+          "partner": "Pracuj.pl",
+          "stage": "Follow up",
+          "value": 0.0,
+          "date": "2026-06-01"
+        },
+        {
+          "id": 30226,
+          "title": "DION",
+          "partner": "Pracuj.pl",
+          "stage": "Follow up",
+          "value": 0.0,
+          "date": "2026-06-02"
+        },
+        {
+          "id": 30242,
+          "title": "IASO HOSPITALITY",
+          "partner": "Pracuj.pl",
+          "stage": "Follow up",
+          "value": 0.0,
+          "date": "2026-06-02"
+        },
+        {
+          "id": 30246,
+          "title": "TMR - Szczyrk Mountai Resort",
+          "partner": "Pracuj.pl",
+          "stage": "Consideration",
+          "value": 0.0,
+          "date": "2026-06-02"
+        }
+      ],
       "meeting_scheduled": [],
-      "trial_started": [],
-      "no_contact": [],
       "rejected": [],
-      "deal_closed": []
+      "deal_closed": [
+        {
+          "id": 28772,
+          "title": "Spółdzielcza Mleczarnia Spomle",
+          "partner": "Pracuj.pl",
+          "stage": "Lead",
+          "value": 0.0,
+          "date": "2026-06-09",
+          "outcome": "lost",
+          "lost_reason": "Brak kontaktu"
+        },
+        {
+          "id": 28986,
+          "title": "GWIAZDA MORZA\" HOTEL MANAGEMENT Sp. z o.o. Sp. K.",
+          "partner": "eRecruiter",
+          "stage": "Follow up",
+          "value": 0.0,
+          "date": "2026-06-10",
+          "outcome": "lost",
+          "lost_reason": "Brak kontaktu"
+        },
+        {
+          "id": 29110,
+          "title": "Śląskie Wesołe Miasteczko - Legendia",
+          "partner": "Pracuj.pl",
+          "stage": "Success",
+          "value": 2000.0,
+          "date": "2026-06-01",
+          "outcome": "won",
+          "lost_reason": null
+        }
+      ]
     }
   }
 }

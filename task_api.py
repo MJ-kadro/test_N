@@ -280,84 +280,7 @@ def compute_meeting_scheduled(
     return results
 
 
-# ─── ALERT 3 ─── 🧑‍💻 Uruchomienie Trialu (Spaceship link) ─────────────────
-def compute_trial_started(
-    current_records: list,
-    prev_records: list,
-    prev_date: datetime,
-    curr_date: datetime,
-) -> list:
-    """
-    Deale gdzie 'Organization - Spaceship link' zmieniło się z pustego
-    na niepuste między raportami.
-    Data: data bieżącego raportu (curr_date) — brak timestampu w polu.
-    Jeśli kolumna nie istnieje w CSV — zwraca [].
-    """
-    SPACESHIP_COL = 'Organization - Spaceship link'
-    prev_by_id = {str(r.get('Deal - ID')): r for r in prev_records}
-    results = []
-
-    for r in current_records:
-        curr_val = (r.get(SPACESHIP_COL) or '').strip()
-        if not curr_val:
-            continue
-        deal_id  = str(r.get('Deal - ID'))
-        prev_r   = prev_by_id.get(deal_id)
-        prev_val = (prev_r.get(SPACESHIP_COL) or '').strip() if prev_r else ''
-        if prev_val:
-            continue  # link był już wcześniej
-        entry = _deal_entry(r)
-        entry['date']           = curr_date.strftime('%Y-%m-%d')
-        entry['spaceship_link'] = curr_val
-        results.append(entry)
-    return results
-
-
-# ─── ALERT 4 ─── ❌ Brak kontaktu (4 kolejne Call + BK) ────────────────────
-def compute_no_contact(
-    current_records: list,
-    activities_by_deal: dict,
-    prev_date: datetime,
-    curr_date: datetime,
-) -> list:
-    """
-    Deale gdzie wystąpiły ≥4 KOLEJNE aktywności typu 'call'
-    z 'BK' w notatce; data 4. z nich ∈ (prev_date, curr_date].
-    Data: data 4. kolejnej aktywności Call+BK.
-    """
-    deal_map = {str(r.get('Deal - ID')): r for r in current_records}
-    results  = []
-
-    for deal_id_str, activities in activities_by_deal.items():
-        if deal_id_str not in deal_map:
-            continue
-
-        calls = sorted(
-            [a for a in activities if (a.get('type') or '').lower() == 'call'],
-            key=lambda a: (a.get('due_date') or a.get('add_time') or ''),
-        )
-
-        consecutive = 0
-        fourth_date = None
-        for call in calls:
-            note = (call.get('note') or call.get('public_description') or '').upper()
-            if 'BK' in note:
-                consecutive += 1
-                if consecutive == 4:
-                    fourth_date = _parse_date_gp(call.get('due_date') or call.get('add_time'))
-                    break
-            else:
-                consecutive = 0  # przerwanie ciągu
-
-        if fourth_date and _in_window(fourth_date, prev_date, curr_date):
-            entry = _deal_entry(deal_map[deal_id_str])
-            entry['date']                 = fourth_date.strftime('%Y-%m-%d')
-            entry['consecutive_bk_calls'] = 4
-            results.append(entry)
-    return results
-
-
-# ─── ALERT 5 ─── 🚫 Odrzucenie / brak zainteresowania ──────────────────────
+# ─── ALERT 3 ─── 🚫 Odrzucenie / brak zainteresowania ──────────────────────
 REJECTION_REASONS = {'Zastał przy obecnym rozwiązaniu', 'Brak decyzji'}
 
 def compute_rejected(
@@ -457,8 +380,7 @@ def compute_all_gp_alerts(
 
     Zwraca dict z kluczami:
         prev_report_date, current_report_date,
-        lead_confirmed, meeting_scheduled, trial_started,
-        no_contact, rejected, deal_closed
+        lead_confirmed, meeting_scheduled, rejected, deal_closed
     """
     prev_date = datetime.fromisoformat(prev_date_str)
     curr_date = datetime.fromisoformat(curr_date_str)
@@ -468,7 +390,7 @@ def compute_all_gp_alerts(
     # Zbierz ID wszystkich dealów bieżącego raportu do pobrania aktywności
     if fetch_api:
         all_ids = [r['Deal - ID'] for r in current_records if r.get('Deal - ID') is not None]
-        activities_by_deal = fetch_activities_for_deals(all_ids, use_cache=True)
+        activities_by_deal = fetch_activities_for_deals(all_ids, force_refresh=True)
     else:
         activities_by_deal = _load_cache()
         print(f'  [task_api] Używam lokalnego cache ({len(activities_by_deal)} dealów).')
@@ -476,27 +398,21 @@ def compute_all_gp_alerts(
     # Oblicz każdą kategorię
     lead_confirmed = compute_lead_confirmed(current_records, prev_date, curr_date)
     meeting_sched  = compute_meeting_scheduled(current_records, activities_by_deal, prev_date, curr_date)
-    trial_started  = compute_trial_started(current_records, prev_records, prev_date, curr_date)
-    no_contact     = compute_no_contact(current_records, activities_by_deal, prev_date, curr_date)
     rejected       = compute_rejected(current_records, prev_records, prev_date, curr_date)
     rejected_ids   = {str(item['id']) for item in rejected if item.get('id')}
     deal_closed    = compute_deal_closed(current_records, prev_records, prev_date, curr_date, excluded_ids=rejected_ids)
 
     print(f'  [task_api] Wyniki:')
-    print(f'    ✅ Przejęcia leadów:       {len(lead_confirmed)}')
-    print(f'    📅 Spotkania umówione:     {len(meeting_sched)}')
-    print(f'    🧑‍💻 Trialy uruchomione:   {len(trial_started)}')
-    print(f'    ❌ Brak kontaktu (4× BK): {len(no_contact)}')
-    print(f'    🚫 Odrzucenia:            {len(rejected)}')
-    print(f'    🎯 Zamknięcia:            {len(deal_closed)}')
+    print(f'    ✅ Przejęcia leadów:   {len(lead_confirmed)}')
+    print(f'    📅 Spotkania umówione: {len(meeting_sched)}')
+    print(f'    🚫 Odrzucenia:         {len(rejected)}')
+    print(f'    🎯 Zamknięcia:         {len(deal_closed)}')
 
     return {
         'prev_report_date':    prev_date_str,
         'current_report_date': curr_date_str,
         'lead_confirmed':      lead_confirmed,
         'meeting_scheduled':   meeting_sched,
-        'trial_started':       trial_started,
-        'no_contact':          no_contact,
         'rejected':            rejected,
         'deal_closed':         deal_closed,
     }

@@ -47,6 +47,11 @@ def ddmm_to_date(ddmm: str) -> str:
     return f"{year}-{mm}-{dd}"
 
 
+def _csv_sort_key(path):
+    m = re.search(r'basic_data_(\d{4})\.csv$', os.path.basename(path))
+    return ddmm_to_date(m.group(1)) if m else '0000-00-00'
+
+
 def clean_val(v):
     """Zamień float NaN na None (json.dump nie obsługuje NaN)."""
     if isinstance(v, float) and math.isnan(v):
@@ -284,14 +289,6 @@ def calc_gp_alerts(df, prev_records: list, prev_date: datetime, current_date: da
             dt = dt.to_pydatetime().replace(tzinfo=None)
         return prev_date <= dt <= current_date
 
-    # ── Pomocnicze słowniki z poprzedniego raportu ─────────────────────────────
-    prev_spaceship = {}   # {deal_id: spaceship_link}
-    for rec in prev_records:
-        did = rec.get('Deal - ID')
-        if did is not None:
-            link = str(rec.get('Organization - Spaceship link', '') or '').strip()
-            prev_spaceship[int(did)] = link
-
     # ── 1. ✅ Potwierdzenie przejęcia leada ───────────────────────────────────
     # Deal created w okresie, status open, stage != Prospect
     lead_confirmed = []
@@ -335,57 +332,7 @@ def calc_gp_alerts(df, prev_records: list, prev_date: datetime, current_date: da
                 })
                 break
 
-    # ── 3. 🧑‍💻 Uruchomienie Trialu ──────────────────────────────────────────
-    # Organization - Spaceship link był pusty w poprzednim raporcie, teraz jest wypełniony
-    trial_started = []
-    if 'Organization - Spaceship link' in df.columns:
-        for _, row in df.iterrows():
-            did = _deal_id_int(row)
-            if did is None:
-                continue
-            raw_link = row.get('Organization - Spaceship link')
-            link_now = '' if (raw_link is None or (isinstance(raw_link, float) and math.isnan(raw_link))) else str(raw_link).strip()
-            link_prev = prev_spaceship.get(did, '')
-            if link_now and not link_prev:
-                trial_started.append({
-                    'id': did,
-                    'title': _deal_title(row),
-                    'partner': str(row.get('Deal - Nazwa Partnera', '')),
-                    'stage': str(row.get('Deal - Stage', '')),
-                    'spaceship_link': link_now,
-                    'date': current_date.strftime('%Y-%m-%d'),
-                })
-
-    # ── 4. ❌ Brak kontaktu (ostatnie 3 zadania są typu "call") ──────────────────
-    # Sortuj aktywności wg daty — jeśli 3 ostatnie mają type=="call", brak kontaktu.
-    # Data ostatniego zadania musi być w okresie.
-    no_contact = []
-    for _, row in df.iterrows():
-        did = _deal_id_int(row)
-        if did is None:
-            continue
-        dated_acts = []
-        for act in activities_by_deal.get(str(did), []):
-            act_dt = _parse_act_date(act)
-            if act_dt:
-                dated_acts.append((act_dt, act))
-        if len(dated_acts) < 3:
-            continue
-        dated_acts.sort(key=lambda x: x[0])
-        last_3 = dated_acts[-3:]
-        if all((a.get('type') or '').lower() == 'call' for _, a in last_3):
-            last_dt = last_3[-1][0]
-            if in_period(last_dt):
-                no_contact.append({
-                    'id': did,
-                    'title': _deal_title(row),
-                    'partner': str(row.get('Deal - Nazwa Partnera', '')),
-                    'stage': str(row.get('Deal - Stage', '')),
-                    'date': last_dt.strftime('%Y-%m-%d'),
-                    'call_count': len(dated_acts),
-                })
-
-    # ── 5. 🚫 Odrzucenie / brak zainteresowania ───────────────────────────────
+    # ── 3. 🚫 Odrzucenie / brak zainteresowania ───────────────────────────────
     # Status LOST + powód z REJECTION_LOST_REASONS + zamknięty w okresie
     rejected = []
     lost_df = df[df['Deal - Status'].str.lower() == 'lost']
@@ -427,8 +374,6 @@ def calc_gp_alerts(df, prev_records: list, prev_date: datetime, current_date: da
         'current_report_date': current_date.strftime('%Y-%m-%d'),
         'lead_confirmed':      lead_confirmed,
         'meeting_scheduled':   meeting_scheduled,
-        'trial_started':       trial_started,
-        'no_contact':          no_contact,
         'rejected':            rejected,
         'deal_closed':         closed_deals,
     }
@@ -436,7 +381,7 @@ def calc_gp_alerts(df, prev_records: list, prev_date: datetime, current_date: da
 
 def convert_csvs_to_json():
     """Konwertuje wszystkie basic_data_*.csv → JSON i aktualizuje manifest."""
-    files = sorted(glob.glob('data/basic_data_*.csv'))
+    files = sorted(glob.glob('data/basic_data_*.csv'), key=_csv_sort_key)
     if not files:
         print('Brak plików CSV w data/')
         return []
@@ -478,7 +423,7 @@ def run_process():
     manifest_entries = convert_csvs_to_json()
 
     print('\n=== Krok 2: Generowanie dashboard_data.json ===')
-    files = sorted(glob.glob('data/basic_data_*.csv'))
+    files = sorted(glob.glob('data/basic_data_*.csv'), key=_csv_sort_key)
     if not files:
         print('Brak plików CSV — przerywam.')
         return
@@ -500,8 +445,12 @@ def run_process():
     current_date = datetime.fromisoformat(current_date_str)
     print(f'Okres: {prev_date_str} → {current_date_str}')
 
-    # ── Poprzedni raport (do porównania Spaceship link) ───────────────────────
-    prev_json_files = sorted(glob.glob('data/basic_data_*.json'))
+    # ── Poprzedni raport ──────────────────────────────────────────────────────
+    def _json_sort_key(path):
+        m = re.search(r'basic_data_(\d{4})\.json$', os.path.basename(path))
+        return ddmm_to_date(m.group(1)) if m else '0000-00-00'
+
+    prev_json_files = sorted(glob.glob('data/basic_data_*.json'), key=_json_sort_key)
     prev_records = []
     if len(prev_json_files) >= 2:
         with open(prev_json_files[-2], encoding='utf-8') as f:

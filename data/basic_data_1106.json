@@ -13,7 +13,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Brak decyzji",
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": "aneta.szwajczewska@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "aneta.szwajczewska@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "dyrekcja.wroclaw@hotel.com.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 23470,
@@ -29,7 +33,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Wykupili inne rozwiązanie",
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": "aneta.szwajczewska@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "aneta.szwajczewska@pracuj.pl",
+    "Deal - Grade": 6.0,
+    "Person - Email - Work": "marcin.sarnowski@dexpol.com.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 23645,
@@ -45,7 +53,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": "mateusz.gacek@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "mateusz.gacek@pracuj.pl",
+    "Deal - Grade": 6.0,
+    "Person - Email - Work": "a.chwalko@wyndhamgrandkrakowot.com",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 23734,
@@ -61,7 +73,11 @@
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": null,
     "Organization - Branża": "Gastronomia",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "pawel.kobylarz@grycan.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 24079,
@@ -77,7 +93,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Brak kontaktu",
     "Organization - Branża": null,
-    "Deal - Adres e-mail polecającego": "Mariusz.Slemp@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "Mariusz.Slemp@pracuj.pl",
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "e.labuda@termabania.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 24203,
@@ -93,7 +113,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Brak kontaktu",
     "Organization - Branża": "Rozrywka, atrakcje turystyczne i kultura",
-    "Deal - Adres e-mail polecającego": "monika.maciejewska@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "monika.maciejewska@pracuj.pl",
+    "Deal - Grade": 5.0,
+    "Person - Email - Work": "magdalena.hanik@skybowling.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 24204,
@@ -109,7 +133,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Brak kontaktu",
     "Organization - Branża": null,
-    "Deal - Adres e-mail polecającego": "dominika.jaworska-kuna@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "dominika.jaworska-kuna@pracuj.pl",
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "dominika.jaworska-kuna@pracuj.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 24278,
@@ -125,7 +153,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": "Inne",
-    "Deal - Adres e-mail polecającego": "anna.olearczuk@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "anna.olearczuk@pracuj.pl",
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "kletowska.justyna@targikielce.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 24299,
@@ -141,7 +173,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Brak kontaktu",
     "Organization - Branża": null,
-    "Deal - Adres e-mail polecającego": "przemyslaw.podgorni@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "przemyslaw.podgorni@pracuj.pl",
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "anna.pitulej@teekanne.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 24565,
@@ -157,7 +193,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Brak kontaktu",
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": "arleta.podulka-kosc@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "arleta.podulka-kosc@pracuj.pl",
+    "Deal - Grade": 6.0,
+    "Person - Email - Work": "p.lojewski@mragoworesort.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 24926,
@@ -173,7 +213,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Wykupili inne rozwiązanie",
     "Organization - Branża": null,
-    "Deal - Adres e-mail polecającego": "aneta.szwajczewska@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "aneta.szwajczewska@pracuj.pl",
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "artur.jastrzebski-haratyk@panorama-morska.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 25831,
@@ -189,12 +233,16 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Brak kontaktu",
     "Organization - Branża": "Produkcja i przemysł",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "mariusz.p@ichpoland.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 26057,
     "Deal - Value": 700.0,
-    "Organization - MRR": 607.68,
+    "Organization - MRR": 626.67,
     "Deal - Title": "Deal Art Suites",
     "Deal - Deal created": "2025-10-30 16:09:04",
     "Deal - Deal closed on": "2026-02-02 08:27:12",
@@ -205,7 +253,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": "daniel.stelmach@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "daniel.stelmach@pracuj.pl",
+    "Deal - Grade": 6.0,
+    "Person - Email - Work": "mariola.pach@artsuites.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 26931,
@@ -221,7 +273,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Został przy obecnym rozwiązaniu",
     "Organization - Branża": "Inne",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "nina.dwornik@eneris.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28028,
@@ -237,7 +293,11 @@
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": "Frozen",
     "Organization - Branża": "Usługi",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 4.0,
+    "Person - Email - Work": "katarzyna.wlodarczyk@noblesecurities.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28045,
@@ -253,7 +313,11 @@
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": "Wykupili inne rozwiązanie",
     "Organization - Branża": "Produkcja i przemysł",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "monika.lopata@canagri.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28046,
@@ -261,15 +325,19 @@
     "Organization - MRR": 0.0,
     "Deal - Title": "Deal IMPULS Leasing",
     "Deal - Deal created": "2026-02-12 13:06:08",
-    "Deal - Deal closed on": "2026-04-09 09:59:41",
+    "Deal - Deal closed on": "2026-04-09 00:00:00",
     "Deal - Stage": "Blocked",
     "Deal - Status": "Lost",
     "Deal - Total activities": 7,
     "Deal - Organization": "IMPULS Leasing",
     "Deal - Nazwa Partnera": "eRecruiter",
-    "Deal - Lost reason": "Frozen",
+    "Deal - Lost reason": "Brak decyzji",
     "Organization - Branża": "Usługi",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 4.0,
+    "Person - Email - Work": "marta.polkoszek@impuls-leasing.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28049,
@@ -285,7 +353,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Został przy obecnym rozwiązaniu",
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": "iwona.oklejewicz@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "iwona.oklejewicz@pracuj.pl",
+    "Deal - Grade": 6.0,
+    "Person - Email - Work": "marketing@kiston.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28064,
@@ -301,7 +373,11 @@
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": null,
     "Organization - Branża": "Produkcja i przemysł",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "katarzyna.swierkosz@consorfrut.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28129,
@@ -317,7 +393,11 @@
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": "Brak kontaktu",
     "Organization - Branża": "Inne",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "kwoka.jerzy@sysmex.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28297,
@@ -333,7 +413,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Brak funkcjonalności",
     "Organization - Branża": "Inne",
-    "Deal - Adres e-mail polecającego": "paulina.niklinska@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "paulina.niklinska@pracuj.pl",
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "wojcikm@warsawaviation.com",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28309,
@@ -344,12 +428,16 @@
     "Deal - Deal closed on": null,
     "Deal - Stage": "Consideration",
     "Deal - Status": "Open",
-    "Deal - Total activities": 11,
+    "Deal - Total activities": 14,
     "Deal - Organization": "Tirsped (Hotel Młyn Klekotki)",
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": "malgorzata.rzeszutek@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "malgorzata.rzeszutek@pracuj.pl",
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "iwona.donimirska@klekotki.com.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28368,
@@ -365,7 +453,11 @@
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": "Osoba z leada nie jest decyzyjna",
     "Organization - Branża": "Produkcja i przemysł",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "ewelinakurtas@jsenergyeurope.com",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28369,
@@ -381,7 +473,11 @@
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": "Brak kontaktu",
     "Organization - Branża": "Inne",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "aleksandra.wysocka@kit.lukasiewicz.gov.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28370,
@@ -397,7 +493,11 @@
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": "Został przy obecnym rozwiązaniu",
     "Organization - Branża": "Produkcja i przemysł",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "marta.kaczmarczyk@sokpol.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28371,
@@ -413,7 +513,11 @@
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": "Brak funkcjonalności",
     "Organization - Branża": "Inne",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "joanna.skonieczko@atende.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28373,
@@ -424,12 +528,16 @@
     "Deal - Deal closed on": null,
     "Deal - Stage": "Trial",
     "Deal - Status": "Open",
-    "Deal - Total activities": 6,
+    "Deal - Total activities": 8,
     "Deal - Organization": "Villa Omnia",
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": "Michal.kuszewski@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "Michal.kuszewski@pracuj.pl",
+    "Deal - Grade": 6.0,
+    "Person - Email - Work": "marta.panasiuk@villaomnia.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28460,
@@ -445,7 +553,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Został przy obecnym rozwiązaniu",
     "Organization - Branża": "Handel",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "aleksandra.chudeusz@dlaspania.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28477,
@@ -461,7 +573,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Brak funkcjonalności (dopisz w komentarzu jakich funkcjonalności brakowało).",
     "Organization - Branża": "Handel",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "m.pasinska@n2h.com.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28478,
@@ -472,12 +588,16 @@
     "Deal - Deal closed on": null,
     "Deal - Stage": "Consideration",
     "Deal - Status": "Open",
-    "Deal - Total activities": 5,
+    "Deal - Total activities": 7,
     "Deal - Organization": "Castorama Polska",
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": "Handel",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "magdalena.bujak@castorama.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28480,
@@ -493,23 +613,31 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": "Opieka zdrowotna",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 4.0,
+    "Person - Email - Work": "sylwia.kruszewska@alab.com.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28586,
-    "Deal - Value": 427.28,
-    "Organization - MRR": 0.0,
+    "Deal - Value": 470.0,
+    "Organization - MRR": 626.67,
     "Deal - Title": "Deal FNiR & Belayo",
     "Deal - Deal created": "2026-03-12 15:53:52",
-    "Deal - Deal closed on": null,
-    "Deal - Stage": "Trial",
-    "Deal - Status": "Open",
-    "Deal - Total activities": 16,
+    "Deal - Deal closed on": "2026-05-26 15:38:39",
+    "Deal - Stage": "Success",
+    "Deal - Status": "Won",
+    "Deal - Total activities": 23,
     "Deal - Organization": "FNiR & Belayo",
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": null,
-    "Organization - Branża": "Usługi",
-    "Deal - Adres e-mail polecającego": null
+    "Organization - Branża": "Rozrywka, atrakcje turystyczne i kultura",
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 5.0,
+    "Person - Email - Work": "hrbp@belayo.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28646,
@@ -525,7 +653,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Brak kontaktu",
     "Organization - Branża": "Handel",
-    "Deal - Adres e-mail polecającego": "jakub.lubaszka@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "jakub.lubaszka@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "julia.kowalska@circlekeurope.com",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28647,
@@ -536,12 +668,16 @@
     "Deal - Deal closed on": null,
     "Deal - Stage": "Consideration",
     "Deal - Status": "Open",
-    "Deal - Total activities": 4,
+    "Deal - Total activities": 7,
     "Deal - Organization": "Hampton by Hilton Warsaw Mokotow",
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": "iwona.oklejewicz@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "iwona.oklejewicz@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "zuzanna.jankowska@hilton.com",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28655,
@@ -552,12 +688,16 @@
     "Deal - Deal closed on": null,
     "Deal - Stage": "Follow up",
     "Deal - Status": "Open",
-    "Deal - Total activities": 5,
+    "Deal - Total activities": 6,
     "Deal - Organization": "Vision Express sp. z o.o.",
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": null,
     "Organization - Branża": "Usługi",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": null,
+    "Person - Email - Work": "martyna.karcz@visionexpress.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28710,
@@ -573,7 +713,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Brak funkcjonalności",
     "Organization - Branża": "Produkcja i przemysł",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": 3.0,
+    "Person - Email - Work": "monika.gebska@trendglass.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28772,
@@ -581,15 +725,19 @@
     "Organization - MRR": 0.0,
     "Deal - Title": "Spółdzielcza Mleczarnia Spomle",
     "Deal - Deal created": "2026-03-24 09:56:08",
-    "Deal - Deal closed on": null,
+    "Deal - Deal closed on": "2026-06-09 10:10:50",
     "Deal - Stage": "Lead",
-    "Deal - Status": "Open",
-    "Deal - Total activities": 2,
+    "Deal - Status": "Lost",
+    "Deal - Total activities": 3,
     "Deal - Organization": "Spółdzielcza Mleczarnia Spomle",
     "Deal - Nazwa Partnera": "Pracuj.pl",
-    "Deal - Lost reason": null,
+    "Deal - Lost reason": "Brak kontaktu",
     "Organization - Branża": "Produkcja i przemysł",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": null,
+    "Person - Email - Work": "monika.kamola@spomlek.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28777,
@@ -598,14 +746,18 @@
     "Deal - Title": "Frisco",
     "Deal - Deal created": "2026-03-24 10:56:17",
     "Deal - Deal closed on": null,
-    "Deal - Stage": "Consideration",
+    "Deal - Stage": "Blocked",
     "Deal - Status": "Open",
-    "Deal - Total activities": 4,
+    "Deal - Total activities": 5,
     "Deal - Organization": "Frisco",
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": null,
     "Organization - Branża": "Produkcja i przemysł",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": null,
+    "Person - Email - Work": "ewa.werner-maksymowicz@frisco.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28807,
@@ -621,7 +773,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Brak kontaktu",
     "Organization - Branża": "Produkcja i przemysł",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": null,
+    "Person - Email - Work": "urszula.tomaszek@pgbiogaz.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28837,
@@ -629,15 +785,19 @@
     "Organization - MRR": 0.0,
     "Deal - Title": "Hotel Hampton by Hilton Wspolna Hotel Management Sp. z o.o",
     "Deal - Deal created": "2026-03-26 13:24:33",
-    "Deal - Deal closed on": null,
+    "Deal - Deal closed on": "2026-05-25 16:12:40",
     "Deal - Stage": "Consideration",
-    "Deal - Status": "Open",
-    "Deal - Total activities": 7,
+    "Deal - Status": "Lost",
+    "Deal - Total activities": 9,
     "Deal - Organization": "Hotel Hampton by Hilton Wspolna Hotel Management Sp. z o.o",
     "Deal - Nazwa Partnera": "Pracuj.pl",
-    "Deal - Lost reason": null,
+    "Deal - Lost reason": "Został przy obecnym rozwiązaniu (koniecznie dopisz w komentarzu jakie to rozwiązanie)",
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": "iwona.oklejewicz@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "iwona.oklejewicz@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "katarzyna.dawidowska@hilton.com",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28854,
@@ -648,12 +808,16 @@
     "Deal - Deal closed on": null,
     "Deal - Stage": "Follow up",
     "Deal - Status": "Open",
-    "Deal - Total activities": 4,
+    "Deal - Total activities": 5,
     "Deal - Organization": "Kolporter spółka z ograniczoną odpowiedzialnością",
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": null,
     "Organization - Branża": "Logistyka",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": null,
+    "Person - Email - Work": "elzbieta.kubiec@kolporter.com.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28863,
@@ -664,12 +828,16 @@
     "Deal - Deal closed on": null,
     "Deal - Stage": "Demo/Meeting",
     "Deal - Status": "Open",
-    "Deal - Total activities": 4,
+    "Deal - Total activities": 6,
     "Deal - Organization": "Radisson Hotele HQ",
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": "anna.struzik@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "anna.struzik@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "paulina.zygadlo@radissonhotels.com",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28864,
@@ -680,12 +848,16 @@
     "Deal - Deal closed on": null,
     "Deal - Stage": "Follow up",
     "Deal - Status": "Open",
-    "Deal - Total activities": 5,
+    "Deal - Total activities": 6,
     "Deal - Organization": "ihg.com",
     "Deal - Nazwa Partnera": "eRecruiter",
     "Deal - Lost reason": null,
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": null,
+    "Person - Email - Work": "katarzyna.szczesna@ihg.com",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28919,
@@ -701,7 +873,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Frozen",
     "Organization - Branża": "Handel",
-    "Deal - Adres e-mail polecającego": "anna.struzik@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "anna.struzik@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "ajanuszewska@jubilat.com.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28920,
@@ -717,7 +893,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Duplikat",
     "Organization - Branża": "Produkcja i przemysł",
-    "Deal - Adres e-mail polecającego": "monika.pajurek@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "monika.pajurek@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "agnieszka.majchrowska@kuzniamatrycowa.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 28986,
@@ -725,15 +905,19 @@
     "Organization - MRR": 0.0,
     "Deal - Title": "GWIAZDA MORZA\" HOTEL MANAGEMENT Sp. z o.o. Sp. K.",
     "Deal - Deal created": "2026-04-02 13:35:42",
-    "Deal - Deal closed on": null,
+    "Deal - Deal closed on": "2026-06-10 14:20:12",
     "Deal - Stage": "Follow up",
-    "Deal - Status": "Open",
+    "Deal - Status": "Lost",
     "Deal - Total activities": 3,
     "Deal - Organization": "GWIAZDA MORZA\" HOTEL MANAGEMENT Sp. z o.o. Sp. K.",
     "Deal - Nazwa Partnera": "eRecruiter",
-    "Deal - Lost reason": null,
+    "Deal - Lost reason": "Brak kontaktu",
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": null,
+    "Person - Email - Work": "milena.jonczyk@gminvest.com.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 29047,
@@ -749,7 +933,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Duplikat",
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": null
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": null,
+    "Person - Email - Work": "Jakub.lubaszka@pracuj.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 29079,
@@ -765,23 +953,31 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Duplikat",
     "Organization - Branża": "Hotele",
-    "Deal - Adres e-mail polecającego": "iwona.oklejewicz@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "iwona.oklejewicz@pracuj.pl",
+    "Deal - Grade": 6.0,
+    "Person - Email - Work": "magda@otrgroup.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 29110,
-    "Deal - Value": 3500.0,
-    "Organization - MRR": 0.0,
-    "Deal - Title": "Deal TMR (Tatra Mountain Resort), Legendia, Śląskie Wesołe Miasteczko",
+    "Deal - Value": 2000.0,
+    "Organization - MRR": 1170.35,
+    "Deal - Title": "Śląskie Wesołe Miasteczko - Legendia",
     "Deal - Deal created": "2026-04-10 10:31:52",
-    "Deal - Deal closed on": null,
-    "Deal - Stage": "Trial",
-    "Deal - Status": "Open",
-    "Deal - Total activities": 13,
+    "Deal - Deal closed on": "2026-06-01 09:09:03",
+    "Deal - Stage": "Success",
+    "Deal - Status": "Won",
+    "Deal - Total activities": 16,
     "Deal - Organization": "TMR (Tatra Mountain Resort), Legendia - Śląskie Wesołe Miasteczko",
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": "Rozrywka, atrakcje turystyczne i kultura",
-    "Deal - Adres e-mail polecającego": "maciej.szlufik@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "maciej.szlufik@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "piotrowska@tmr.sk",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 29180,
@@ -797,7 +993,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Został przy obecnym rozwiązaniu (koniecznie dopisz w komentarzu jakie to rozwiązanie)",
     "Organization - Branża": "Opieka zdrowotna",
-    "Deal - Adres e-mail polecającego": "iwona.oklejewicz@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "iwona.oklejewicz@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "biuro@naszaklinika.com.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 29213,
@@ -813,7 +1013,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Duplikat",
     "Organization - Branża": "Produkcja i przemysł",
-    "Deal - Adres e-mail polecającego": "daniel.stelmach@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "daniel.stelmach@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "maja.kraska@globalcolors.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 29359,
@@ -824,12 +1028,16 @@
     "Deal - Deal closed on": null,
     "Deal - Stage": "Follow up",
     "Deal - Status": "Open",
-    "Deal - Total activities": 3,
+    "Deal - Total activities": 4,
     "Deal - Organization": "Workeo",
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": null,
-    "Deal - Adres e-mail polecającego": "anna.struzik@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "anna.struzik@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "swysocki@workeo.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 29362,
@@ -840,12 +1048,16 @@
     "Deal - Deal closed on": null,
     "Deal - Stage": "Consideration",
     "Deal - Status": "Open",
-    "Deal - Total activities": 4,
+    "Deal - Total activities": 5,
     "Deal - Organization": "Canopy by Hilton",
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": null,
-    "Deal - Adres e-mail polecającego": "malgorzata.aleksinska@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "malgorzata.aleksinska@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "agnieszka.grzywna@hilton.com",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 29365,
@@ -861,7 +1073,11 @@
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": "Duplikat",
     "Organization - Branża": "Produkcja i przemysł",
-    "Deal - Adres e-mail polecającego": "monika.maciejewska@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "monika.maciejewska@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "marta.patraszewska@materialise.com",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 29410,
@@ -872,12 +1088,16 @@
     "Deal - Deal closed on": null,
     "Deal - Stage": "Follow up",
     "Deal - Status": "Open",
-    "Deal - Total activities": 5,
+    "Deal - Total activities": 6,
     "Deal - Organization": "Piekarnia Cichowscy",
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": "Produkcja i przemysł",
-    "Deal - Adres e-mail polecającego": "klaudiusz.was@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "klaudiusz.was@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "klygas@piekarniagrzybki.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   },
   {
     "Deal - ID": 29801,
@@ -886,13 +1106,97 @@
     "Deal - Title": "Naszmed.pl",
     "Deal - Deal created": "2026-05-08 13:16:43",
     "Deal - Deal closed on": null,
-    "Deal - Stage": "Lead",
+    "Deal - Stage": "Follow up",
     "Deal - Status": "Open",
-    "Deal - Total activities": 0,
+    "Deal - Total activities": 2,
     "Deal - Organization": "Naszmed.pl",
     "Deal - Nazwa Partnera": "Pracuj.pl",
     "Deal - Lost reason": null,
     "Organization - Branża": null,
-    "Deal - Adres e-mail polecającego": "iwona.oklejewicz@pracuj.pl"
+    "Deal - Adres e-mail polecającego": "iwona.oklejewicz@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "biuro@naszamed.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
+  },
+  {
+    "Deal - ID": 30212,
+    "Deal - Value": 0.0,
+    "Organization - MRR": 0.0,
+    "Deal - Title": "Instal Solution Group",
+    "Deal - Deal created": "2026-06-01 11:50:03",
+    "Deal - Deal closed on": null,
+    "Deal - Stage": "Follow up",
+    "Deal - Status": "Open",
+    "Deal - Total activities": 3,
+    "Deal - Organization": "Instal Solution Group",
+    "Deal - Nazwa Partnera": "Pracuj.pl",
+    "Deal - Lost reason": null,
+    "Organization - Branża": null,
+    "Deal - Adres e-mail polecającego": "maciej.szlufik@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "k.szczot@instalsolutions.pl",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
+  },
+  {
+    "Deal - ID": 30226,
+    "Deal - Value": 0.0,
+    "Organization - MRR": 0.0,
+    "Deal - Title": "DION",
+    "Deal - Deal created": "2026-06-02 06:56:06",
+    "Deal - Deal closed on": null,
+    "Deal - Stage": "Follow up",
+    "Deal - Status": "Open",
+    "Deal - Total activities": 2,
+    "Deal - Organization": "Dion",
+    "Deal - Nazwa Partnera": "Pracuj.pl",
+    "Deal - Lost reason": null,
+    "Organization - Branża": "Produkcja i przemysł",
+    "Deal - Adres e-mail polecającego": "maciej.szlufik@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "o.koszel@dion.eu",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
+  },
+  {
+    "Deal - ID": 30242,
+    "Deal - Value": 0.0,
+    "Organization - MRR": 0.0,
+    "Deal - Title": "IASO HOSPITALITY",
+    "Deal - Deal created": "2026-06-02 13:06:39",
+    "Deal - Deal closed on": null,
+    "Deal - Stage": "Follow up",
+    "Deal - Status": "Open",
+    "Deal - Total activities": 1,
+    "Deal - Organization": "IASO HOSPITALITY sp. z o.o.",
+    "Deal - Nazwa Partnera": "Pracuj.pl",
+    "Deal - Lost reason": null,
+    "Organization - Branża": null,
+    "Deal - Adres e-mail polecającego": "maciej.szlufik@pracuj.pl",
+    "Deal - Grade": null,
+    "Person - Email - Work": "Marta.Dudek@iasohospitality.com",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
+  },
+  {
+    "Deal - ID": 30246,
+    "Deal - Value": 0.0,
+    "Organization - MRR": 0.0,
+    "Deal - Title": "TMR - Szczyrk Mountai Resort",
+    "Deal - Deal created": "2026-06-02 16:39:51",
+    "Deal - Deal closed on": null,
+    "Deal - Stage": "Consideration",
+    "Deal - Status": "Open",
+    "Deal - Total activities": 2,
+    "Deal - Organization": "TMR - Szczyrk Mountai Resort",
+    "Deal - Nazwa Partnera": "Pracuj.pl",
+    "Deal - Lost reason": null,
+    "Organization - Branża": "Hotele",
+    "Deal - Adres e-mail polecającego": null,
+    "Deal - Grade": null,
+    "Person - Email - Work": "piotrowska@tmr.sk",
+    "Person - Email - Home": null,
+    "Person - Email - Other": null
   }
 ]

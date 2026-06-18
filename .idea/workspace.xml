@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="386a553a-ec28-463c-ae50-c47106008c92" name="Changes" comment="Secound _dashboard margins fixes" />
+    <list default="true" id="386a553a-ec28-463c-ae50-c47106008c92" name="Changes" comment="Secound _dashboard margins fixes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard_data.json" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard_data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/activities_cache.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/activities_cache.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/basic_data_2605.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/basic_data_1806.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/basic_data_2605.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/manifest.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -294,7 +301,71 @@
       <option name="project" value="LOCAL" />
       <updated>1778162712933</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1778764105680</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1778764105680</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1778764110632</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1778764110632</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1779864012629</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1779864012629</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1779864466997</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1779864466997</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1779864520223</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1779864520223</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1779864584447</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1779864584447</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1781160770124</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1781160770124</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Secound _dashboard margins fixes">
+      <option name="closed" value="true" />
+      <created>1781167762808</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1781167762808</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

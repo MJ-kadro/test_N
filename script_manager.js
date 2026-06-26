@@ -298,6 +298,7 @@ function renderLostAnalysis(deals) {
 function renderWonTable(deals) {
   const el = document.getElementById('won-table-container');
   if (!el) return;
+  const EMAIL_COL = 'Deal - Adres e-mail polecającego';
   const won = deals.filter(d => norm(d['Deal - Status']) === 'won')
     .sort((a, b) => (parseDate(b['Deal - Won time'] || b['Deal - Deal closed on']) || 0) - (parseDate(a['Deal - Won time'] || a['Deal - Deal closed on']) || 0));
 
@@ -305,6 +306,7 @@ function renderWonTable(deals) {
     const created = parseDate(d['Deal - Deal created']);
     const wonTime = parseDate(d['Deal - Won time'] || d['Deal - Deal closed on']);
     const days = (created && wonTime) ? Math.floor((wonTime - created) / 86400000) : null;
+    const email = (d[EMAIL_COL] || '').trim();
     return `<tr class="row--won">
       <td><strong>${dealName(d)}</strong></td>
       <td>${partnerBadge(d)}</td>
@@ -312,12 +314,13 @@ function renderWonTable(deals) {
       <td>${fmtDate(d['Deal - Won time'] || d['Deal - Deal closed on'])}</td>
       <td>${fmtMRR(d['Deal - Value'])}</td>
       <td>${days !== null ? days + ' dni' : '—'}</td>
+      <td>${email ? `<span class="referrer-email">${esc(email)}</span>` : '—'}</td>
     </tr>`;
   }).join('');
 
   el.innerHTML = `<table class="data-table">
-    <thead><tr><th>Firma</th><th>Partner</th><th>Etap zamknięcia</th><th>Data zamknięcia</th><th>Wartość</th><th>Czas pozyskania</th></tr></thead>
-    <tbody>${rows || '<tr><td colspan="6" class="empty-state">Brak wygranych dealów</td></tr>'}</tbody>
+    <thead><tr><th>Firma</th><th>Partner</th><th>Etap zamknięcia</th><th>Data zamknięcia</th><th>Wartość</th><th>Czas pozyskania</th><th>Handlowiec polecający</th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="7" class="empty-state">Brak wygranych dealów</td></tr>'}</tbody>
   </table>`;
 }
 

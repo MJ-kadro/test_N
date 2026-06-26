@@ -38,7 +38,7 @@ function setupAuth() {
 // ---- CONFIG ----
 const PARTNER_COLORS = { 'Pracuj.pl': '#1a4a8a', 'eRecruiter': '#6b21a8' };
 const STATUS_COLORS  = { won: '#1a7a4a', lost: '#c0392b', open: '#1a4a8a', blocked: '#b86b00' };
-const FUNNEL_STAGES  = ['Prospect', 'Lead', 'Follow up', 'Demo/Meeting', 'Blocked', 'Consideration', 'Trial', 'Contract negotiation'];
+const FUNNEL_STAGES  = ['Prospect', 'Lead', 'Follow up', 'Demo/Meeting', 'Blocked', 'Consideration', 'Trial', 'Contract negotiation', 'Success'];
 const FUNNEL_DESC = {
   'Prospect':             'Firmy z którymi chcemy nawiązać relacje, ale nie mieliśmy jeszcze z nimi kontaktu',
   'Lead':                 'Nawiązaliśmy kontakt z daną firmą. Wstępnie wyraziła zainteresowanie rozmowami',

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T11:09:31",
+  "generated_at": "2026-07-08T11:52:56",
   "report_date": "2026-07-08",
   "director": {
     "kpis": {
@@ -13,7 +13,7 @@
       "open_deals_delta": -1,
       "rejected_deals_count": 5,
       "rejected_deals_count_delta": 0,
-      "median_days_to_close": 94,
+      "median_days_to_close": -11,
       "median_days_to_close_delta": 0
     },
     "monthly_new_deals": [
@@ -118,55 +118,85 @@
         "month": "2025-10",
         "total_created": 13,
         "total_won": 0,
-        "total_lost": 1
+        "total_lost": 0
       },
       {
         "month": "2025-12",
         "total_created": 14,
         "total_won": 0,
-        "total_lost": 2
+        "total_lost": 0
       },
       {
         "month": "2026-01",
         "total_created": 15,
-        "total_won": 0,
+        "total_won": 2,
         "total_lost": 2
       },
       {
         "month": "2026-02",
         "total_created": 28,
-        "total_won": 1,
-        "total_lost": 4
+        "total_won": 3,
+        "total_lost": 3
       },
       {
         "month": "2026-03",
         "total_created": 46,
-        "total_won": 1,
-        "total_lost": 14
+        "total_won": 3,
+        "total_lost": 6
       },
       {
         "month": "2026-04",
         "total_created": 57,
-        "total_won": 1,
-        "total_lost": 28
+        "total_won": 3,
+        "total_lost": 6
       },
       {
         "month": "2026-05",
         "total_created": 58,
-        "total_won": 2,
-        "total_lost": 34
+        "total_won": 3,
+        "total_lost": 9
       },
       {
         "month": "2026-06",
         "total_created": 63,
-        "total_won": 5,
-        "total_lost": 44
+        "total_won": 3,
+        "total_lost": 9
       },
       {
         "month": "2026-07",
         "total_created": 63,
-        "total_won": 5,
-        "total_lost": 45
+        "total_won": 3,
+        "total_lost": 11
+      },
+      {
+        "month": "2026-08",
+        "total_created": 63,
+        "total_won": 3,
+        "total_lost": 16
+      },
+      {
+        "month": "2026-09",
+        "total_created": 63,
+        "total_won": 3,
+        "total_lost": 17
+      },
+      {
+        "month": "2026-10",
+        "total_created": 63,
+        "total_won": 3,
+        "total_lost": 19
+      },
+      {
+        "month": "2026-11",
+        "total_created": 63,
+        "total_won": 3,
+        "total_lost": 23
+      },
+      {
+        "month": "2026-12",
+        "total_created": 63,
+        "total_won": 3,
+        "total_lost": 24
       }
     ],
     "partner_split": {
@@ -191,7 +221,7 @@
       },
       {
         "stage": "Follow up",
-        "count": 0
+        "count": 2
       },
       {
         "stage": "Demo/Meeting",
@@ -199,11 +229,11 @@
       },
       {
         "stage": "Blocked",
-        "count": 0
+        "count": 4
       },
       {
         "stage": "Consideration",
-        "count": 0
+        "count": 5
       },
       {
         "stage": "Trial",
@@ -219,7 +249,7 @@
         "id": 23645,
         "title": "Destigo Hotels",
         "partner": "nan",
-        "stage": "186",
+        "stage": "Blocked",
         "status": "open",
         "value": 10000.0,
         "created": "2025-07-03",
@@ -231,7 +261,7 @@
         "id": 24278,
         "title": "Targi Kielce S.A.",
         "partner": "nan",
-        "stage": "186",
+        "stage": "Blocked",
         "status": "open",
         "value": 3700.0,
         "created": "2025-08-04",
@@ -255,7 +285,7 @@
         "id": 28309,
         "title": "Tirsped (Hotel Młyn Klekotki)",
         "partner": "nan",
-        "stage": "131",
+        "stage": "Consideration",
         "status": "open",
         "value": 1200.0,
         "created": "2026-02-25",
@@ -267,7 +297,7 @@
         "id": 28478,
         "title": "Deal Castorama",
         "partner": "nan",
-        "stage": "131",
+        "stage": "Consideration",
         "status": "open",
         "value": 15000.0,
         "created": "2026-03-05",
@@ -279,7 +309,7 @@
         "id": 28647,
         "title": "Hampton by Hilton Warsaw Mokotow",
         "partner": "nan",
-        "stage": "131",
+        "stage": "Consideration",
         "status": "open",
         "value": 0.0,
         "created": "2026-03-17",
@@ -291,7 +321,7 @@
         "id": 28863,
         "title": "Radisson Hotele HQ",
         "partner": "nan",
-        "stage": "131",
+        "stage": "Consideration",
         "status": "open",
         "value": 0.0,
         "created": "2026-03-27",
@@ -303,7 +333,7 @@
         "id": 28864,
         "title": "ihg.com Ghelamco Hotel sp. z o.o.",
         "partner": "nan",
-        "stage": "186",
+        "stage": "Blocked",
         "status": "open",
         "value": 0.0,
         "created": "2026-03-27",
@@ -315,7 +345,7 @@
         "id": 29362,
         "title": "Canopy by Hilton Warsaw",
         "partner": "nan",
-        "stage": "131",
+        "stage": "Consideration",
         "status": "open",
         "value": 0.0,
         "created": "2026-04-22",
@@ -327,7 +357,7 @@
         "id": 29801,
         "title": "Naszmed.pl",
         "partner": "nan",
-        "stage": "129",
+        "stage": "Follow up",
         "status": "open",
         "value": 0.0,
         "created": "2026-05-08",
@@ -339,7 +369,7 @@
         "id": 30242,
         "title": "IASO HOSPITALITY",
         "partner": "nan",
-        "stage": "186",
+        "stage": "Blocked",
         "status": "open",
         "value": 0.0,
         "created": "2026-06-02",
@@ -363,7 +393,7 @@
         "id": 30670,
         "title": "Hilton Krk",
         "partner": "nan",
-        "stage": "129",
+        "stage": "Follow up",
         "status": "open",
         "value": 0.0,
         "created": "2026-06-26",
@@ -387,36 +417,36 @@
         "title": "Four Points by Sheraton Warsaw Mokotow",
         "partner": "nan",
         "value": 1400.0,
-        "won_date": "2026-06-01",
+        "won_date": "2026-01-06",
         "stage_at_close": "133",
-        "days_to_close": 135
+        "days_to_close": -11
       },
       {
         "id": 28373,
         "title": "Villa Omnia",
         "partner": "nan",
         "value": 870.0,
-        "won_date": "2026-06-17",
+        "won_date": null,
         "stage_at_close": "133",
-        "days_to_close": 109
+        "days_to_close": null
       },
       {
         "id": 28586,
         "title": "Deal FNiR & Belayo",
         "partner": "nan",
         "value": 470.0,
-        "won_date": "2026-05-26",
+        "won_date": null,
         "stage_at_close": "133",
-        "days_to_close": 74
+        "days_to_close": null
       },
       {
         "id": 29110,
         "title": "Śląskie Wesołe Miasteczko - Legendia",
         "partner": "nan",
         "value": 2000.0,
-        "won_date": "2026-06-01",
+        "won_date": "2026-01-06",
         "stage_at_close": "133",
-        "days_to_close": 51
+        "days_to_close": -95
       }
     ],
     "lost_deals": [
@@ -425,8 +455,8 @@
         "title": "Hotel Monopol Wrocław deal",
         "partner": "nan",
         "value": 1300.0,
-        "lost_date": "2026-03-02",
-        "stage_at_close": "131",
+        "lost_date": "2026-02-03",
+        "stage_at_close": "Consideration",
         "lost_reason": "Brak decyzji"
       },
       {
@@ -434,8 +464,8 @@
         "title": "Mövenpick Grand Hotel Wrocław",
         "partner": "nan",
         "value": 2000.0,
-        "lost_date": "2026-03-27",
-        "stage_at_close": "129",
+        "lost_date": null,
+        "stage_at_close": "Follow up",
         "lost_reason": "Wykupili inne rozwiązanie"
       },
       {
@@ -443,8 +473,8 @@
         "title": "Grycan Lodziarnie Firmowe deal",
         "partner": "nan",
         "value": 15000.0,
-        "lost_date": "2026-06-19",
-        "stage_at_close": "129",
+        "lost_date": null,
+        "stage_at_close": "Follow up",
         "lost_reason": "Został przy obecnym rozwiązaniu (koniecznie dopisz w komentarzu jakie to rozwiązanie)"
       },
       {
@@ -452,8 +482,8 @@
         "title": "Park Wodny Bania",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-02-19",
-        "stage_at_close": "129",
+        "lost_date": null,
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -461,8 +491,8 @@
         "title": "Sky Bowling",
         "partner": "nan",
         "value": 1600.0,
-        "lost_date": "2026-04-15",
-        "stage_at_close": "186",
+        "lost_date": null,
+        "stage_at_close": "Blocked",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -470,8 +500,8 @@
         "title": "Mitsui High-tec (Europe) sp. z o.o.",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-03-26",
-        "stage_at_close": "131",
+        "lost_date": null,
+        "stage_at_close": "Consideration",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -479,8 +509,8 @@
         "title": "Teekanne",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-04-01",
-        "stage_at_close": "131",
+        "lost_date": "2026-01-04",
+        "stage_at_close": "Consideration",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -488,8 +518,8 @@
         "title": "Hotel Mrągowo INC Sp. z o.o.",
         "partner": "nan",
         "value": 2500.0,
-        "lost_date": "2025-12-18",
-        "stage_at_close": "129",
+        "lost_date": null,
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -497,8 +527,8 @@
         "title": "Deal Panorama Morska",
         "partner": "nan",
         "value": 2000.0,
-        "lost_date": "2025-10-14",
-        "stage_at_close": "129",
+        "lost_date": null,
+        "stage_at_close": "Follow up",
         "lost_reason": "Wykupili inne rozwiązanie"
       },
       {
@@ -506,7 +536,7 @@
         "title": "ICH POLAND SPÓŁKA Z OGRANICZONĄ",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-04-07",
+        "lost_date": "2026-07-04",
         "stage_at_close": "185",
         "lost_reason": "Brak kontaktu"
       },
@@ -515,8 +545,8 @@
         "title": "Eneris",
         "partner": "nan",
         "value": 5000.0,
-        "lost_date": "2026-03-11",
-        "stage_at_close": "129",
+        "lost_date": "2026-11-03",
+        "stage_at_close": "Follow up",
         "lost_reason": "Został przy obecnym rozwiązaniu"
       },
       {
@@ -524,8 +554,8 @@
         "title": "Deal Noble Securities",
         "partner": "nan",
         "value": 2136.38,
-        "lost_date": "2026-04-20",
-        "stage_at_close": "186",
+        "lost_date": null,
+        "stage_at_close": "Blocked",
         "lost_reason": "Frozen"
       },
       {
@@ -533,8 +563,8 @@
         "title": "canagri.pl",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-04-01",
-        "stage_at_close": "131",
+        "lost_date": "2026-01-04",
+        "stage_at_close": "Consideration",
         "lost_reason": "Wykupili inne rozwiązanie"
       },
       {
@@ -542,8 +572,8 @@
         "title": "Deal IMPULS Leasing",
         "partner": "nan",
         "value": 959.5,
-        "lost_date": "2026-04-08",
-        "stage_at_close": "186",
+        "lost_date": "2026-08-04",
+        "stage_at_close": "Blocked",
         "lost_reason": "Brak decyzji"
       },
       {
@@ -551,8 +581,8 @@
         "title": "Deal Hotel Kiston",
         "partner": "nan",
         "value": 1424.25,
-        "lost_date": "2026-03-10",
-        "stage_at_close": "131",
+        "lost_date": "2026-10-03",
+        "stage_at_close": "Consideration",
         "lost_reason": "Został przy obecnym rozwiązaniu"
       },
       {
@@ -560,8 +590,8 @@
         "title": "Deal SPL",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-04-27",
-        "stage_at_close": "129",
+        "lost_date": null,
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -570,7 +600,7 @@
         "partner": "nan",
         "value": 5000.0,
         "lost_date": "2026-03-03",
-        "stage_at_close": "129",
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak funkcjonalności"
       },
       {
@@ -578,8 +608,8 @@
         "title": "JS ENERGY EUROPE sp. z o.o.",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-03-12",
-        "stage_at_close": "129",
+        "lost_date": "2026-12-03",
+        "stage_at_close": "Follow up",
         "lost_reason": "Osoba z leada nie jest decyzyjna"
       },
       {
@@ -587,8 +617,8 @@
         "title": "- SIEĆ BADAWCZA ŁUKASIEWICZ - KRAKOWSKI INSTYTUT TECHNOLOGICZNY",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-04-27",
-        "stage_at_close": "129",
+        "lost_date": null,
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -597,7 +627,7 @@
         "partner": "nan",
         "value": 0.0,
         "lost_date": "2026-03-03",
-        "stage_at_close": "127",
+        "stage_at_close": "Prospect",
         "lost_reason": "Został przy obecnym rozwiązaniu"
       },
       {
@@ -605,8 +635,8 @@
         "title": "Atende S.A.",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-02-27",
-        "stage_at_close": "129",
+        "lost_date": null,
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak funkcjonalności"
       },
       {
@@ -614,8 +644,8 @@
         "title": "Deal Dla Spania sieć sklepów",
         "partner": "nan",
         "value": 5000.0,
-        "lost_date": "2026-03-26",
-        "stage_at_close": "130",
+        "lost_date": null,
+        "stage_at_close": "Demo/Meeting",
         "lost_reason": "Został przy obecnym rozwiązaniu"
       },
       {
@@ -624,7 +654,7 @@
         "partner": "nan",
         "value": 0.0,
         "lost_date": "2026-05-05",
-        "stage_at_close": "130",
+        "stage_at_close": "Demo/Meeting",
         "lost_reason": "Brak funkcjonalności (dopisz w komentarzu jakich funkcjonalności brakowało)."
       },
       {
@@ -632,8 +662,8 @@
         "title": "Deal ALAB Diagnostyka",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-06-23",
-        "stage_at_close": "131",
+        "lost_date": null,
+        "stage_at_close": "Consideration",
         "lost_reason": "Wykupili inne rozwiązanie (opisz w komentarzu wybrane rozwiązanie)"
       },
       {
@@ -642,7 +672,7 @@
         "partner": "nan",
         "value": 0.0,
         "lost_date": "2026-05-05",
-        "stage_at_close": "129",
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -650,8 +680,8 @@
         "title": "Vision Express sp. z o.o.",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-06-24",
-        "stage_at_close": "129",
+        "lost_date": null,
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -659,8 +689,8 @@
         "title": "Trend Glass",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-03-26",
-        "stage_at_close": "130",
+        "lost_date": null,
+        "stage_at_close": "Demo/Meeting",
         "lost_reason": "Brak funkcjonalności"
       },
       {
@@ -668,7 +698,7 @@
         "title": "Spółdzielcza Mleczarnia Spomle",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-06-09",
+        "lost_date": "2026-09-06",
         "stage_at_close": "185",
         "lost_reason": "Brak kontaktu"
       },
@@ -677,8 +707,8 @@
         "title": "Frisco",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-06-11",
-        "stage_at_close": "186",
+        "lost_date": "2026-11-06",
+        "stage_at_close": "Blocked",
         "lost_reason": "Frozen"
       },
       {
@@ -687,7 +717,7 @@
         "partner": "nan",
         "value": 0.0,
         "lost_date": "2026-05-05",
-        "stage_at_close": "129",
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -695,8 +725,8 @@
         "title": "Hotel Hampton by Hilton Wspolna Hotel Management Sp. z o.o",
         "partner": "nan",
         "value": 1000.0,
-        "lost_date": "2026-05-25",
-        "stage_at_close": "131",
+        "lost_date": null,
+        "stage_at_close": "Consideration",
         "lost_reason": "Został przy obecnym rozwiązaniu (koniecznie dopisz w komentarzu jakie to rozwiązanie)"
       },
       {
@@ -704,8 +734,8 @@
         "title": "Kolporter spółka z ograniczoną odpowiedzialnością",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-06-24",
-        "stage_at_close": "129",
+        "lost_date": null,
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -713,8 +743,8 @@
         "title": "Deal Spółdzielnia Handlowa Jubilat",
         "partner": "nan",
         "value": 2278.8,
-        "lost_date": "2026-04-13",
-        "stage_at_close": "186",
+        "lost_date": null,
+        "stage_at_close": "Blocked",
         "lost_reason": "Frozen"
       },
       {
@@ -722,8 +752,8 @@
         "title": "Deal Kuźnia Matrycowa",
         "partner": "nan",
         "value": 1851.53,
-        "lost_date": "2026-04-08",
-        "stage_at_close": "127",
+        "lost_date": "2026-08-04",
+        "stage_at_close": "Prospect",
         "lost_reason": "Duplikat"
       },
       {
@@ -731,8 +761,8 @@
         "title": "GWIAZDA MORZA\" HOTEL MANAGEMENT Sp. z o.o. Sp. K.",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-06-10",
-        "stage_at_close": "129",
+        "lost_date": "2026-10-06",
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -740,8 +770,8 @@
         "title": "Four Points by Sheraton Warsaw",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-04-03",
-        "stage_at_close": "127",
+        "lost_date": "2026-03-04",
+        "stage_at_close": "Prospect",
         "lost_reason": "Już w kontakcie"
       },
       {
@@ -749,8 +779,8 @@
         "title": "Polski Holding Hotelowy",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-04-07",
-        "stage_at_close": "127",
+        "lost_date": "2026-07-04",
+        "stage_at_close": "Prospect",
         "lost_reason": "Duplikat"
       },
       {
@@ -758,8 +788,8 @@
         "title": "Deal OTR Group",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-04-08",
-        "stage_at_close": "127",
+        "lost_date": "2026-08-04",
+        "stage_at_close": "Prospect",
         "lost_reason": "Duplikat"
       },
       {
@@ -767,8 +797,8 @@
         "title": "Deal Nasza Klinika",
         "partner": "nan",
         "value": 996.98,
-        "lost_date": "2026-05-08",
-        "stage_at_close": "129",
+        "lost_date": "2026-08-05",
+        "stage_at_close": "Follow up",
         "lost_reason": "Został przy obecnym rozwiązaniu (koniecznie dopisz w komentarzu jakie to rozwiązanie)"
       },
       {
@@ -776,8 +806,8 @@
         "title": "Deal Global Colors Polska",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-04-20",
-        "stage_at_close": "127",
+        "lost_date": null,
+        "stage_at_close": "Prospect",
         "lost_reason": "Duplikat"
       },
       {
@@ -785,8 +815,8 @@
         "title": "Workeo",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-06-24",
-        "stage_at_close": "129",
+        "lost_date": null,
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -794,8 +824,8 @@
         "title": "Deal Materialise",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-05-11",
-        "stage_at_close": "127",
+        "lost_date": "2026-11-05",
+        "stage_at_close": "Prospect",
         "lost_reason": "Duplikat"
       },
       {
@@ -803,8 +833,8 @@
         "title": "Piekarnia Cichowscy",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-06-24",
-        "stage_at_close": "129",
+        "lost_date": null,
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -812,8 +842,8 @@
         "title": "Instal Solution Group",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-07-08",
-        "stage_at_close": "129",
+        "lost_date": "2026-08-07",
+        "stage_at_close": "Follow up",
         "lost_reason": "Brak kontaktu"
       },
       {
@@ -821,8 +851,8 @@
         "title": "DION",
         "partner": "nan",
         "value": 0.0,
-        "lost_date": "2026-06-11",
-        "stage_at_close": "129",
+        "lost_date": "2026-11-06",
+        "stage_at_close": "Follow up",
         "lost_reason": "Został przy obecnym rozwiązaniu (koniecznie dopisz w komentarzu jakie to rozwiązanie)"
       }
     ],
